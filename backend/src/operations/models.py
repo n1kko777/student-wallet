@@ -6,8 +6,8 @@ from django.db import models
 # Create your models here.
 
 
-class Operations(models.Model):
-    credit = models.DecimalField(max_digits=6, decimal_places=2)
+class Operation(models.Model):
+    credit = models.DecimalField(max_digits=10, decimal_places=2)
     title = models.CharField(max_length=120)
     comment = models.TextField()
 

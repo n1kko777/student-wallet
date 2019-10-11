@@ -2,6 +2,6 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from .models import Operations
+from .models import Operation
 
-admin.site.register(Operations)
+admin.site.register(Operation)
