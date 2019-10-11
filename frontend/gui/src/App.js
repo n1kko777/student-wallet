@@ -1,8 +1,10 @@
-import React from 'react';
-import 'antd/dist/antd.css';
-import './App.css';
+import React from "react";
+import "antd/dist/antd.css";
+import "./App.css";
+
+import CustomLayout from "./components/layouts/CustomLayout";
 
 const App = () => {
-  return <div>Hello!</div>
-}
+  return <CustomLayout />;
+};
 export default App;
