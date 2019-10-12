@@ -15,8 +15,8 @@ const CustomToolbar = () => {
               <OperationTitle credit='1 000 000' />
             </div>
           </Col>
-          <Col xs={4} sm={6} md={9} />
-          <Col xs={2} sm={3} md={1}>
+          <Col xs={4} sm={8} md={9} />
+          <Col xs={2} sm={1}>
             <Avatar size={31} icon='user' className='humburger' />
           </Col>
         </Row>

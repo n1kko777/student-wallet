@@ -50,7 +50,6 @@ const OperationItem = ({
                   type='secondary'
                   style={{
                     display: "block",
-                    textAlign: "right",
                     fontSize: "12px"
                   }}
                 >
