@@ -35,7 +35,7 @@ const OperationsList = () => {
             <Col xs={4} key={elem.id}>
               <OperationItem
                 credit={elem.credit}
-                title={elem.credit}
+                title={elem.title}
                 loading={loading}
               />
             </Col>
