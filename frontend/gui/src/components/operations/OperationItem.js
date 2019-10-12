@@ -1,13 +1,16 @@
 import React from "react";
-import { Card, Skeleton, Icon } from "antd";
+import Moment from "react-moment";
+
+import { Card, Skeleton, Icon, Typography } from "antd";
 import { Col } from "react-flexbox-grid";
 
 import OperationTitle from "./OperationTitle";
 
 import PropTypes from "prop-types";
 
-const OperationItem = ({ credit, title, loading }) => {
+const OperationItem = ({ credit, title, created_at, loading }) => {
   const { Meta } = Card;
+  const { Text } = Typography;
 
   return (
     <Col xs={12} sm={6} md={4}>
@@ -26,7 +29,23 @@ const OperationItem = ({ credit, title, loading }) => {
           <Meta
             avatar={<Icon type='up' key='up' style={{ color: "red" }} />}
             title={<OperationTitle credit={credit} />}
-            description={title}
+            description={
+              <>
+                <p>
+                  <Text>{title}</Text>
+                </p>
+                <Text
+                  type='secondary'
+                  style={{
+                    display: "block",
+                    textAlign: "right",
+                    fontSize: "12px"
+                  }}
+                >
+                  {<Moment format='DD.MM.YYYY HH:mm'>{created_at}</Moment>}
+                </Text>
+              </>
+            }
           />
         </Skeleton>
       </Card>
@@ -37,6 +56,7 @@ const OperationItem = ({ credit, title, loading }) => {
 OperationItem.propTypes = {
   credit: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  created_at: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired
 };
 

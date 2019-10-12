@@ -12,6 +12,7 @@ const OperationsList = () => {
     axios.get("http://127.0.0.1:8000/api/").then(res => {
       setOperations(res.data);
       setLoading(false);
+      console.log(res.data);
     });
   }, []);
 
@@ -19,7 +20,7 @@ const OperationsList = () => {
     return (
       <Grid fluid>
         <Row start='xs'>
-          <OperationItem credit='' title='' loading={loading} />
+          <OperationItem credit='' title='' loading={loading} created_at='' />
         </Row>
       </Grid>
     );
@@ -34,6 +35,7 @@ const OperationsList = () => {
               key={elem.id}
               credit={elem.credit}
               title={elem.title}
+              created_at={elem.created_at}
               loading={loading}
             />
           ))
