@@ -14,11 +14,13 @@ const OperationItem = ({ credit, title, loading }) => {
       <Card
         style={{ marginBottom: "20px" }}
         bordered={false}
-        actions={[
-          <Icon type='copy' key='copy' />,
-          <Icon type='edit' key='edit' />,
-          <Icon type='delete' key='delete' />
-        ]}
+        actions={
+          !loading && [
+            <Icon type='copy' key='copy' />,
+            <Icon type='edit' key='edit' />,
+            <Icon type='delete' key='delete' />
+          ]
+        }
       >
         <Skeleton loading={loading} avatar active>
           <Meta
