@@ -20,7 +20,13 @@ const OperationsList = () => {
     return (
       <Grid fluid>
         <Row start='xs'>
-          <OperationItem credit='' title='' loading={loading} created_at='' />
+          <OperationItem
+            credit=''
+            title=''
+            loading={loading}
+            removeFromAmount={true}
+            created_at=''
+          />
         </Row>
       </Grid>
     );
@@ -35,6 +41,7 @@ const OperationsList = () => {
               key={elem.id}
               credit={elem.credit}
               title={elem.title}
+              removeFromAmount={elem.removeFromAmount}
               created_at={elem.created_at}
               loading={loading}
             />

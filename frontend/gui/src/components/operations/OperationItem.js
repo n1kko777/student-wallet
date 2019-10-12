@@ -8,7 +8,13 @@ import OperationTitle from "./OperationTitle";
 
 import PropTypes from "prop-types";
 
-const OperationItem = ({ credit, title, created_at, loading }) => {
+const OperationItem = ({
+  credit,
+  title,
+  created_at,
+  removeFromAmount,
+  loading
+}) => {
   const { Meta } = Card;
   const { Text } = Typography;
 
@@ -27,7 +33,13 @@ const OperationItem = ({ credit, title, created_at, loading }) => {
       >
         <Skeleton loading={loading} avatar active>
           <Meta
-            avatar={<Icon type='up' key='up' style={{ color: "red" }} />}
+            avatar={
+              removeFromAmount ? (
+                <Icon type='up' key='up' style={{ color: "red" }} />
+              ) : (
+                <Icon type='down' key='down' style={{ color: "green" }} />
+              )
+            }
             title={<OperationTitle credit={credit} />}
             description={
               <>
@@ -57,6 +69,7 @@ OperationItem.propTypes = {
   credit: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   created_at: PropTypes.string.isRequired,
+  removeFromAmount: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired
 };
 

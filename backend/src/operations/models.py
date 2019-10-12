@@ -8,6 +8,7 @@ from django.db import models
 
 class Operation(models.Model):
     credit = models.DecimalField(max_digits=10, decimal_places=2)
+    removeFromAmount = models.BooleanField(default=True)
     title = models.CharField(max_length=120)
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now=True)
