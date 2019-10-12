@@ -20,7 +20,7 @@ const CustomDatePicker = () => {
         "Текущая неделя": [moment().startOf("week"), moment().endOf("week")],
         "Текущий месяц": [moment().startOf("month"), moment().endOf("month")]
       }}
-      style={{ width: "100%" }}
+      style={{ width: "100%", fontSize: "16px" }}
       locale={locale}
       onChange={onChange}
     />
