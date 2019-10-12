@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Skeleton, Icon } from "antd";
+import PropTypes from "prop-types";
 
 const OperationItem = ({ credit, title, loading }) => {
   const { Meta } = Card;
@@ -22,6 +23,12 @@ const OperationItem = ({ credit, title, loading }) => {
       </Skeleton>
     </Card>
   );
+};
+
+OperationItem.propTypes = {
+  credit: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default OperationItem;

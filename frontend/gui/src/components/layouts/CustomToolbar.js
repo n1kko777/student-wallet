@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Icon } from "antd";
+import { Layout, Avatar } from "antd";
 import { Grid, Row, Col } from "react-flexbox-grid";
 
 const CustomToolbar = () => {
@@ -20,7 +20,7 @@ const CustomToolbar = () => {
           </Col>
           <Col xs={6} sm={6} md={9} />
           <Col xs={6} sm={3} md={1}>
-            <Icon type='menu' key='menu' className='humburger' />
+            <Avatar size={31} icon='user' className='humburger' />
           </Col>
         </Row>
       </Grid>
