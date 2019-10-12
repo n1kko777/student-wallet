@@ -2,24 +2,21 @@ import React from "react";
 import { Layout, Avatar } from "antd";
 import { Grid, Row, Col } from "react-flexbox-grid";
 
+import OperationTitle from "../operations/OperationTitle";
+
 const CustomToolbar = () => {
   const { Header } = Layout;
   return (
-    <Header style={{ paddingTop: "16px" }}>
-      <Grid fluid>
+    <Header style={{ padding: "16px 0 0" }}>
+      <Grid>
         <Row middle='xs'>
-          <Col xs={12} sm={3} md={2}>
-            <div
-              className='logo'
-              style={{
-                width: "120px",
-                height: "31px",
-                background: "rgba(255, 255, 255, 0.2)"
-              }}
-            />
+          <Col xs={6} sm={3} md={2}>
+            <div className='logo'>
+              <OperationTitle credit='1 000 000' />
+            </div>
           </Col>
-          <Col xs={6} sm={6} md={9} />
-          <Col xs={6} sm={3} md={1}>
+          <Col xs={4} sm={6} md={9} />
+          <Col xs={2} sm={3} md={1}>
             <Avatar size={31} icon='user' className='humburger' />
           </Col>
         </Row>

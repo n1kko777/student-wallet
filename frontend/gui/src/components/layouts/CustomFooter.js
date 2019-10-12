@@ -6,8 +6,8 @@ const CustomFooter = () => {
   const { Footer } = Layout;
 
   return (
-    <Footer>
-      <Grid fluid>Footer</Grid>
+    <Footer style={{ paddingLeft: "0", paddingRight: "0" }}>
+      <Grid>Footer</Grid>
     </Footer>
   );
 };

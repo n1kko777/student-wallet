@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Row, Col } from "react-flexbox-grid";
+import { Grid, Row } from "react-flexbox-grid";
 
 import OperationItem from "./OperationItem";
 
@@ -19,26 +19,23 @@ const OperationsList = () => {
     return (
       <Grid fluid>
         <Row start='xs'>
-          <Col xs={4}>
-            <OperationItem credit='' title='' loading={loading} />
-          </Col>
+          <OperationItem credit='' title='' loading={loading} />
         </Row>
       </Grid>
     );
   }
 
   return (
-    <Grid fluid>
+    <Grid>
       <Row middle='xs'>
         {operations.length > 0 ? (
           operations.map(elem => (
-            <Col xs={4} key={elem.id}>
-              <OperationItem
-                credit={elem.credit}
-                title={elem.title}
-                loading={loading}
-              />
-            </Col>
+            <OperationItem
+              key={elem.id}
+              credit={elem.credit}
+              title={elem.title}
+              loading={loading}
+            />
           ))
         ) : (
           <p style={{ width: "100%", textAlign: "center" }}>Список пуст.</p>
