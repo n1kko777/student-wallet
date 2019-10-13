@@ -10,7 +10,8 @@ import PropTypes from "prop-types";
 
 const OperationItem = ({
   credit,
-  title,
+  category,
+  wallet,
   created_at,
   removeFromAmount,
   loading
@@ -44,7 +45,7 @@ const OperationItem = ({
             description={
               <>
                 <p>
-                  <Text>{title}</Text>
+                  <Text>{category}</Text>
                 </p>
                 <Text
                   type='secondary'
@@ -66,7 +67,8 @@ const OperationItem = ({
 
 OperationItem.propTypes = {
   credit: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  wallet: PropTypes.string.isRequired,
   created_at: PropTypes.string.isRequired,
   removeFromAmount: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired

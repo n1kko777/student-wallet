@@ -20,8 +20,9 @@ const OperationsList = () => {
       <Row start='xs'>
         <OperationItem
           credit=''
-          title=''
           loading={loading}
+          category=""
+          wallet=""
           removeFromAmount={true}
           created_at=''
         />
@@ -36,7 +37,8 @@ const OperationsList = () => {
           <OperationItem
             key={elem.id}
             credit={elem.credit}
-            title={elem.title}
+            category={elem.category}
+            wallet={elem.wallet}
             removeFromAmount={elem.removeFromAmount}
             created_at={elem.created_at}
             loading={loading}
