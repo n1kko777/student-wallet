@@ -15,16 +15,16 @@ const CustomControls = () => {
       }}
     >
       <Row>
-        <Col xs={12} sm={6} md={3}>
+        <Col xs={12} sm={6} md={4} lg={3}>
           <AddOperationButton />
         </Col>
-        <Col xs={12} sm={6} md={3}>
+        <Col xs={12} sm={6} md={4} lg={3}>
           <AddAmountButton />
         </Col>
-        <Col xs={12} sm={6} md={3}>
+        <Col xs={12} sm={6} md={4} lg={3}>
           <AddWalletButton />
         </Col>
-        <Col xs={12} sm={6} md={3}>
+        <Col xs={12} sm={6} md={4} lg={3}>
           <SearchButton />
         </Col>
       </Row>
