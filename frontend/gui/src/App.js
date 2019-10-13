@@ -8,7 +8,7 @@ import { Grid } from "react-flexbox-grid";
 import CustomToolbar from "./components/layouts/CustomToolbar";
 import OperationList from "./components/operations/OperationsList";
 import CustomFooter from "./components/layouts/CustomFooter";
-import CustomAddInput from "./components/layouts/CustomAddInput";
+import CustomControls from "./components/layouts/CustomControls";
 
 const App = () => {
   const { Content } = Layout;
@@ -18,7 +18,7 @@ const App = () => {
       <CustomToolbar />
       <Content style={{ padding: "25px 0", minHeight: "100vh" }}>
         <Grid>
-          <CustomAddInput />
+          <CustomControls />
           <OperationList />
         </Grid>
       </Content>
