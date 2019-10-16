@@ -12,3 +12,6 @@ class Operation(models.Model):
     category = models.CharField(max_length=120)
     wallet = models.CharField(max_length=120)
     created_at = models.DateTimeField(auto_now=True)
+
+def __str__(self):
+    return self.credit + " " + self.category

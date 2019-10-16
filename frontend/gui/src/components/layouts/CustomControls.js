@@ -4,7 +4,7 @@ import { Row, Col } from "react-flexbox-grid";
 
 import AddOperationButton from "../buttons/AppOperationButton";
 import AddAmountButton from "../buttons/AddAmountButton";
-import AddWalletButton from "../buttons/AddWalletButton";
+import ChangeWalletButton from "../buttons/ChangeWalletButton";
 import SearchButton from "../buttons/SearchButton";
 
 const CustomControls = () => {
@@ -22,7 +22,7 @@ const CustomControls = () => {
           <AddAmountButton />
         </Col>
         <Col xs={12} sm={6} md={4} lg={3}>
-          <AddWalletButton />
+          <ChangeWalletButton />
         </Col>
         <Col xs={12} sm={6} md={4} lg={3}>
           <SearchButton />

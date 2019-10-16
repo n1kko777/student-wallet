@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Icon } from "antd";
 
-const AddWalletButton = () => {
+const ChangeWalletButton = () => {
   return (
     <Button
       style={{
@@ -14,10 +14,10 @@ const AddWalletButton = () => {
       }}
       size={"large"}
     >
-      <Icon style={{ paddingRight: "8px", paddingLeft: "6px" }} type='plus' />
-      Добавить источник
+      <Icon style={{ paddingRight: "8px", paddingLeft: "6px" }} type='retweet' />
+      Перевести средства
     </Button>
   );
 };
 
-export default AddWalletButton;
+export default ChangeWalletButton;
