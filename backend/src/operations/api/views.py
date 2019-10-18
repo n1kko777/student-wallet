@@ -1,14 +1,9 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework import viewsets
 
 from operations.models import Operation
 from .serializers import OperationSerializer
 
 
-class OperationListView(ListAPIView):
-    queryset = Operation.objects.all()
+class OperationViewSet(viewsets.ModelViewSet):
     serializer_class = OperationSerializer
-
-
-class OperationDetailView(RetrieveAPIView):
     queryset = Operation.objects.all()
-    serializer_class = OperationSerializer

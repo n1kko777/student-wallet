@@ -1,8 +1,6 @@
-from django.conf.urls import url, include
+from operations.api.views import OperationViewSet
+from rest_framework.routers import DefaultRouter
 
-from .views import OperationListView, OperationDetailView
-
-urlpatterns = [
-    url(r'^$', OperationListView.as_view(), name="Operations List"),
-    url(r'^(?P<pk>\d+)/$', OperationDetailView.as_view(), name="Operation Details"),
-]
+router = DefaultRouter()
+router.register(r'', OperationViewSet, basename='operations')
+urlpatterns = router.urls

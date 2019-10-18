@@ -16,7 +16,9 @@ const App = () => {
   return (
     <Layout className='layout'>
       <CustomToolbar />
-      <Content style={{ padding: "25px 0", minHeight: "100vh" }}>
+      <Content
+        style={{ marginBottom: "70px", padding: "25px 0", minHeight: "100vh" }}
+      >
         <Grid>
           <CustomControls />
           <OperationList />
