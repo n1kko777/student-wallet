@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Row } from "react-flexbox-grid";
 import PropTypes from "prop-types";
 
 import OperationItem from "./OperationItem";
 
-import axios from "axios";
-
-const OperationsList = ({ setAlert, setTypeAlert, setMessageAlert }) => {
-  const [loading, setLoading] = useState(true);
-  const [operations, setOperations] = useState([]);
-
+// const OperationsList = ({ setAlert, setTypeAlert, setMessageAlert }) => {
+const OperationsList = ({
+  fetchData,
+  loading,
+  setLoading,
+  operations,
+  setOperations
+}) => {
   const cardPreview = (
     <OperationItem
       id={-1}
@@ -22,49 +24,6 @@ const OperationsList = ({ setAlert, setTypeAlert, setMessageAlert }) => {
       fetchData={() => {}}
     />
   );
-
-  const fetchData = (method = "get", cotnent = "") => {
-    setLoading(false);
-    switch (method) {
-      case "get":
-        axios.get("http://127.0.0.1:8000/api/operations/").then(res => {
-          setOperations(res.data);
-          setLoading(false);
-        });
-        break;
-      case "delete":
-        axios
-          .delete(`http://127.0.0.1:8000/api/operations/${cotnent}/`)
-          .then(res => {
-            setLoading(false);
-            setAlert(true);
-            setTypeAlert("success");
-            setMessageAlert("Запись удалена.");
-
-            fetchData();
-          })
-          .catch(err => {
-            setAlert(true);
-            setTypeAlert("error");
-            setMessageAlert(
-              `Произошла ошибка ${err.message}! Повторите попытку позже.`
-            );
-            console.error("Ошибка:", err.message);
-          });
-        break;
-
-      default:
-        break;
-    }
-
-    setTimeout(() => {
-      setAlert(false);
-    }, 3000);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   if (loading) {
     return (
@@ -101,9 +60,11 @@ const OperationsList = ({ setAlert, setTypeAlert, setMessageAlert }) => {
 };
 
 OperationsList.propTypes = {
-  setAlert: PropTypes.func.isRequired,
-  setTypeAlert: PropTypes.func.isRequired,
-  setMessageAlert: PropTypes.func.isRequired
+  loading: PropTypes.bool.isRequired,
+  setLoading: PropTypes.func.isRequired,
+  operations: PropTypes.array.isRequired,
+  setOperations: PropTypes.func.isRequired,
+  fetchData: PropTypes.func.isRequired
 };
 
 export default OperationsList;

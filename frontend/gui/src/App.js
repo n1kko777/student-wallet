@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import "./App.css";
+
+import axios from "axios";
 
 import { Layout } from "antd";
 import { Grid } from "react-flexbox-grid";
@@ -13,9 +15,84 @@ import CustomControls from "./components/layouts/CustomControls";
 const App = () => {
   const { Content } = Layout;
 
+  const [loading, setLoading] = useState(true);
+  const [operations, setOperations] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/operations/").then(res => {
+      setOperations(res.data);
+      setLoading(false);
+    });
+  }, []);
+
   const [isAlert, setAlert] = useState(false);
   const [typeAlert, setTypeAlert] = useState("");
   const [messageAlert, setMessageAlert] = useState("");
+
+  const fetchData = (method = "get", cotnent = "") => {
+    setLoading(false);
+    switch (method) {
+      case "get":
+        axios.get("http://127.0.0.1:8000/api/operations/").then(res => {
+          setOperations(res.data);
+          setLoading(false);
+        });
+        break;
+      case "delete":
+        axios
+          .delete(`http://127.0.0.1:8000/api/operations/${cotnent}/`)
+          .then(res => {
+            setLoading(false);
+            setAlert(true);
+            setTypeAlert("success");
+            setMessageAlert("Запись удалена.");
+
+            fetchData();
+          })
+          .catch(err => {
+            setAlert(true);
+            setTypeAlert("error");
+            setMessageAlert(
+              `Произошла ошибка ${err.message}! Повторите попытку позже.`
+            );
+            console.error("Ошибка:", err.message);
+          });
+        break;
+      case "post":
+        axios
+          .post(`http://127.0.0.1:8000/api/operations/`, {
+            credit: cotnent.credit,
+            removeFromAmount: true,
+            category: cotnent.category,
+            wallet: cotnent.wallet,
+            created_at: cotnent.created_at
+          })
+          .then(res => {
+            setLoading(false);
+            setAlert(true);
+            setTypeAlert("success");
+            setMessageAlert("Запись создана.");
+
+            fetchData();
+          })
+          .catch(err => {
+            setAlert(true);
+            setTypeAlert("error");
+            setMessageAlert(
+              `Произошла ошибка ${err.message}! Повторите попытку позже.`
+            );
+            console.error("Ошибка:", err.message);
+          });
+        break;
+
+      default:
+        break;
+    }
+
+    setTimeout(() => {
+      setAlert(false);
+    }, 3000);
+  };
 
   return (
     <Layout className='layout'>
@@ -24,11 +101,16 @@ const App = () => {
         style={{ marginBottom: "70px", padding: "25px 0", minHeight: "100vh" }}
       >
         <Grid>
-          <CustomControls />
+          <CustomControls fetchData={fetchData} />
           <OperationList
             setAlert={setAlert}
             setTypeAlert={setTypeAlert}
             setMessageAlert={setMessageAlert}
+            fetchData={fetchData}
+            loading={loading}
+            setLoading={setLoading}
+            operations={operations}
+            setOperations={setOperations}
           />
         </Grid>
       </Content>
