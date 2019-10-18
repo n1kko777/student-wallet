@@ -8,6 +8,16 @@ import axios from "axios";
 const OperationsList = () => {
   const [loading, setLoading] = useState(true);
   const [operations, setOperations] = useState([]);
+
+  const cardPreview = <OperationItem
+  credit=''
+  loading={loading}
+  category=""
+  wallet=""
+  removeFromAmount={true}
+  created_at=''
+/>;
+
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/").then(res => {
       setOperations(res.data);
@@ -18,14 +28,10 @@ const OperationsList = () => {
   if (loading) {
     return (
       <Row start='xs'>
-        <OperationItem
-          credit=''
-          loading={loading}
-          category=""
-          wallet=""
-          removeFromAmount={true}
-          created_at=''
-        />
+        {cardPreview}        
+        {cardPreview}        
+        {cardPreview}        
+        {cardPreview}        
       </Row>
     );
   }
