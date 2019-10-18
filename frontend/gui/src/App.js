@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "./App.css";
 
@@ -13,6 +13,10 @@ import CustomControls from "./components/layouts/CustomControls";
 const App = () => {
   const { Content } = Layout;
 
+  const [isAlert, setAlert] = useState(false);
+  const [typeAlert, setTypeAlert] = useState("");
+  const [messageAlert, setMessageAlert] = useState("");
+
   return (
     <Layout className='layout'>
       <CustomToolbar />
@@ -21,10 +25,18 @@ const App = () => {
       >
         <Grid>
           <CustomControls />
-          <OperationList />
+          <OperationList
+            setAlert={setAlert}
+            setTypeAlert={setTypeAlert}
+            setMessageAlert={setMessageAlert}
+          />
         </Grid>
       </Content>
-      <CustomFooter />
+      <CustomFooter
+        isAlert={isAlert}
+        typeAlert={typeAlert}
+        messageAlert={messageAlert}
+      />
     </Layout>
   );
 };

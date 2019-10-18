@@ -9,15 +9,21 @@ import OperationTitle from "./OperationTitle";
 import PropTypes from "prop-types";
 
 const OperationItem = ({
+  id,
   credit,
   category,
   wallet,
+  fetchData,
   created_at,
   removeFromAmount,
   loading
 }) => {
   const { Meta } = Card;
   const { Text } = Typography;
+
+  const onDelete = id => {
+    fetchData("delete", id);
+  };
 
   return (
     <Col xs={12} sm={6} md={4}>
@@ -28,7 +34,7 @@ const OperationItem = ({
           !loading && [
             <Icon type='copy' key='copy' />,
             <Icon type='edit' key='edit' />,
-            <Icon type='delete' key='delete' />
+            <Icon type='delete' key='delete' onClick={() => onDelete(id)} />
           ]
         }
       >
@@ -66,12 +72,14 @@ const OperationItem = ({
 };
 
 OperationItem.propTypes = {
+  id: PropTypes.number.isRequired,
   credit: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   wallet: PropTypes.string.isRequired,
   created_at: PropTypes.string.isRequired,
   removeFromAmount: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  fetchData: PropTypes.func.isRequired
 };
 
 export default OperationItem;
