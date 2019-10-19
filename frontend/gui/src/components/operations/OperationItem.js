@@ -16,6 +16,7 @@ const OperationItem = ({
   created_at,
   removeFromAmount,
   showEditModal,
+  showCopyModal,
   onDelete,
   loading
 }) => {
@@ -29,7 +30,7 @@ const OperationItem = ({
         bordered={false}
         actions={
           !loading && [
-            <Icon type='copy' key='copy' />,
+            <Icon type='copy' key='copy' onClick={() => showCopyModal(id)} />,
             <Icon type='edit' key='edit' onClick={() => showEditModal(id)} />,
             <Icon type='delete' key='delete' onClick={() => onDelete(id)} />
           ]
@@ -79,6 +80,7 @@ OperationItem.propTypes = {
   removeFromAmount: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   showEditModal: PropTypes.func.isRequired,
+  showCopyModal: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
 };
 

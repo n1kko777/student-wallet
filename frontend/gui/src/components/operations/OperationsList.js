@@ -8,21 +8,23 @@ import { Col } from "react-flexbox-grid";
 import axios from "axios";
 
 import UpdateOperation from "../operations/UpdateOperation";
+import CopyOperation from "../operations/CopyOperation";
 
 import OperationItem from "./OperationItem";
 
 const OperationsList = ({ fetchData, loading, setLoading, operations }) => {
-  const [isModalCreate, setModalCreate] = useState(false);
+  const [isModalUpdate, setModalUpdate] = useState(false);
+  const [isModalCopy, setModalCopy] = useState(false);
   const [operation, setoperation] = useState({});
 
   const [id, setId] = useState(0);
 
-  const handleCancel = () => {
-    setModalCreate(false);
+  const handleCancel = seModalElem => {
+    seModalElem(false);
   };
 
-  const handleSubmit = () => {
-    setModalCreate(false);
+  const handleSubmit = seModalElem => {
+    seModalElem(false);
   };
 
   const showEditModal = id => {
@@ -30,7 +32,15 @@ const OperationsList = ({ fetchData, loading, setLoading, operations }) => {
     axios.get(`http://127.0.0.1:8000/api/operations/${id}/`).then(res => {
       setoperation(res.data);
     });
-    setModalCreate(true);
+    setModalUpdate(true);
+  };
+
+  const showCopyModal = id => {
+    setId(id);
+    axios.get(`http://127.0.0.1:8000/api/operations/${id}/`).then(res => {
+      setoperation(res.data);
+    });
+    setModalCopy(true);
   };
 
   const onDelete = id => {
@@ -65,9 +75,26 @@ const OperationsList = ({ fetchData, loading, setLoading, operations }) => {
       <UpdateOperation
         id={id}
         operation={operation}
-        visible={isModalCreate}
-        onSubmit={handleSubmit}
-        onCancel={handleCancel}
+        visible={isModalUpdate}
+        onSubmit={() => {
+          handleSubmit(setModalUpdate);
+        }}
+        onCancel={() => {
+          handleCancel(setModalUpdate);
+        }}
+        fetchData={fetchData}
+        setLoading={setLoading}
+      />
+      <CopyOperation
+        id={id}
+        operation={operation}
+        visible={isModalCopy}
+        onSubmit={() => {
+          handleSubmit(setModalCopy);
+        }}
+        onCancel={() => {
+          handleCancel(setModalCopy);
+        }}
         fetchData={fetchData}
         setLoading={setLoading}
       />
@@ -86,6 +113,7 @@ const OperationsList = ({ fetchData, loading, setLoading, operations }) => {
               fetchData={fetchData}
               setLoading={setLoading}
               showEditModal={showEditModal}
+              showCopyModal={showCopyModal}
               onDelete={onDelete}
             />
           ))
