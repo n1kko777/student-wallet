@@ -13,17 +13,14 @@ const OperationItem = ({
   credit,
   category,
   wallet,
-  fetchData,
   created_at,
   removeFromAmount,
+  showEditModal,
+  onDelete,
   loading
 }) => {
   const { Meta } = Card;
   const { Text } = Typography;
-
-  const onDelete = id => {
-    fetchData("delete", id);
-  };
 
   return (
     <Col xs={12} sm={6} md={4}>
@@ -33,7 +30,7 @@ const OperationItem = ({
         actions={
           !loading && [
             <Icon type='copy' key='copy' />,
-            <Icon type='edit' key='edit' />,
+            <Icon type='edit' key='edit' onClick={() => showEditModal(id)} />,
             <Icon type='delete' key='delete' onClick={() => onDelete(id)} />
           ]
         }
@@ -52,6 +49,8 @@ const OperationItem = ({
               <>
                 <p>
                   <Text>{category}</Text>
+                  <br />
+                  <Text>{wallet}</Text>
                 </p>
                 <Text
                   type='secondary'
@@ -79,7 +78,8 @@ OperationItem.propTypes = {
   created_at: PropTypes.string.isRequired,
   removeFromAmount: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  fetchData: PropTypes.func.isRequired
+  showEditModal: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired
 };
 
 export default OperationItem;

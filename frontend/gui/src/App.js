@@ -19,6 +19,7 @@ const App = () => {
   const [operations, setOperations] = useState([]);
 
   useEffect(() => {
+    setLoading(true);
     axios.get("http://127.0.0.1:8000/api/operations/").then(res => {
       setOperations(res.data);
       setLoading(false);
@@ -30,7 +31,7 @@ const App = () => {
   const [messageAlert, setMessageAlert] = useState("");
 
   const fetchData = (method = "get", cotnent = "") => {
-    setLoading(false);
+    setLoading(true);
     switch (method) {
       case "get":
         axios.get("http://127.0.0.1:8000/api/operations/").then(res => {
@@ -50,6 +51,7 @@ const App = () => {
             fetchData();
           })
           .catch(err => {
+            setLoading(false);
             setAlert(true);
             setTypeAlert("error");
             setMessageAlert(
@@ -76,6 +78,34 @@ const App = () => {
             fetchData();
           })
           .catch(err => {
+            setLoading(false);
+            setAlert(true);
+            setTypeAlert("error");
+            setMessageAlert(
+              `Произошла ошибка ${err.message}! Повторите попытку позже.`
+            );
+            console.error("Ошибка:", err.message);
+          });
+        break;
+      case "put":
+        axios
+          .put(`http://127.0.0.1:8000/api/operations/${cotnent.id}/`, {
+            credit: cotnent.credit,
+            removeFromAmount: true,
+            category: cotnent.category,
+            wallet: cotnent.wallet,
+            created_at: cotnent.created_at
+          })
+          .then(res => {
+            setLoading(false);
+            setAlert(true);
+            setTypeAlert("success");
+            setMessageAlert("Запись обновлена.");
+
+            fetchData();
+          })
+          .catch(err => {
+            setLoading(false);
             setAlert(true);
             setTypeAlert("error");
             setMessageAlert(
@@ -86,6 +116,11 @@ const App = () => {
         break;
 
       default:
+        setLoading(false);
+        setAlert(true);
+        setTypeAlert("error");
+        setMessageAlert("Опреация не найдена!");
+        console.error("Ошибка:", "Опреация не найдена!");
         break;
     }
 
