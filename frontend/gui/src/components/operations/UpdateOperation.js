@@ -86,7 +86,7 @@ const UpdateOperation = ({
                     onMouseDown={e => e.preventDefault()}
                     onClick={addCategoryItem}
                   >
-                    <Icon type='plus' /> Add item
+                    <Icon type='plus' /> Добавить категорию
                   </div>
                 </div>
               )}
