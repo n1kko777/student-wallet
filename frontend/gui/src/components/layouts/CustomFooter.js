@@ -1,4 +1,6 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
+
 import { Grid, Row, Col } from "react-flexbox-grid";
 import { Layout, Icon, Typography } from "antd";
 import PropTypes from "prop-types";
@@ -11,13 +13,15 @@ const CustomFooter = ({ isAlert, typeAlert, messageAlert }) => {
   const { Footer } = Layout;
   const { Text } = Typography;
 
+  const { pathname } = useLocation();
+
   return (
     <Footer className='footer'>
       {isAlert && (
         <CustomAlert messageAlert={messageAlert} typeAlert={typeAlert} />
       )}
       <Grid>
-        {window.location.pathname === "/feed" ? (
+        {pathname === "/feed" ? (
           <Row between='xs'>
             <Col xs={12} sm={3}>
               <Row between='xs'>

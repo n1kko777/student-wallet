@@ -2,20 +2,23 @@ import React from "react";
 import { Layout, Typography } from "antd";
 import { Grid, Row, Col } from "react-flexbox-grid";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import OperationTitle from "../operations/OperationTitle";
 import MainMenu from "./MainMenu";
 
-const CustomToolbar = () => {
+const CustomToolbar = ({ props }) => {
   const { Header } = Layout;
   const { Title } = Typography;
+
+  const { pathname } = useLocation();
+
   return (
-    <Header style={{ padding: "16px 0 0" }}>
+    <Header style={{ padding: "0" }}>
       <Grid>
         <Row middle='xs' between='xs'>
           <Col xs={6} sm={4} md={3} lg={2}>
-            {window.location.pathname === "/feed" ? (
+            {pathname === "/feed" ? (
               <div className='amount'>
                 <OperationTitle credit='1 000 000' />
               </div>
