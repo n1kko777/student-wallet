@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import "./App.css";
+
+import { connect } from "react-redux";
+import { authCheckState } from "./store/actions/auth";
 
 import { Layout } from "antd";
 import { Grid } from "react-flexbox-grid";
@@ -15,15 +18,19 @@ import {
 import Home from "./components/pages/Home";
 import Feed from "./components/pages/Feed";
 import Login from "./components/pages/Login";
+import Register from "./components/pages/Register";
+import ResetPass from "./components/pages/ResetPass";
 import PageNotFound from "./components/pages/PageNotFound";
 
 import CustomToolbar from "./components/layouts/CustomToolbar";
 import CustomFooter from "./components/layouts/CustomFooter";
 
-const App = () => {
-  const { Content } = Layout;
+import PropTypes from "prop-types";
 
-  const [isAuth, setAuth] = useState(true);
+const App = ({ isAuth, onTryAuthSignUp }) => {
+  useEffect(() => onTryAuthSignUp(), []);
+
+  const { Content } = Layout;
 
   const [loading, setLoading] = useState(true);
   const [operations, setOperations] = useState([]);
@@ -35,7 +42,7 @@ const App = () => {
   return (
     <Router>
       <Layout className='layout'>
-        <CustomToolbar isAuth={isAuth} setAuth={setAuth} />
+        <CustomToolbar />
         <Content
           style={{
             marginBottom: "70px",
@@ -48,10 +55,12 @@ const App = () => {
               <Route
                 exact
                 path='/'
-                component={() => (isAuth ? <Redirect to='/feed' /> : Home)}
+                component={() => (isAuth ? <Redirect to='/feed' /> : <Home />)}
               />
               <Route exact path='/home' component={Home} />
               <Route exact path='/login' component={Login} />
+              <Route exact path='/register' component={Register} />
+              <Route exact path='/reset' component={ResetPass} />
               <Route exact path='/about' />
               <Route
                 exact
@@ -88,4 +97,25 @@ const App = () => {
     </Router>
   );
 };
-export default App;
+
+App.propTypes = {
+  isAuth: PropTypes.bool.isRequired,
+  onTryAuthSignUp: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => {
+  return {
+    isAuth: state.token !== null
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAuthSignUp: () => dispatch(authCheckState())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

@@ -4,12 +4,14 @@ import { Grid, Row, Col } from "react-flexbox-grid";
 
 import { Link, useLocation } from "react-router-dom";
 
+import { connect } from "react-redux";
+
 import PropTypes from "prop-types";
 
 import OperationTitle from "../operations/OperationTitle";
 import MainMenu from "./MainMenu";
 
-const CustomToolbar = ({ isAuth, setAuth }) => {
+const CustomToolbar = ({ isAuth }) => {
   const { Header } = Layout;
   const { Title } = Typography;
 
@@ -34,7 +36,7 @@ const CustomToolbar = ({ isAuth, setAuth }) => {
           </Col>
           <Col xs={2} sm={1}>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <MainMenu isAuth={isAuth} setAuth={setAuth} />
+              <MainMenu />
             </div>
           </Col>
         </Row>
@@ -44,8 +46,13 @@ const CustomToolbar = ({ isAuth, setAuth }) => {
 };
 
 CustomToolbar.propTypes = {
-  isAuth: PropTypes.bool.isRequired,
-  setAuth: PropTypes.func.isRequired
+  isAuth: PropTypes.bool.isRequired
 };
 
-export default CustomToolbar;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.token !== null
+  };
+};
+
+export default connect(mapStateToProps)(CustomToolbar);

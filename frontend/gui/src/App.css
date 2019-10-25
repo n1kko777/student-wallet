@@ -29,3 +29,15 @@
   width: 100%;
   line-height: 32px;
 }
+
+.login-form {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 749px;
+}
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+}

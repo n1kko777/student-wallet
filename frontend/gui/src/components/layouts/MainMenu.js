@@ -3,9 +3,12 @@ import { Menu, Dropdown, Icon } from "antd";
 
 import { Link, useLocation } from "react-router-dom";
 
+import { connect } from "react-redux";
+import { logout } from "../../store/actions/auth";
+
 import PropTypes from "prop-types";
 
-const MainMenu = ({ isAuth, setAuth }) => {
+const MainMenu = ({ isAuth, onLogout, loading, error }) => {
   const { pathname } = useLocation();
 
   const authUser = (
@@ -20,10 +23,8 @@ const MainMenu = ({ isAuth, setAuth }) => {
           <Icon type='form' /> Отчет
         </Link>
       </Menu.Item>
-      <Menu.Item style={{ fontSize: "14px" }}>
-        <Link rel='noopener noreferrer' to='/'>
-          <Icon type='logout' /> Выход
-        </Link>
+      <Menu.Item style={{ fontSize: "14px" }} onClick={onLogout}>
+        <Icon type='logout' /> Выход
       </Menu.Item>
     </Menu>
   );
@@ -77,7 +78,24 @@ const MainMenu = ({ isAuth, setAuth }) => {
 
 MainMenu.propTypes = {
   isAuth: PropTypes.bool.isRequired,
-  setAuth: PropTypes.func.isRequired
+  onLogout: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.object
 };
 
-export default MainMenu;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.token !== null
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: () => dispatch(logout())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MainMenu);
