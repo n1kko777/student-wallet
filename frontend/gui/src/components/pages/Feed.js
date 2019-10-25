@@ -6,11 +6,6 @@ import axios from "axios";
 
 import PropTypes from "prop-types";
 
-// const Feed = props => {
-//   console.log(props);
-//   return <div></div>;
-// };
-
 const Feed = ({
   loading,
   setLoading,

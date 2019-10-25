@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Menu, Dropdown, Icon } from "antd";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const MainMenu = () => {
-  const [isAuth, setAuth] = useState(false);
+import PropTypes from "prop-types";
+
+const MainMenu = ({ isAuth, setAuth }) => {
+  const { pathname } = useLocation();
 
   const authUser = (
     <Menu>
@@ -54,7 +56,12 @@ const MainMenu = () => {
     </Menu>
   );
 
-  if (isAuth) {
+  if (
+    isAuth &&
+    (pathname === "/feed" ||
+      pathname === "/settings" ||
+      pathname === "/reports")
+  ) {
     return (
       <Dropdown overlay={authUser} placement='bottomRight' trigger={["click"]}>
         <Icon
@@ -66,6 +73,11 @@ const MainMenu = () => {
   } else {
     return guestUser;
   }
+};
+
+MainMenu.propTypes = {
+  isAuth: PropTypes.bool.isRequired,
+  setAuth: PropTypes.func.isRequired
 };
 
 export default MainMenu;

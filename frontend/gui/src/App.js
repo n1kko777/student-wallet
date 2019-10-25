@@ -23,7 +23,7 @@ import CustomFooter from "./components/layouts/CustomFooter";
 const App = () => {
   const { Content } = Layout;
 
-  const [isAuth, setAuth] = useState(false);
+  const [isAuth, setAuth] = useState(true);
 
   const [loading, setLoading] = useState(true);
   const [operations, setOperations] = useState([]);
@@ -35,7 +35,7 @@ const App = () => {
   return (
     <Router>
       <Layout className='layout'>
-        <CustomToolbar />
+        <CustomToolbar isAuth={isAuth} setAuth={setAuth} />
         <Content
           style={{
             marginBottom: "70px",
@@ -45,7 +45,11 @@ const App = () => {
         >
           <Grid>
             <Switch>
-              <Route exact path='/' component={Home} />
+              <Route
+                exact
+                path='/'
+                component={() => (isAuth ? <Redirect to='/feed' /> : Home)}
+              />
               <Route exact path='/home' component={Home} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/about' />
