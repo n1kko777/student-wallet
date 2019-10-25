@@ -66,7 +66,7 @@ const Register = ({ form, onRegister, loading, error }) => {
               rules: [
                 {
                   required: true,
-                  message: "Пожалуйста введите Ваше Имя!",
+                  message: "Пожалуйста введите никнейм!",
                   whitespace: true
                 }
               ]
@@ -75,7 +75,7 @@ const Register = ({ form, onRegister, loading, error }) => {
                 prefix={
                   <Icon type='user' style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder='Ваше Имя'
+                placeholder='Никнейм'
               />
             )}
           </Form.Item>
@@ -172,8 +172,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onRegister: (nickname, email, password1, password2) =>
-      dispatch(authSignUp(nickname, email, password1, password2))
+    onRegister: (username, email, password1, password2) =>
+      dispatch(authSignUp(username, email, password1, password2))
   };
 };
 
