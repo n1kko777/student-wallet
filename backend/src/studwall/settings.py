@@ -41,11 +41,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django.contrib.sites',
     'allauth',
-    'allauth.account',
     'rest_auth.registration',
     'rest_auth',
     'allauth.socialaccount',
     'corsheaders',
+    'account',
     'operations',
 ]
 
@@ -143,6 +143,8 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+AUTH_USER_MODEL = 'account.Account'
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
