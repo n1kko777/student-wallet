@@ -5,7 +5,14 @@ import PropTypes from "prop-types";
 import { Modal, Form, Input, Select, Icon, Divider, DatePicker } from "antd";
 import moment from "moment";
 
-const CopyOperation = ({ visible, onCancel, onSubmit, fetchData, form }) => {
+const CopyOperation = ({
+  id,
+  visible,
+  onCancel,
+  onSubmit,
+  fetchData,
+  form
+}) => {
   const { getFieldDecorator } = form;
 
   const { Option } = Select;
@@ -50,7 +57,7 @@ const CopyOperation = ({ visible, onCancel, onSubmit, fetchData, form }) => {
     >
       <Form layout='vertical'>
         <Form.Item label='Сумма' hasFeedback>
-          {getFieldDecorator("operation_price", {
+          {getFieldDecorator("credit", {
             rules: [
               {
                 required: true,
@@ -115,6 +122,7 @@ const CopyOperation = ({ visible, onCancel, onSubmit, fetchData, form }) => {
 };
 
 CopyOperation.propTypes = {
+  id: PropTypes.number.isRequired,
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -125,17 +133,17 @@ CopyOperation.propTypes = {
 const WrappedCopyOperation = Form.create({
   mapPropsToFields(props) {
     return {
-      operation_price: Form.createFormField({
-        value: props.operation.operation_price
+      credit: Form.createFormField({
+        value: props.operation.credit
       }),
-      category_id: Form.createFormField({
-        value: props.operation.category_id
+      category: Form.createFormField({
+        value: props.operation.category
       }),
-      wallet_id: Form.createFormField({
-        value: props.operation.wallet_id
+      wallet: Form.createFormField({
+        value: props.operation.wallet
       }),
-      operation_date: Form.createFormField({
-        value: moment(props.operation.operation_date)
+      created_at: Form.createFormField({
+        value: moment(props.operation.created_at)
       })
     };
   }

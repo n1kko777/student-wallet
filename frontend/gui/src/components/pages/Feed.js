@@ -56,11 +56,11 @@ const Feed = ({
       case "post":
         axios
           .post(`http://127.0.0.1:8000/api/operations/`, {
-            operation_price: cotnent.operation_price,
-            operation_type: true,
-            category_id: cotnent.category_id,
-            wallet_id: cotnent.wallet_id,
-            operation_date: cotnent.operation_date
+            credit: cotnent.credit,
+            removeFromAmount: true,
+            category: cotnent.category,
+            wallet: cotnent.wallet,
+            created_at: cotnent.created_at
           })
           .then(res => {
             setLoading(false);
@@ -83,11 +83,11 @@ const Feed = ({
       case "put":
         axios
           .put(`http://127.0.0.1:8000/api/operations/${cotnent.id}/`, {
-            operation_price: cotnent.operation_price,
-            operation_type: true,
-            category_id: cotnent.category_id,
-            wallet_id: cotnent.wallet_id,
-            operation_date: cotnent.operation_date
+            credit: cotnent.credit,
+            removeFromAmount: true,
+            category: cotnent.category,
+            wallet: cotnent.wallet,
+            created_at: cotnent.created_at
           })
           .then(res => {
             setLoading(false);

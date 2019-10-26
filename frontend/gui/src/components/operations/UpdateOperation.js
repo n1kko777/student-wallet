@@ -59,7 +59,7 @@ const UpdateOperation = ({
     >
       <Form layout='vertical'>
         <Form.Item label='Сумма' hasFeedback>
-          {getFieldDecorator("operation_price", {
+          {getFieldDecorator("credit", {
             rules: [
               {
                 required: true,
@@ -69,7 +69,7 @@ const UpdateOperation = ({
           })(<Input />)}
         </Form.Item>
         <Form.Item label='Укажите категорию' hasFeedback>
-          {getFieldDecorator("category_id", {
+          {getFieldDecorator("category", {
             rules: [
               { required: true, message: "Пожалуйста выберите категорию!" }
             ]
@@ -100,7 +100,7 @@ const UpdateOperation = ({
           )}
         </Form.Item>
         <Form.Item label='Укажите кошелек' hasFeedback>
-          {getFieldDecorator("wallet_id", {
+          {getFieldDecorator("wallet", {
             rules: [{ required: true, message: "Пожалуйста выберите кошелек!" }]
           })(
             <Select>
@@ -114,7 +114,7 @@ const UpdateOperation = ({
         </Form.Item>
 
         <Form.Item label='Укажите дату'>
-          {getFieldDecorator("operation_date")(
+          {getFieldDecorator("created_at")(
             <DatePicker locale={locale} setFieldsValue={moment()} />
           )}
         </Form.Item>
@@ -135,8 +135,8 @@ UpdateOperation.propTypes = {
 const WrappedUpdateOperation = Form.create({
   mapPropsToFields(props) {
     return {
-      operation_price: Form.createFormField({
-        value: props.operation.operation_price
+      credit: Form.createFormField({
+        value: props.operation.credit
       }),
       category: Form.createFormField({
         value: props.operation.category

@@ -86,6 +86,7 @@ const OperationsList = ({ fetchData, loading, setLoading, operations }) => {
         setLoading={setLoading}
       />
       <CopyOperation
+        id={id}
         operation={operation}
         visible={isModalCopy}
         onSubmit={() => {
@@ -103,11 +104,11 @@ const OperationsList = ({ fetchData, loading, setLoading, operations }) => {
             <OperationItem
               key={elem.id}
               id={elem.id}
-              operation_price={elem.operation_price}
-              category_id={elem.category_id}
-              wallet_id={elem.wallet_id}
-              operation_type={elem.operation_type}
-              operation_date={elem.operation_date}
+              credit={elem.credit}
+              category={elem.category}
+              wallet={elem.wallet}
+              removeFromAmount={elem.removeFromAmount}
+              created_at={elem.created_at}
               loading={loading}
               fetchData={fetchData}
               setLoading={setLoading}

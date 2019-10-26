@@ -49,7 +49,7 @@ const CreateOperation = ({ visible, onCancel, onSubmit, fetchData, form }) => {
     >
       <Form layout='vertical'>
         <Form.Item label='Сумма' hasFeedback>
-          {getFieldDecorator("operation_price", {
+          {getFieldDecorator("credit", {
             rules: [
               {
                 required: true,
@@ -59,7 +59,7 @@ const CreateOperation = ({ visible, onCancel, onSubmit, fetchData, form }) => {
           })(<Input />)}
         </Form.Item>
         <Form.Item label='Укажите категорию' hasFeedback>
-          {getFieldDecorator("category_id", {
+          {getFieldDecorator("category", {
             rules: [
               { required: true, message: "Пожалуйста выберите категорию!" }
             ]
@@ -90,7 +90,7 @@ const CreateOperation = ({ visible, onCancel, onSubmit, fetchData, form }) => {
           )}
         </Form.Item>
         <Form.Item label='Укажите кошелек' hasFeedback>
-          {getFieldDecorator("wallet_id", {
+          {getFieldDecorator("wallet", {
             rules: [{ required: true, message: "Пожалуйста выберите кошелек!" }]
           })(
             <Select>
@@ -104,7 +104,7 @@ const CreateOperation = ({ visible, onCancel, onSubmit, fetchData, form }) => {
         </Form.Item>
 
         <Form.Item label='Укажите дату'>
-          {getFieldDecorator("operation_date")(
+          {getFieldDecorator("created_at")(
             <DatePicker locale={locale} setFieldsValue={moment()} />
           )}
         </Form.Item>
