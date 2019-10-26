@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-const Login = ({ onAuth, form, loading, error }) => {
+const Login = ({ onAuth, form, loading, error, isAuth }) => {
   const { push } = useHistory();
 
   const handleSubmit = e => {
@@ -17,9 +17,9 @@ const Login = ({ onAuth, form, loading, error }) => {
     form.validateFields((err, { email, password }) => {
       if (!err) {
         onAuth(email, password);
-
-        push("/");
       }
+
+      push("/");
     });
   };
 
@@ -87,6 +87,7 @@ const Login = ({ onAuth, form, loading, error }) => {
 const WrappedNormalLoginForm = Form.create({ name: "normal_login" })(Login);
 
 Login.propTypes = {
+  isAuth: PropTypes.bool.isRequired,
   form: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   onAuth: PropTypes.func.isRequired,
@@ -94,7 +95,11 @@ Login.propTypes = {
 };
 
 const mapStateToProps = state => {
-  return { loading: state.loading, error: state.error };
+  return {
+    loading: state.loading,
+    error: state.error,
+    isAuth: state.token !== null
+  };
 };
 
 const mapDispatchToProps = dispatch => {

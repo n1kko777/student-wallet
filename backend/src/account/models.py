@@ -52,6 +52,8 @@ class Account(AbstractBaseUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     wallet_id = models.IntegerField(default=0)
+    user_amount = models.DecimalField(
+        max_digits=20, decimal_places=2, default=0)
     date_of_bitrthday = models.DateTimeField(
         verbose_name="date of bityhday", auto_now_add=True)
     date_joined = models.DateTimeField(

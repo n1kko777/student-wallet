@@ -10,11 +10,11 @@ import PropTypes from "prop-types";
 
 const OperationItem = ({
   id,
-  credit,
-  category,
-  wallet,
-  created_at,
-  removeFromAmount,
+  operation_price,
+  category_id,
+  wallet_id,
+  operation_date,
+  operation_type,
   showEditModal,
   showCopyModal,
   onDelete,
@@ -39,19 +39,19 @@ const OperationItem = ({
         <Skeleton loading={loading} avatar active>
           <Meta
             avatar={
-              removeFromAmount ? (
+              operation_type ? (
                 <Icon type='up' key='up' style={{ color: "red" }} />
               ) : (
                 <Icon type='down' key='down' style={{ color: "green" }} />
               )
             }
-            title={<OperationTitle credit={credit} />}
+            title={<OperationTitle credit={operation_price} />}
             description={
               <>
                 <p>
-                  <Text>{category}</Text>
+                  <Text>{category_id}</Text>
                   <br />
-                  <Text>{wallet}</Text>
+                  <Text>{wallet_id}</Text>
                 </p>
                 <Text
                   type='secondary'
@@ -60,7 +60,7 @@ const OperationItem = ({
                     fontSize: "12px"
                   }}
                 >
-                  {<Moment format='DD.MM.YYYY HH:mm'>{created_at}</Moment>}
+                  {<Moment format='DD.MM.YYYY HH:mm'>{operation_date}</Moment>}
                 </Text>
               </>
             }
@@ -73,11 +73,11 @@ const OperationItem = ({
 
 OperationItem.propTypes = {
   id: PropTypes.number.isRequired,
-  credit: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  wallet: PropTypes.string.isRequired,
-  created_at: PropTypes.string.isRequired,
-  removeFromAmount: PropTypes.bool.isRequired,
+  operation_price: PropTypes.string.isRequired,
+  category_id: PropTypes.string.isRequired,
+  wallet_id: PropTypes.string.isRequired,
+  operation_date: PropTypes.string.isRequired,
+  operation_type: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   showEditModal: PropTypes.func.isRequired,
   showCopyModal: PropTypes.func.isRequired,
