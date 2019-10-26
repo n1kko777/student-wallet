@@ -85,7 +85,8 @@ MainMenu.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.token !== null
+    isAuth: state.token !== null,
+    loading: state.loading
   };
 };
 
