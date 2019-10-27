@@ -3,10 +3,12 @@ import CustomControls from "../layouts/CustomControls";
 import OperationList from "../operations/OperationsList";
 
 import axios from "axios";
+import { connect } from "react-redux";
 
 import PropTypes from "prop-types";
 
 const Feed = ({
+  token,
   loading,
   setLoading,
   operations,
@@ -17,24 +19,30 @@ const Feed = ({
 }) => {
   useEffect(() => {
     setLoading(true);
-    axios.get("http://127.0.0.1:8000/api/operations/").then(res => {
-      setOperations(res.data);
-      setLoading(false);
-    });
+    axios
+      .get("http://127.0.0.1:8000/api/v1/operations/", {
+        headers: {
+          Authorization: "Token " + token
+        }
+      })
+      .then(res => {
+        setOperations(res.data);
+        setLoading(false);
+      });
   }, []);
 
   const fetchData = (method = "get", cotnent = "") => {
     setLoading(true);
     switch (method) {
       case "get":
-        axios.get("http://127.0.0.1:8000/api/operations/").then(res => {
+        axios.get("http://127.0.0.1:8000/api/v1/operations/").then(res => {
           setOperations(res.data);
           setLoading(false);
         });
         break;
       case "delete":
         axios
-          .delete(`http://127.0.0.1:8000/api/operations/${cotnent}/`)
+          .delete(`http://127.0.0.1:8000/api/v1/operations/${cotnent}/`)
           .then(res => {
             setLoading(false);
             setAlert(true);
@@ -55,7 +63,7 @@ const Feed = ({
         break;
       case "post":
         axios
-          .post(`http://127.0.0.1:8000/api/operations/`, {
+          .post(`http://127.0.0.1:8000/api/v1/operations/`, {
             credit: cotnent.credit,
             removeFromAmount: true,
             category: cotnent.category,
@@ -82,7 +90,7 @@ const Feed = ({
         break;
       case "put":
         axios
-          .put(`http://127.0.0.1:8000/api/operations/${cotnent.id}/`, {
+          .put(`http://127.0.0.1:8000/api/v1/operations/${cotnent.id}/`, {
             credit: cotnent.credit,
             removeFromAmount: true,
             category: cotnent.category,
@@ -140,6 +148,7 @@ const Feed = ({
 };
 
 Feed.protoType = {
+  token: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   setLoading: PropTypes.func.isRequired,
   operations: PropTypes.array.isRequired,
@@ -149,4 +158,8 @@ Feed.protoType = {
   setMessageAlert: PropTypes.func.isRequired
 };
 
-export default Feed;
+const mapStateToProps = state => ({
+  token: state.token
+});
+
+export default connect(mapStateToProps)(Feed);

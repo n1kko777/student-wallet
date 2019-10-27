@@ -27,7 +27,7 @@ export const authFail = error => {
 };
 
 export const logout = () => {
-  localStorage.removeItem("token ");
+  localStorage.removeItem("token");
   localStorage.removeItem("expirationDate");
 
   return {
@@ -48,11 +48,12 @@ export const authLogin = (email, password) => {
     dispatch(authStart());
 
     axios
-      .post("http://127.0.0.1:8000/api/auth/login/", {
+      .post("http://127.0.0.1:8000/rest/auth/login/", {
         email: email,
         password: password
       })
       .then(res => {
+        console.log(res.data);
         const token = res.data.key;
         const expirationDate = new Date(new Date().getTime() * 3600 * 1000);
         localStorage.setItem("token", token);
@@ -69,7 +70,7 @@ export const authSignUp = (nickname, email, password1, password2) => {
     dispatch(authStart());
 
     axios
-      .post("http://127.0.0.1:8000/api/auth/register/", {
+      .post("http://127.0.0.1:8000/rest/auth/register/", {
         nickname: nickname,
         email: email,
         password1: password1,

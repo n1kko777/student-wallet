@@ -6,13 +6,20 @@ import { Card, Skeleton } from "antd";
 import { Col } from "react-flexbox-grid";
 
 import axios from "axios";
+import { connect } from "react-redux";
 
 import UpdateOperation from "../operations/UpdateOperation";
 import CopyOperation from "../operations/CopyOperation";
 
 import OperationItem from "./OperationItem";
 
-const OperationsList = ({ fetchData, loading, setLoading, operations }) => {
+const OperationsList = ({
+  fetchData,
+  loading,
+  setLoading,
+  operations,
+  token
+}) => {
   const [isModalUpdate, setModalUpdate] = useState(false);
   const [isModalCopy, setModalCopy] = useState(false);
   const [operation, setoperation] = useState({});
@@ -29,17 +36,29 @@ const OperationsList = ({ fetchData, loading, setLoading, operations }) => {
 
   const showEditModal = id => {
     setId(id);
-    axios.get(`http://127.0.0.1:8000/api/operations/${id}/`).then(res => {
-      setoperation(res.data);
-    });
+    axios
+      .get(`http://127.0.0.1:8000/api/v1/operations/${id}/`, {
+        headers: {
+          Authorization: "Token " + token
+        }
+      })
+      .then(res => {
+        setoperation(res.data);
+      });
     setModalUpdate(true);
   };
 
   const showCopyModal = id => {
     setId(id);
-    axios.get(`http://127.0.0.1:8000/api/operations/${id}/`).then(res => {
-      setoperation(res.data);
-    });
+    axios
+      .get(`http://127.0.0.1:8000/api/v1/operations/${id}/`, {
+        headers: {
+          Authorization: "Token " + token
+        }
+      })
+      .then(res => {
+        setoperation(res.data);
+      });
     setModalCopy(true);
   };
 
@@ -126,10 +145,15 @@ const OperationsList = ({ fetchData, loading, setLoading, operations }) => {
 };
 
 OperationsList.propTypes = {
+  token: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   setLoading: PropTypes.func.isRequired,
   operations: PropTypes.array.isRequired,
   fetchData: PropTypes.func.isRequired
 };
 
-export default OperationsList;
+const mapStateToProps = state => ({
+  token: state.token
+});
+
+export default connect(mapStateToProps)(OperationsList);
