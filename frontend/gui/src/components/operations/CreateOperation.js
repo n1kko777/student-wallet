@@ -121,6 +121,14 @@ CreateOperation.propTypes = {
   form: PropTypes.object.isRequired
 };
 
-const WrappedCreateOperation = Form.create()(CreateOperation);
+const WrappedCreateOperation = Form.create({
+  mapPropsToFields() {
+    return {
+      created_at: Form.createFormField({
+        value: moment()
+      })
+    };
+  }
+})(CreateOperation);
 
 export default WrappedCreateOperation;
