@@ -66,7 +66,7 @@ const Register = ({ form, onRegister, loading, error }) => {
               rules: [
                 {
                   required: true,
-                  message: "Пожалуйста введите Ваше Имя!",
+                  message: "Пожалуйста введите Ваш никнейм!",
                   whitespace: true
                 }
               ]
@@ -75,7 +75,7 @@ const Register = ({ form, onRegister, loading, error }) => {
                 prefix={
                   <Icon type='user' style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder='Ваше Имя'
+                placeholder='Ваш никнейм'
               />
             )}
           </Form.Item>
