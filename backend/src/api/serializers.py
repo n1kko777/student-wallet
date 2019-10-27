@@ -4,13 +4,21 @@ from users.models import CustomUser
 
 
 class OperationSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Operation
-        owner = serializers.ReadOnlyField(source='owner.username')
-        fields = '__all__'
+        owner = serializers.ReadOnlyField(source='owner.email')
+        fields = ('credit',
+                  'removeFromAmount',
+                  'category',
+                  'wallet',
+                  'created_at')
 
 
 class UserSerializer(serializers.ModelSerializer):
+    operations = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Operation.objects.all())
+
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'username', 'operations')
+        fields = ('id', 'operations')
