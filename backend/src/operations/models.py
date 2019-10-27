@@ -7,8 +7,8 @@ from django.db import models
 
 
 class Operation(models.Model):
-    author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='operations', on_delete=models.CASCADE)
     credit = models.DecimalField(max_digits=10, decimal_places=2)
     removeFromAmount = models.BooleanField(default=True)
     category = models.CharField(max_length=120)
@@ -17,4 +17,4 @@ class Operation(models.Model):
 
 
 def __str__(self):
-    return self.credit + " " + self.category
+    return self.owner + ": " + self.created_at + " – " + self.credit + "(" + self.category + ", " + self.wallet + ")"

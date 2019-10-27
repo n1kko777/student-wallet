@@ -32,17 +32,28 @@ const Feed = ({
   }, []);
 
   const fetchData = (method = "get", cotnent = "") => {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: "Token " + token
+    };
+
     setLoading(true);
     switch (method) {
       case "get":
-        axios.get("http://127.0.0.1:8000/api/v1/operations/").then(res => {
-          setOperations(res.data);
-          setLoading(false);
-        });
+        axios
+          .get("http://127.0.0.1:8000/api/v1/operations/", {
+            headers: headers
+          })
+          .then(res => {
+            setOperations(res.data);
+            setLoading(false);
+          });
         break;
       case "delete":
         axios
-          .delete(`http://127.0.0.1:8000/api/v1/operations/${cotnent}/`)
+          .delete(`http://127.0.0.1:8000/api/v1/operations/${cotnent}/`, {
+            headers: headers
+          })
           .then(res => {
             setLoading(false);
             setAlert(true);
@@ -63,13 +74,20 @@ const Feed = ({
         break;
       case "post":
         axios
-          .post(`http://127.0.0.1:8000/api/v1/operations/`, {
-            credit: cotnent.credit,
-            removeFromAmount: true,
-            category: cotnent.category,
-            wallet: cotnent.wallet,
-            created_at: cotnent.created_at
-          })
+          .post(
+            `http://127.0.0.1:8000/api/v1/operations/`,
+            {
+              credit: cotnent.credit,
+              removeFromAmount: true,
+              category: cotnent.category,
+              wallet: cotnent.wallet,
+              created_at: cotnent.created_at,
+              owner: 1
+            },
+            {
+              headers: headers
+            }
+          )
           .then(res => {
             setLoading(false);
             setAlert(true);
@@ -81,7 +99,7 @@ const Feed = ({
           .catch(err => {
             setLoading(false);
             setAlert(true);
-            setTypeAlert("error");
+            setTypeAlert("error", 5000);
             setMessageAlert(
               `Произошла ошибка ${err.message}! Повторите попытку позже.`
             );
@@ -90,13 +108,20 @@ const Feed = ({
         break;
       case "put":
         axios
-          .put(`http://127.0.0.1:8000/api/v1/operations/${cotnent.id}/`, {
-            credit: cotnent.credit,
-            removeFromAmount: true,
-            category: cotnent.category,
-            wallet: cotnent.wallet,
-            created_at: cotnent.created_at
-          })
+          .put(
+            `http://127.0.0.1:8000/api/v1/operations/${cotnent.id}/`,
+            {
+              credit: cotnent.credit,
+              removeFromAmount: true,
+              category: cotnent.category,
+              wallet: cotnent.wallet,
+              created_at: cotnent.created_at,
+              owner: 1
+            },
+            {
+              headers: headers
+            }
+          )
           .then(res => {
             setLoading(false);
             setAlert(true);

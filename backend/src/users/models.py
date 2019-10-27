@@ -9,4 +9,4 @@ class CustomUser(AbstractUser):
         default=0, max_digits=20, decimal_places=2)
 
     def __str__(self):
-        return self.email
+        return str(self.id) + "(" + self.username + ")"
