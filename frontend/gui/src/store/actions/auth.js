@@ -43,16 +43,17 @@ const checkAuthTimeout = expirationTime => {
   };
 };
 
-export const authLogin = (email, password) => {
+export const authLogin = (username, password) => {
   return dispatch => {
     dispatch(authStart());
 
     axios
-      .post("http://127.0.0.1:8000/rest/auth/login/", {
-        email: email,
+      .post("http://127.0.0.1:8000/api/v1/api-token-auth/login/", {
+        username: username,
         password: password
       })
       .then(res => {
+        console.log(res);
         const token = res.data.key;
         const expirationDate = new Date(new Date().getTime() * 3600 * 1000);
         localStorage.setItem("token", token);
@@ -64,13 +65,13 @@ export const authLogin = (email, password) => {
   };
 };
 
-export const authSignUp = (nickname, email, password1, password2) => {
+export const authSignUp = (username, email, password1, password2) => {
   return dispatch => {
     dispatch(authStart());
 
     axios
       .post("http://127.0.0.1:8000/rest/auth/register/", {
-        nickname: nickname,
+        username: username,
         email: email,
         password1: password1,
         password2: password2

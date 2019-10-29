@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Icon, Input, Button, Checkbox, Spin } from "antd";
 
 import { Link } from "react-router-dom";
@@ -9,16 +9,20 @@ import { useHistory } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-const Login = ({ onAuth, form, loading, error }) => {
+const Login = ({ isAuth, onAuth, form, loading, error }) => {
+  useEffect(() => {
+    if (isAuth) {
+      push("/feed");
+    }
+  });
+
   const { push } = useHistory();
 
   const handleSubmit = e => {
     e.preventDefault();
-    form.validateFields((err, { email, password }) => {
+    form.validateFields((err, { username, password }) => {
       if (!err) {
-        onAuth(email, password);
-
-        push("/");
+        onAuth(username, password);
       }
     });
   };
@@ -37,14 +41,14 @@ const Login = ({ onAuth, form, loading, error }) => {
       ) : (
         <Form onSubmit={handleSubmit} className='login-form'>
           <Form.Item>
-            {getFieldDecorator("email", {
+            {getFieldDecorator("username", {
               rules: [{ required: true, message: "Пожалуйста введите почту!" }]
             })(
               <Input
                 prefix={
-                  <Icon type='mail' style={{ color: "rgba(0,0,0,.25)" }} />
+                  <Icon type='user' style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder='Почта'
+                placeholder='Никнейм'
               />
             )}
           </Form.Item>
@@ -94,12 +98,16 @@ Login.propTypes = {
 };
 
 const mapStateToProps = state => {
-  return { loading: state.loading, error: state.error };
+  return {
+    isAuth: state.token !== null,
+    loading: state.loading,
+    error: state.error
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password) => dispatch(authLogin(email, password))
+    onAuth: (username, password) => dispatch(authLogin(username, password))
   };
 };
 

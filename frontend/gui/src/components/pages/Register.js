@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Icon, Spin } from "antd";
 
 import { connect } from "react-redux";
@@ -8,9 +8,15 @@ import { useHistory, Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-const Register = ({ form, onRegister, loading, error }) => {
+const Register = ({ isAuth, form, onRegister, loading, error }) => {
   const { push } = useHistory();
   const [confirmDirty, setConfirmDirty] = useState(false);
+
+  useEffect(() => {
+    if (isAuth) {
+      push("/feed");
+    }
+  });
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -22,8 +28,6 @@ const Register = ({ form, onRegister, loading, error }) => {
           values.password,
           values.confirm
         );
-
-        push("/login");
       }
     });
   };
@@ -161,13 +165,18 @@ const WrappedRegistrationForm = Form.create({ name: "register" })(Register);
 
 Register.propTypes = {
   form: PropTypes.object.isRequired,
+  isAuth: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   onRegister: PropTypes.func.isRequired,
   error: PropTypes.object
 };
 
 const mapStateToProps = state => {
-  return { loading: state.loading, error: state.error };
+  return {
+    isAuth: state.token !== null,
+    loading: state.loading,
+    error: state.error
+  };
 };
 
 const mapDispatchToProps = dispatch => {
