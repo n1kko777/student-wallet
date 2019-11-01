@@ -148,6 +148,10 @@ REST_FRAMEWORK = {
     )
 }
 
+REST_AUTH_SERIALIZERS = {
+    'TOKEN_SERIALIZER': 'api.serializers.TokenSerializer',
+}
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Auth

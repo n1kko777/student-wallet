@@ -8,7 +8,7 @@ import { logout } from "../../store/actions/auth";
 
 import PropTypes from "prop-types";
 
-const MainMenu = ({ isAuth, onLogout, loading, error }) => {
+const MainMenu = ({ isAuth, onLogout }) => {
   const { pathname } = useLocation();
 
   const authUser = (
@@ -78,15 +78,12 @@ const MainMenu = ({ isAuth, onLogout, loading, error }) => {
 
 MainMenu.propTypes = {
   isAuth: PropTypes.bool.isRequired,
-  onLogout: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.object
+  onLogout: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.token !== null,
-    loading: state.loading
+    isAuth: typeof state.user["token"] !== "undefined"
   };
 };
 

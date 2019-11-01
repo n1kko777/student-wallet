@@ -27,7 +27,9 @@ const OperationTitle = ({ credit }) => {
     credit = output.slice(0, len + 4);
   };
 
-  splitToDigits(credit.replace(/\s/g, ""));
+  if (credit !== 0) {
+    splitToDigits(credit.replace(/\s/g, ""));
+  }
 
   return <>{credit} &#8381;</>;
 };

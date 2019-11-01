@@ -18,8 +18,9 @@ const OperationsList = ({
   loading,
   setLoading,
   operations,
-  token
+  user
 }) => {
+  const { token } = user;
   const [isModalUpdate, setModalUpdate] = useState(false);
   const [isModalCopy, setModalCopy] = useState(false);
   const [operation, setoperation] = useState({});
@@ -145,7 +146,7 @@ const OperationsList = ({
 };
 
 OperationsList.propTypes = {
-  token: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   setLoading: PropTypes.func.isRequired,
   operations: PropTypes.array.isRequired,
@@ -153,7 +154,7 @@ OperationsList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  token: state.token
+  user: state.user
 });
 
 export default connect(mapStateToProps)(OperationsList);

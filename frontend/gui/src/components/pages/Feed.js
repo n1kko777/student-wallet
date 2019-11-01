@@ -174,6 +174,7 @@ const Feed = ({
 
 Feed.protoType = {
   token: PropTypes.string.isRequired,
+  user_amount: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   setLoading: PropTypes.func.isRequired,
   operations: PropTypes.array.isRequired,
@@ -184,7 +185,7 @@ Feed.protoType = {
 };
 
 const mapStateToProps = state => ({
-  token: state.token
+  token: state.user.token
 });
 
 export default connect(mapStateToProps)(Feed);

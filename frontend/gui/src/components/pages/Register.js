@@ -8,13 +8,13 @@ import { useHistory, Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-const Register = ({ isAuth, form, onRegister, loading, error }) => {
+const Register = ({ isRegister, form, onRegister, loading, error }) => {
   const { push } = useHistory();
   const [confirmDirty, setConfirmDirty] = useState(false);
 
   useEffect(() => {
-    if (isAuth) {
-      push("/feed");
+    if (isRegister) {
+      push("/login");
     }
   });
 
@@ -70,7 +70,7 @@ const Register = ({ isAuth, form, onRegister, loading, error }) => {
               rules: [
                 {
                   required: true,
-                  message: "Пожалуйста введите Ваш никнейм!",
+                  message: "Пожалуйста введите Ваш логин!",
                   whitespace: true
                 }
               ]
@@ -79,7 +79,7 @@ const Register = ({ isAuth, form, onRegister, loading, error }) => {
                 prefix={
                   <Icon type='user' style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder='Ваш никнейм'
+                placeholder='Ваш логин'
               />
             )}
           </Form.Item>
@@ -165,7 +165,7 @@ const WrappedRegistrationForm = Form.create({ name: "register" })(Register);
 
 Register.propTypes = {
   form: PropTypes.object.isRequired,
-  isAuth: PropTypes.bool.isRequired,
+  isRegister: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   onRegister: PropTypes.func.isRequired,
   error: PropTypes.object
@@ -173,7 +173,7 @@ Register.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.token !== null,
+    isRegister: state.isRegister,
     loading: state.loading,
     error: state.error
   };

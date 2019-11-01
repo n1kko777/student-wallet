@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import OperationTitle from "../operations/OperationTitle";
 import MainMenu from "./MainMenu";
 
-const CustomToolbar = ({ isAuth }) => {
+const CustomToolbar = ({ isAuth, user }) => {
   const { Header } = Layout;
   const { Title } = Typography;
 
@@ -24,7 +24,13 @@ const CustomToolbar = ({ isAuth }) => {
           <Col xs={6} sm={4} md={3} lg={2}>
             {pathname === "/feed" ? (
               <div className='amount'>
-                <OperationTitle credit='1 000 000' />
+                <OperationTitle
+                  credit={
+                    isAuth && user.user_amount !== undefined
+                      ? user.user_amount.toString()
+                      : "0"
+                  }
+                />
               </div>
             ) : (
               <Link to={isAuth ? "/feed" : "/"}>
@@ -46,12 +52,14 @@ const CustomToolbar = ({ isAuth }) => {
 };
 
 CustomToolbar.propTypes = {
-  isAuth: PropTypes.bool.isRequired
+  isAuth: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.token !== null
+    isAuth: typeof state.user["token"] !== "undefined",
+    user: state.user
   };
 };
 

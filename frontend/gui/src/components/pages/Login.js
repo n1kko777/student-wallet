@@ -3,13 +3,21 @@ import { Form, Icon, Input, Button, Checkbox, Spin } from "antd";
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { authLogin } from "../../store/actions/auth";
+import { authLogin, remindMe } from "../../store/actions/auth";
 
 import { useHistory } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-const Login = ({ isAuth, onAuth, form, loading, error }) => {
+const Login = ({
+  isAuth,
+  isRemindMe,
+  remindMe,
+  onAuth,
+  form,
+  loading,
+  error
+}) => {
   useEffect(() => {
     if (isAuth) {
       push("/feed");
@@ -22,9 +30,13 @@ const Login = ({ isAuth, onAuth, form, loading, error }) => {
     e.preventDefault();
     form.validateFields((err, { username, password }) => {
       if (!err) {
-        onAuth(username, password);
+        onAuth(username, password, isRemindMe);
       }
     });
+  };
+
+  const onChange = e => {
+    remindMe(e.target.checked);
   };
 
   const { getFieldDecorator } = form;
@@ -48,7 +60,7 @@ const Login = ({ isAuth, onAuth, form, loading, error }) => {
                 prefix={
                   <Icon type='user' style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder='Никнейм'
+                placeholder='логин'
               />
             )}
           </Form.Item>
@@ -66,10 +78,11 @@ const Login = ({ isAuth, onAuth, form, loading, error }) => {
             )}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator("remember", {
-              valuePropName: "checked",
-              initialValue: true
-            })(<Checkbox>Запомнить меня</Checkbox>)}
+            {getFieldDecorator("remember")(
+              <Checkbox checked={isRemindMe} onChange={onChange}>
+                Запомнить меня
+              </Checkbox>
+            )}
             <Link className='login-form-forgot' to='/reset'>
               Восстановить пароль
             </Link>
@@ -92,22 +105,27 @@ const WrappedNormalLoginForm = Form.create({ name: "normal_login" })(Login);
 
 Login.propTypes = {
   form: PropTypes.object.isRequired,
+  isRemindMe: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   onAuth: PropTypes.func.isRequired,
+  remindMe: PropTypes.func.isRequired,
   error: PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.token !== null,
+    isAuth: typeof state.user["token"] !== "undefined",
     loading: state.loading,
-    error: state.error
+    error: state.error,
+    isRemindMe: state.isRemindMe
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (username, password) => dispatch(authLogin(username, password))
+    onAuth: (username, password, isRemindMe) =>
+      dispatch(authLogin(username, password, isRemindMe)),
+    remindMe: state => dispatch(remindMe(state))
   };
 };
 

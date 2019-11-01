@@ -105,7 +105,7 @@ App.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.token !== null
+    isAuth: typeof state.user["token"] !== "undefined"
   };
 };
 
