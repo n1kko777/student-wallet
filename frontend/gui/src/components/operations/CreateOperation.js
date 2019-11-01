@@ -2,10 +2,20 @@ import React, { useState } from "react";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import PropTypes from "prop-types";
 
+import { connect } from "react-redux";
+import { addOperation } from "../../store/actions/operations";
+
 import { Modal, Form, Input, Select, Icon, Divider, DatePicker } from "antd";
 import moment from "moment";
 
-const CreateOperation = ({ visible, onCancel, onSubmit, fetchData, form }) => {
+const CreateOperation = ({
+  addOperation,
+  user,
+  visible,
+  onCancel,
+  onSubmit,
+  form
+}) => {
   const { getFieldDecorator } = form;
   const { Option } = Select;
 
@@ -24,7 +34,7 @@ const CreateOperation = ({ visible, onCancel, onSubmit, fetchData, form }) => {
         return;
       }
 
-      fetchData("post", fieldsValue);
+      addOperation(fieldsValue, user);
       form.resetFields();
       onSubmit();
     });
@@ -117,8 +127,9 @@ CreateOperation.propTypes = {
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  fetchData: PropTypes.func.isRequired,
-  form: PropTypes.object.isRequired
+  addOperation: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const WrappedCreateOperation = Form.create({
@@ -131,4 +142,14 @@ const WrappedCreateOperation = Form.create({
   }
 })(CreateOperation);
 
-export default WrappedCreateOperation;
+const mapStateToProps = ({ auth }) => ({
+  user: auth.user
+});
+const mapDispatchToProps = dispatch => ({
+  addOperation: (operation, user) => dispatch(addOperation(operation, user))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WrappedCreateOperation);

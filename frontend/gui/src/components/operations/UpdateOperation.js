@@ -5,12 +5,16 @@ import PropTypes from "prop-types";
 import { Modal, Form, Input, Select, Icon, Divider, DatePicker } from "antd";
 import moment from "moment";
 
+import { connect } from "react-redux";
+import { updateOperation } from "../../store/actions/operations";
+
 const UpdateOperation = ({
-  id,
+  current,
+  user,
+  updateOperation,
   visible,
   onCancel,
   onSubmit,
-  fetchData,
   form
 }) => {
   const { getFieldDecorator } = form;
@@ -26,15 +30,15 @@ const UpdateOperation = ({
   ]);
   const walletList = ["Наличные", "Сбербанк", "Кредитка"];
 
-  const onCreate = current => {
+  const onCreate = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
       }
 
-      fieldsValue.id = current;
+      fieldsValue.id = current.id;
 
-      fetchData("put", fieldsValue);
+      updateOperation(fieldsValue, user);
       form.resetFields();
       onSubmit();
     });
@@ -55,7 +59,7 @@ const UpdateOperation = ({
       okText='Обновить'
       cancelText='Отменить'
       onCancel={onCancel}
-      onOk={() => onCreate(id)}
+      onOk={onCreate}
     >
       <Form layout='vertical'>
         <Form.Item label='Сумма' hasFeedback>
@@ -124,31 +128,46 @@ const UpdateOperation = ({
 };
 
 UpdateOperation.propTypes = {
-  id: PropTypes.number.isRequired,
+  current: PropTypes.object,
+  user: PropTypes.object.isRequired,
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  fetchData: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired
 };
 
 const WrappedUpdateOperation = Form.create({
   mapPropsToFields(props) {
-    return {
-      credit: Form.createFormField({
-        value: props.operation.credit
-      }),
-      category: Form.createFormField({
-        value: props.operation.category
-      }),
-      wallet: Form.createFormField({
-        value: props.operation.wallet
-      }),
-      created_at: Form.createFormField({
-        value: moment(props.operation.created_at)
-      })
-    };
+    if (props.current !== null) {
+      return {
+        credit: Form.createFormField({
+          value: props.current.credit
+        }),
+        category: Form.createFormField({
+          value: props.current.category
+        }),
+        wallet: Form.createFormField({
+          value: props.current.wallet
+        }),
+        created_at: Form.createFormField({
+          value: moment(props.current.created_at)
+        })
+      };
+    }
   }
 })(UpdateOperation);
 
-export default WrappedUpdateOperation;
+const mapDispatchToProps = dispatch => ({
+  updateOperation: (operation, user) =>
+    dispatch(updateOperation(operation, user))
+});
+
+const mapStateToProps = ({ auth, operations }) => ({
+  user: auth.user,
+  current: operations.current
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WrappedUpdateOperation);

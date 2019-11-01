@@ -9,12 +9,8 @@ import OperationTitle from "./OperationTitle";
 import PropTypes from "prop-types";
 
 const OperationItem = ({
-  id,
-  credit,
-  category,
-  wallet,
-  created_at,
-  removeFromAmount,
+  operation,
+  operation: { credit, category, wallet, created_at, removeFromAmount },
   showEditModal,
   showCopyModal,
   onDelete,
@@ -30,9 +26,21 @@ const OperationItem = ({
         bordered={false}
         actions={
           !loading && [
-            <Icon type='copy' key='copy' onClick={() => showCopyModal(id)} />,
-            <Icon type='edit' key='edit' onClick={() => showEditModal(id)} />,
-            <Icon type='delete' key='delete' onClick={() => onDelete(id)} />
+            <Icon
+              type='copy'
+              key='copy'
+              onClick={() => showCopyModal(operation)}
+            />,
+            <Icon
+              type='edit'
+              key='edit'
+              onClick={() => showEditModal(operation)}
+            />,
+            <Icon
+              type='delete'
+              key='delete'
+              onClick={() => onDelete(operation)}
+            />
           ]
         }
       >
@@ -72,12 +80,7 @@ const OperationItem = ({
 };
 
 OperationItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  credit: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  wallet: PropTypes.string.isRequired,
-  created_at: PropTypes.string.isRequired,
-  removeFromAmount: PropTypes.bool.isRequired,
+  operation: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   showEditModal: PropTypes.func.isRequired,
   showCopyModal: PropTypes.func.isRequired,

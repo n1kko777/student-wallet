@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row } from "react-flexbox-grid";
 import PropTypes from "prop-types";
 
 import { Card, Skeleton } from "antd";
 import { Col } from "react-flexbox-grid";
 
-import axios from "axios";
 import { connect } from "react-redux";
+import {
+  getOperations,
+  deleteOperation,
+  setCurrent,
+  clearCurrent
+} from "../../store/actions/operations";
 
 import UpdateOperation from "../operations/UpdateOperation";
 import CopyOperation from "../operations/CopyOperation";
@@ -14,57 +19,46 @@ import CopyOperation from "../operations/CopyOperation";
 import OperationItem from "./OperationItem";
 
 const OperationsList = ({
-  fetchData,
+  user,
+  current,
+  setCurrent,
+  clearCurrent,
+  getOperations,
+  deleteOperation,
   loading,
-  setLoading,
-  operations,
-  user
+  operations
 }) => {
-  const { token } = user;
+  useEffect(() => {
+    getOperations(user.token);
+  }, []);
+
   const [isModalUpdate, setModalUpdate] = useState(false);
   const [isModalCopy, setModalCopy] = useState(false);
-  const [operation, setoperation] = useState({});
-
-  const [id, setId] = useState(0);
 
   const handleCancel = seModalElem => {
+    clearCurrent();
     seModalElem(false);
   };
 
   const handleSubmit = seModalElem => {
+    clearCurrent();
     seModalElem(false);
   };
 
-  const showEditModal = id => {
-    setId(id);
-    axios
-      .get(`http://127.0.0.1:8000/api/v1/operations/${id}/`, {
-        headers: {
-          Authorization: "Token " + token
-        }
-      })
-      .then(res => {
-        setoperation(res.data);
-      });
+  const showEditModal = operation => {
+    // filter operation
+    setCurrent(operation);
     setModalUpdate(true);
   };
 
-  const showCopyModal = id => {
-    setId(id);
-    axios
-      .get(`http://127.0.0.1:8000/api/v1/operations/${id}/`, {
-        headers: {
-          Authorization: "Token " + token
-        }
-      })
-      .then(res => {
-        setoperation(res.data);
-      });
+  const showCopyModal = operation => {
+    // filter operation
+    setCurrent(operation);
     setModalCopy(true);
   };
 
-  const onDelete = id => {
-    fetchData("delete", id);
+  const onDelete = operation => {
+    deleteOperation(operation.id);
   };
 
   const { Meta } = Card;
@@ -79,7 +73,7 @@ const OperationsList = ({
     </Col>
   );
 
-  if (loading) {
+  if (loading || operations === null) {
     return (
       <Row start='xs'>
         {cardPreview}
@@ -93,8 +87,6 @@ const OperationsList = ({
   return (
     <>
       <UpdateOperation
-        id={id}
-        operation={operation}
         visible={isModalUpdate}
         onSubmit={() => {
           handleSubmit(setModalUpdate);
@@ -102,12 +94,8 @@ const OperationsList = ({
         onCancel={() => {
           handleCancel(setModalUpdate);
         }}
-        fetchData={fetchData}
-        setLoading={setLoading}
       />
       <CopyOperation
-        id={id}
-        operation={operation}
         visible={isModalCopy}
         onSubmit={() => {
           handleSubmit(setModalCopy);
@@ -115,23 +103,14 @@ const OperationsList = ({
         onCancel={() => {
           handleCancel(setModalCopy);
         }}
-        fetchData={fetchData}
-        setLoading={setLoading}
       />
       <Row middle='xs'>
         {operations.length > 0 ? (
           operations.map(elem => (
             <OperationItem
-              key={elem.id}
-              id={elem.id}
-              credit={elem.credit}
-              category={elem.category}
-              wallet={elem.wallet}
-              removeFromAmount={elem.removeFromAmount}
-              created_at={elem.created_at}
               loading={loading}
-              fetchData={fetchData}
-              setLoading={setLoading}
+              key={elem.id}
+              operation={elem}
               showEditModal={showEditModal}
               showCopyModal={showCopyModal}
               onDelete={onDelete}
@@ -148,13 +127,28 @@ const OperationsList = ({
 OperationsList.propTypes = {
   user: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
-  setLoading: PropTypes.func.isRequired,
-  operations: PropTypes.array.isRequired,
-  fetchData: PropTypes.func.isRequired
+  operations: PropTypes.array,
+  setCurrent: PropTypes.func.isRequired,
+  getOperations: PropTypes.func.isRequired,
+  deleteOperation: PropTypes.func.isRequired,
+  clearCurrent: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({ auth }) => ({
-  user: auth.user
+const mapStateToProps = ({ auth, operations }) => ({
+  user: auth.user,
+  loading: operations.loading,
+  operations: operations.operations,
+  current: operations.current
 });
 
-export default connect(mapStateToProps)(OperationsList);
+const mapDispatchToProps = dispatch => ({
+  deleteOperation: id => dispatch(deleteOperation(id)),
+  setCurrent: operation => dispatch(setCurrent(operation)),
+  clearCurrent: () => dispatch(clearCurrent()),
+  getOperations: token => dispatch(getOperations(token))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OperationsList);

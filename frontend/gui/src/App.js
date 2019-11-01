@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "antd/dist/antd.css";
 import "./App.css";
 
@@ -32,9 +32,6 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
 
   const { Content } = Layout;
 
-  const [loading, setLoading] = useState(false);
-  const [operations, setOperations] = useState([]);
-
   return (
     <Router>
       <Layout className='layout'>
@@ -62,17 +59,7 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
                 exact
                 path='/feed'
                 render={props =>
-                  isAuth ? (
-                    <Feed
-                      operations={operations}
-                      setOperations={setOperations}
-                      loading={loading}
-                      setLoading={setLoading}
-                      {...props}
-                    />
-                  ) : (
-                    <Redirect to='/login' />
-                  )
+                  isAuth ? <Feed {...props} /> : <Redirect to='/login' />
                 }
               />
               <Route exact path='/settings' />

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Button, Icon } from "antd";
-import PropTypes from "prop-types";
 
 import CreateOperation from "../operations/CreateOperation";
 
-const AddOperationButton = ({ fetchData }) => {
+const AddOperationButton = () => {
   const [isModalCreate, setModalCreate] = useState(false);
 
   const showModal = () => {
@@ -40,14 +39,9 @@ const AddOperationButton = ({ fetchData }) => {
         visible={isModalCreate}
         onSubmit={handleSubmit}
         onCancel={handleCancel}
-        fetchData={fetchData}
       />
     </>
   );
-};
-
-AddOperationButton.propTypes = {
-  fetchData: PropTypes.func.isRequired
 };
 
 export default AddOperationButton;

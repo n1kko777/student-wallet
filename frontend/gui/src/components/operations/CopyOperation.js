@@ -5,12 +5,15 @@ import PropTypes from "prop-types";
 import { Modal, Form, Input, Select, Icon, Divider, DatePicker } from "antd";
 import moment from "moment";
 
+import { connect } from "react-redux";
+import { addOperation } from "../../store/actions/operations";
+
 const CopyOperation = ({
-  id,
+  addOperation,
+  user,
   visible,
   onCancel,
   onSubmit,
-  fetchData,
   form
 }) => {
   const { getFieldDecorator } = form;
@@ -32,7 +35,7 @@ const CopyOperation = ({
         return;
       }
 
-      fetchData("post", fieldsValue);
+      addOperation(fieldsValue, user);
       form.resetFields();
       onSubmit();
     });
@@ -122,31 +125,46 @@ const CopyOperation = ({
 };
 
 CopyOperation.propTypes = {
-  id: PropTypes.number.isRequired,
+  current: PropTypes.object,
+  user: PropTypes.object.isRequired,
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  fetchData: PropTypes.func.isRequired,
+  addOperation: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired
 };
 
 const WrappedCopyOperation = Form.create({
   mapPropsToFields(props) {
-    return {
-      credit: Form.createFormField({
-        value: props.operation.credit
-      }),
-      category: Form.createFormField({
-        value: props.operation.category
-      }),
-      wallet: Form.createFormField({
-        value: props.operation.wallet
-      }),
-      created_at: Form.createFormField({
-        value: moment(props.operation.created_at)
-      })
-    };
+    if (props.current !== null) {
+      return {
+        credit: Form.createFormField({
+          value: props.current.credit
+        }),
+        category: Form.createFormField({
+          value: props.current.category
+        }),
+        wallet: Form.createFormField({
+          value: props.current.wallet
+        }),
+        created_at: Form.createFormField({
+          value: moment(props.current.created_at)
+        })
+      };
+    }
   }
 })(CopyOperation);
 
-export default WrappedCopyOperation;
+const mapStateToProps = ({ auth, operations }) => ({
+  user: auth.user,
+  current: operations.current
+});
+
+const mapDispatchToProps = dispatch => ({
+  addOperation: (operation, user) => dispatch(addOperation(operation, user))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WrappedCopyOperation);

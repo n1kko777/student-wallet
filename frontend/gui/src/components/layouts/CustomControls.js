@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import { Row, Col } from "react-flexbox-grid";
 
@@ -8,7 +7,7 @@ import AddAmountButton from "../buttons/AddAmountButton";
 import ChangeWalletButton from "../buttons/ChangeWalletButton";
 import SearchButton from "../buttons/SearchButton";
 
-const CustomControls = ({ fetchData }) => {
+const CustomControls = () => {
   return (
     <div
       style={{
@@ -17,7 +16,7 @@ const CustomControls = ({ fetchData }) => {
     >
       <Row>
         <Col xs={12} sm={6} md={4} lg={3}>
-          <AddOperationButton fetchData={fetchData} />
+          <AddOperationButton />
         </Col>
         <Col xs={12} sm={6} md={4} lg={3}>
           <AddAmountButton />
@@ -31,10 +30,6 @@ const CustomControls = ({ fetchData }) => {
       </Row>
     </div>
   );
-};
-
-CustomControls.propTypes = {
-  fetchData: PropTypes.func.isRequired
 };
 
 export default CustomControls;
