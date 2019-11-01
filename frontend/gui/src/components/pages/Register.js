@@ -171,11 +171,11 @@ Register.propTypes = {
   error: PropTypes.object
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ auth }) => {
   return {
-    isRegister: state.isRegister,
-    loading: state.loading,
-    error: state.error
+    isRegister: auth.isRegister,
+    loading: auth.loading,
+    error: auth.error
   };
 };
 

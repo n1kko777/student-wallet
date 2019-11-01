@@ -103,9 +103,9 @@ App.propTypes = {
   onTryAuthSignUp: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ auth }) => {
   return {
-    isAuth: typeof state.user["token"] !== "undefined"
+    isAuth: typeof auth.user["token"] !== "undefined"
   };
 };
 

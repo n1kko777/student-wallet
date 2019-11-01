@@ -184,8 +184,8 @@ Feed.protoType = {
   setMessageAlert: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  token: state.user.token
+const mapStateToProps = ({ auth }) => ({
+  token: auth.user.token
 });
 
 export default connect(mapStateToProps)(Feed);

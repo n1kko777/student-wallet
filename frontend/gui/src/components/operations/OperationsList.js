@@ -153,8 +153,8 @@ OperationsList.propTypes = {
   fetchData: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
+const mapStateToProps = ({ auth }) => ({
+  user: auth.user
 });
 
 export default connect(mapStateToProps)(OperationsList);

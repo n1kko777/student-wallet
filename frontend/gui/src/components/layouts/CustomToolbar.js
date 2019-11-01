@@ -56,10 +56,10 @@ CustomToolbar.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ auth }) => {
   return {
-    isAuth: typeof state.user["token"] !== "undefined",
-    user: state.user
+    isAuth: typeof auth.user["token"] !== "undefined",
+    user: auth.user
   };
 };
 

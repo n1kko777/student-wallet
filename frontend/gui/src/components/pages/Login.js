@@ -112,12 +112,12 @@ Login.propTypes = {
   error: PropTypes.object
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ auth }) => {
   return {
-    isAuth: typeof state.user["token"] !== "undefined",
-    loading: state.loading,
-    error: state.error,
-    isRemindMe: state.isRemindMe
+    isAuth: typeof auth.user["token"] !== "undefined",
+    loading: auth.loading,
+    error: auth.error,
+    isRemindMe: auth.isRemindMe
   };
 };
 
