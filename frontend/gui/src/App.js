@@ -32,7 +32,6 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
 
   const { Content } = Layout;
 
-  const [loading, setLoading] = useState(true);
   const [operations, setOperations] = useState([]);
 
   const [isAlert, setAlert] = useState(false);
@@ -68,8 +67,6 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
                 render={props =>
                   isAuth ? (
                     <Feed
-                      loading={loading}
-                      setLoading={setLoading}
                       operations={operations}
                       setOperations={setOperations}
                       setAlert={setAlert}
