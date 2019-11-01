@@ -11,7 +11,7 @@ import {
 export const remindMe = state => {
   return {
     type: REMIND_ME,
-    isRemindMe: state
+    payload: state
   };
 };
 
@@ -24,21 +24,21 @@ export const authStart = () => {
 export const authSuccess = user => {
   return {
     type: AUTH_SUCCESS,
-    user: user
+    payload: user
   };
 };
 
 export const registerSuccess = user => {
   return {
     type: REGISTER_SUCCESS,
-    isRegister: user.key !== null
+    payload: user.key !== null
   };
 };
 
 export const authFail = error => {
   return {
     type: AUTH_FAIL,
-    error: error
+    payload: error
   };
 };
 

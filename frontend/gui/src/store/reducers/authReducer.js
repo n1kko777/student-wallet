@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
     case REGISTER_SUCCESS:
       return {
         ...state,
-        isRegister: action.isRegister,
+        isRegister: action.payload,
         loading: false,
         error: null
       };
@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
     case AUTH_SUCCESS:
       return {
         ...state,
-        user: action.user,
+        user: action.payload,
         loading: false,
         error: null
       };
@@ -51,7 +51,7 @@ export default (state = initialState, action) => {
     case REMIND_ME:
       return {
         ...state,
-        isRemindMe: action.isRemindMe
+        isRemindMe: action.payload
       };
 
     default:
