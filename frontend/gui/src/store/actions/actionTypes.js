@@ -1,3 +1,8 @@
+// Alerts
+export const SET_ALERT = "SET_ALERT";
+export const REMOVE_ALERT = "REMOVE_ALERT";
+
+// Auth
 export const REMIND_ME = "REMIND_ME";
 export const AUTH_START = "AUTH_START";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";

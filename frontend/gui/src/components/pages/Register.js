@@ -3,12 +3,20 @@ import { Form, Input, Button, Icon, Spin } from "antd";
 
 import { connect } from "react-redux";
 import { authSignUp } from "../../store/actions/auth";
+import { setAlert } from "../../store/actions/alerts";
 
 import { useHistory, Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-const Register = ({ isRegister, form, onRegister, loading, error }) => {
+const Register = ({
+  setAlert,
+  isRegister,
+  form,
+  onRegister,
+  loading,
+  error
+}) => {
   const { push } = useHistory();
   const [confirmDirty, setConfirmDirty] = useState(false);
 
@@ -17,6 +25,12 @@ const Register = ({ isRegister, form, onRegister, loading, error }) => {
       push("/login");
     }
   });
+
+  useEffect(() => {
+    if (error !== null) {
+      setAlert(error.message, "error", 10000);
+    }
+  }, [error]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -60,7 +74,6 @@ const Register = ({ isRegister, form, onRegister, loading, error }) => {
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      {error !== null ? <p>{error.message}</p> : <></>}
       {loading ? (
         <Spin indicator={antIcon} />
       ) : (
@@ -153,7 +166,7 @@ const Register = ({ isRegister, form, onRegister, loading, error }) => {
             >
               Зарегистрироваться
             </Button>
-            Или <Link to='/'>Войти!</Link>
+            Или <Link to='/login'>Войти!</Link>
           </Form.Item>
         </Form>
       )}
@@ -168,6 +181,7 @@ Register.propTypes = {
   isRegister: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   onRegister: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
   error: PropTypes.object
 };
 
@@ -182,7 +196,8 @@ const mapStateToProps = ({ auth }) => {
 const mapDispatchToProps = dispatch => {
   return {
     onRegister: (nickname, email, password1, password2) =>
-      dispatch(authSignUp(nickname, email, password1, password2))
+      dispatch(authSignUp(nickname, email, password1, password2)),
+    setAlert: (msg, type, time) => dispatch(setAlert(msg, type, time))
   };
 };
 

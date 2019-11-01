@@ -4,12 +4,14 @@ import { Form, Icon, Input, Button, Checkbox, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { authLogin, remindMe } from "../../store/actions/auth";
+import { setAlert } from "../../store/actions/alerts";
 
 import { useHistory } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
 const Login = ({
+  setAlert,
   isAuth,
   isRemindMe,
   remindMe,
@@ -23,6 +25,12 @@ const Login = ({
       push("/feed");
     }
   });
+
+  useEffect(() => {
+    if (error !== null) {
+      setAlert(error.message, "error", 10000);
+    }
+  }, [error]);
 
   const { push } = useHistory();
 
@@ -47,7 +55,6 @@ const Login = ({
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      {error !== null ? <p>{error.message}</p> : <></>}
       {loading ? (
         <Spin indicator={antIcon} />
       ) : (
@@ -109,6 +116,7 @@ Login.propTypes = {
   loading: PropTypes.bool.isRequired,
   onAuth: PropTypes.func.isRequired,
   remindMe: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
   error: PropTypes.object
 };
 
@@ -125,7 +133,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onAuth: (username, password, isRemindMe) =>
       dispatch(authLogin(username, password, isRemindMe)),
-    remindMe: state => dispatch(remindMe(state))
+    remindMe: state => dispatch(remindMe(state)),
+    setAlert: (msg, type, time) => dispatch(setAlert(msg, type, time))
   };
 };
 

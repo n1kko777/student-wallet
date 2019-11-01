@@ -32,11 +32,8 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
 
   const { Content } = Layout;
 
+  const [loading, setLoading] = useState(false);
   const [operations, setOperations] = useState([]);
-
-  const [isAlert, setAlert] = useState(false);
-  const [typeAlert, setTypeAlert] = useState("");
-  const [messageAlert, setMessageAlert] = useState("");
 
   return (
     <Router>
@@ -69,9 +66,8 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
                     <Feed
                       operations={operations}
                       setOperations={setOperations}
-                      setAlert={setAlert}
-                      setTypeAlert={setTypeAlert}
-                      setMessageAlert={setMessageAlert}
+                      loading={loading}
+                      setLoading={setLoading}
                       {...props}
                     />
                   ) : (
@@ -85,11 +81,7 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
             </Switch>
           </Grid>
         </Content>
-        <CustomFooter
-          isAlert={isAlert}
-          typeAlert={typeAlert}
-          messageAlert={messageAlert}
-        />
+        <CustomFooter />
       </Layout>
     </Router>
   );

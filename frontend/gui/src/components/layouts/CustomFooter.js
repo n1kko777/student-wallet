@@ -3,13 +3,12 @@ import { useLocation } from "react-router-dom";
 
 import { Grid, Row, Col } from "react-flexbox-grid";
 import { Layout, Icon, Typography } from "antd";
-import PropTypes from "prop-types";
 
 import OperationTitle from "../operations/OperationTitle";
 import CustomDatePicker from "../layouts/CustomDatePicker";
 import CustomAlert from "./CustomAlert";
 
-const CustomFooter = ({ isAlert, typeAlert, messageAlert }) => {
+const CustomFooter = () => {
   const { Footer } = Layout;
   const { Text } = Typography;
 
@@ -17,9 +16,7 @@ const CustomFooter = ({ isAlert, typeAlert, messageAlert }) => {
 
   return (
     <Footer className='footer'>
-      {isAlert && (
-        <CustomAlert messageAlert={messageAlert} typeAlert={typeAlert} />
-      )}
+      <CustomAlert />
       <Grid>
         {pathname === "/feed" ? (
           <Row between='xs'>
@@ -45,12 +42,6 @@ const CustomFooter = ({ isAlert, typeAlert, messageAlert }) => {
       </Grid>
     </Footer>
   );
-};
-
-CustomFooter.propTypes = {
-  isAlert: PropTypes.bool.isRequired,
-  typeAlert: PropTypes.string.isRequired,
-  messageAlert: PropTypes.string.isRequired
 };
 
 export default CustomFooter;

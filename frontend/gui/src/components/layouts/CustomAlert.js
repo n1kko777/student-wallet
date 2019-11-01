@@ -1,28 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
 import { Alert } from "antd";
 
-const CustomAlert = ({ typeAlert, messageAlert }) => {
+const CustomAlert = ({ alert: { alert } }) => {
   return (
-    <Alert
-      message={messageAlert}
-      type={typeAlert}
-      style={{
-        position: "absolute",
-        left: "0",
-        bottom: "58px",
-        width: "100%"
-      }}
-      showIcon
-      closable
-      banner
-    />
+    alert && (
+      <Alert
+        message={alert.msg}
+        type={alert.type}
+        style={{
+          position: "absolute",
+          left: "0",
+          bottom: "58px",
+          width: "100%"
+        }}
+        showIcon
+        banner
+      />
+    )
   );
 };
 
-CustomAlert.protoType = {
-  typeAlert: PropTypes.string.isRequired,
-  messageAlert: PropTypes.string.isRequired
+CustomAlert.propTypes = {
+  alert: PropTypes.object.isRequired
 };
 
-export default CustomAlert;
+const mapStateToProps = ({ alert }) => ({
+  alert: alert
+});
+
+export default connect(mapStateToProps)(CustomAlert);

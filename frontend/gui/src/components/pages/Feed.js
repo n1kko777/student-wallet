@@ -4,18 +4,17 @@ import OperationList from "../operations/OperationsList";
 
 import axios from "axios";
 import { connect } from "react-redux";
+import { setAlert } from "../../store/actions/alerts";
 
 import PropTypes from "prop-types";
 
 const Feed = ({
   token,
+  setAlert,
   loading,
   setLoading,
   operations,
-  setOperations,
-  setAlert,
-  setTypeAlert,
-  setMessageAlert
+  setOperations
 }) => {
   useEffect(() => {
     setLoading(true);
@@ -56,19 +55,16 @@ const Feed = ({
           })
           .then(res => {
             setLoading(false);
-            setAlert(true);
-            setTypeAlert("success");
-            setMessageAlert("Запись удалена.");
-
+            setAlert("Запись удалена.", "success");
             fetchData();
           })
           .catch(err => {
             setLoading(false);
-            setAlert(true);
-            setTypeAlert("error");
-            setMessageAlert(
-              `Произошла ошибка ${err.message}! Повторите попытку позже.`
+            setAlert(
+              `Произошла ошибка ${err.message}! Повторите попытку позже.`,
+              "error"
             );
+
             console.error("Ошибка:", err.message);
           });
         break;
@@ -90,19 +86,17 @@ const Feed = ({
           )
           .then(res => {
             setLoading(false);
-            setAlert(true);
-            setTypeAlert("success");
-            setMessageAlert("Запись создана.");
+            setAlert("Запись создана.", "success");
 
             fetchData();
           })
           .catch(err => {
             setLoading(false);
-            setAlert(true);
-            setTypeAlert("error", 5000);
-            setMessageAlert(
-              `Произошла ошибка ${err.message}! Повторите попытку позже.`
+            setAlert(
+              `Произошла ошибка ${err.message}! Повторите попытку позже.`,
+              "error"
             );
+
             console.error("Ошибка:", err.message);
           });
         break;
@@ -124,18 +118,15 @@ const Feed = ({
           )
           .then(res => {
             setLoading(false);
-            setAlert(true);
-            setTypeAlert("success");
-            setMessageAlert("Запись обновлена.");
+            setAlert("Запись обновлена.", "success");
 
             fetchData();
           })
           .catch(err => {
             setLoading(false);
-            setAlert(true);
-            setTypeAlert("error");
-            setMessageAlert(
-              `Произошла ошибка ${err.message}! Повторите попытку позже.`
+            setAlert(
+              `Произошла ошибка ${err.message}! Повторите попытку позже.`,
+              "error"
             );
             console.error("Ошибка:", err.message);
           });
@@ -143,25 +134,16 @@ const Feed = ({
 
       default:
         setLoading(false);
-        setAlert(true);
-        setTypeAlert("error");
-        setMessageAlert("Опреация не найдена!");
+        setAlert("Опреация не найдена!", "error");
         console.error("Ошибка:", "Опреация не найдена!");
         break;
     }
-
-    setTimeout(() => {
-      setAlert(false);
-    }, 3000);
   };
 
   return (
     <>
       <CustomControls fetchData={fetchData} />
       <OperationList
-        setAlert={setAlert}
-        setTypeAlert={setTypeAlert}
-        setMessageAlert={setMessageAlert}
         fetchData={fetchData}
         loading={loading}
         setLoading={setLoading}
@@ -184,8 +166,15 @@ Feed.protoType = {
   setMessageAlert: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({ auth, alert }) => ({
   token: auth.user.token
 });
 
-export default connect(mapStateToProps)(Feed);
+const mapDispatchToProps = dispatch => ({
+  setAlert: (msg, type, time) => dispatch(setAlert(msg, type, time))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Feed);
