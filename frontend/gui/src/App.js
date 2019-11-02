@@ -28,7 +28,10 @@ import CustomFooter from "./components/layouts/CustomFooter";
 import PropTypes from "prop-types";
 
 const App = ({ isAuth, onTryAuthSignUp }) => {
-  useEffect(() => onTryAuthSignUp(), []);
+  useEffect(() => {
+    onTryAuthSignUp();
+    // eslint-disable-next-line
+  }, []);
 
   const { Content } = Layout;
 

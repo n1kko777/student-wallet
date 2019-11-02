@@ -30,7 +30,8 @@ const Register = ({
     if (error !== null) {
       setAlert(error.message, "error", 10000);
     }
-  }, [error]);
+    // eslint-disable-next-line
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();

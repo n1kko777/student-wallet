@@ -31,7 +31,7 @@ export const getOperations = token => dispatch => {
     .then(res => {
       dispatch({
         type: GET_OPERATIONS,
-        payload: res.data.reverse()
+        payload: res.data
       });
     })
     .catch(error => {

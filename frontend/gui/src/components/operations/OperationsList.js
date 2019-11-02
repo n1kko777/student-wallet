@@ -20,7 +20,6 @@ import OperationItem from "./OperationItem";
 
 const OperationsList = ({
   user,
-  current,
   setCurrent,
   clearCurrent,
   getOperations,
@@ -30,6 +29,7 @@ const OperationsList = ({
 }) => {
   useEffect(() => {
     getOperations(user.token);
+    // eslint-disable-next-line
   }, []);
 
   const [isModalUpdate, setModalUpdate] = useState(false);
@@ -137,8 +137,7 @@ OperationsList.propTypes = {
 const mapStateToProps = ({ auth, operations }) => ({
   user: auth.user,
   loading: operations.loading,
-  operations: operations.operations,
-  current: operations.current
+  operations: operations.operations
 });
 
 const mapDispatchToProps = dispatch => ({
