@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'api',
     'operations',
     'users',
+    'wallet',
+    'category'
 ]
 
 MIDDLEWARE = [
