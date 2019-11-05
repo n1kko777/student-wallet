@@ -5,12 +5,6 @@ from users.models import CustomUser
 from app.models import Wallet, Operation, Category
 
 
-class OperationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Operation
-        fields = ('id', 'credit', 'wallet', 'category', 'created_at')
-
-
 class WalletSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wallet
@@ -24,7 +18,19 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'category_name', 'category_color', 'created_at')
 
 
+class OperationSerializer(serializers.ModelSerializer):
+    wallet = WalletSerializer()
+    category = CategorySerializer()
+
+    class Meta:
+        model = Operation
+        fields = ('id', 'credit', 'wallet', 'category', 'created_at')
+
+
 class UserSerializer(serializers.ModelSerializer):
+    wallets = WalletSerializer()
+    categories = CategorySerializer()
+
     class Meta:
         model = CustomUser
         fields = ('id', 'username', 'wallets',

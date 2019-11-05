@@ -1,11 +1,11 @@
 import {
   GET_OPERATIONS,
-  SET_LOADING,
+  OPERATION_LOADING,
   OPERATIONS_ERROR,
   ADD_OPERATION,
   DELETE_OPERATION,
-  SET_CURRENT,
-  CLEAR_CURRENT,
+  OPERATION_CURRENT,
+  OPERATION_CLEAR_CURRENT,
   UPDATE_OPERATION,
   SEARCH_OPERATIONS
 } from "./actionTypes";
@@ -37,10 +37,15 @@ export const getOperations = token => dispatch => {
     })
     .catch(error => {
       dispatch(
-        setAlert(
-          `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-          "error"
-        )
+        error.response !== undefined
+          ? setAlert(
+              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+              "error"
+            )
+          : setAlert(
+              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+              "error"
+            )
       );
 
       dispatch(logout());
@@ -78,10 +83,15 @@ export const addOperation = (operation, user) => dispatch => {
     })
     .catch(error => {
       dispatch(
-        setAlert(
-          `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-          "error"
-        )
+        error.response !== undefined
+          ? setAlert(
+              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+              "error"
+            )
+          : setAlert(
+              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+              "error"
+            )
       );
       dispatch({
         type: OPERATIONS_ERROR,
@@ -108,10 +118,15 @@ export const deleteOperation = id => dispatch => {
     })
     .catch(error => {
       dispatch(
-        setAlert(
-          `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-          "error"
-        )
+        error.response !== undefined
+          ? setAlert(
+              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+              "error"
+            )
+          : setAlert(
+              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+              "error"
+            )
       );
       dispatch({
         type: OPERATIONS_ERROR,
@@ -147,10 +162,15 @@ export const updateOperation = (operation, user) => dispatch => {
     })
     .catch(error => {
       dispatch(
-        setAlert(
-          `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-          "error"
-        )
+        error.response !== undefined
+          ? setAlert(
+              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+              "error"
+            )
+          : setAlert(
+              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+              "error"
+            )
       );
       dispatch({
         type: OPERATIONS_ERROR,
@@ -188,7 +208,7 @@ export const searchOperations = text => dispatch => {
 // Set current operation
 export const setCurrent = operation => {
   return {
-    type: SET_CURRENT,
+    type: OPERATION_CURRENT,
     payload: operation
   };
 };
@@ -196,13 +216,13 @@ export const setCurrent = operation => {
 // Clear current operation
 export const clearCurrent = () => {
   return {
-    type: CLEAR_CURRENT
+    type: OPERATION_CLEAR_CURRENT
   };
 };
 
 // Set loading to true
 export const setLoading = () => {
   return {
-    type: SET_LOADING
+    type: OPERATION_LOADING
   };
 };

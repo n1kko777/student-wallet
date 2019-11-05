@@ -11,7 +11,7 @@ import AddAmountButton from "../buttons/AddAmountButton";
 import ChangeWalletButton from "../buttons/ChangeWalletButton";
 import SearchButton from "../buttons/SearchButton";
 
-const CustomControls = ({ isWallet }) => {
+const CustomControls = ({ isWallet, walletCount }) => {
   return (
     <div
       style={{
@@ -25,7 +25,7 @@ const CustomControls = ({ isWallet }) => {
         <Col xs={12} sm={6} md={4} lg={3}>
           <AddAmountButton isWallet={isWallet} />
         </Col>
-        {isWallet && (
+        {walletCount > 1 && (
           <Col xs={12} sm={6} md={4} lg={3}>
             <ChangeWalletButton />
           </Col>
@@ -39,11 +39,13 @@ const CustomControls = ({ isWallet }) => {
 };
 
 CustomControls.propTypes = {
-  isWallet: PropTypes.bool.isRequired
+  isWallet: PropTypes.bool.isRequired,
+  walletCount: PropTypes.number
 };
 
-const mapStateToProps = ({ auth }) => ({
-  isWallet: auth.user.wallets !== null
+const mapStateToProps = ({ user }) => ({
+  isWallet: user.user.wallets !== null,
+  walletCount: user.user.wallets !== null ? user.user.wallets.length : 0
 });
 
 export default connect(mapStateToProps)(CustomControls);

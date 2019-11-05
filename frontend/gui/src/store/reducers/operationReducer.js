@@ -1,11 +1,11 @@
 import {
   GET_OPERATIONS,
-  SET_LOADING,
+  OPERATION_LOADING,
   OPERATIONS_ERROR,
   ADD_OPERATION,
   DELETE_OPERATION,
-  SET_CURRENT,
-  CLEAR_CURRENT,
+  OPERATION_CURRENT,
+  OPERATION_CLEAR_CURRENT,
   UPDATE_OPERATION,
   SEARCH_OPERATIONS
 } from "../actions/actionTypes";
@@ -38,12 +38,12 @@ export default (state = initialState, action) => {
         ...state,
         operations: payload
       };
-    case SET_CURRENT:
+    case OPERATION_CURRENT:
       return {
         ...state,
         current: payload
       };
-    case CLEAR_CURRENT:
+    case OPERATION_CLEAR_CURRENT:
       return {
         ...state,
         current: null
@@ -63,7 +63,7 @@ export default (state = initialState, action) => {
         ),
         loading: false
       };
-    case SET_LOADING:
+    case OPERATION_LOADING:
       return {
         ...state,
         loading: true

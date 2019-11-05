@@ -38,10 +38,11 @@ export default (state = initialState, action) => {
         error: null
       };
     case AUTH_FAIL:
+      console.error(action.payload);
       return {
         ...state,
         loading: false,
-        error: action.error
+        error: action.payload
       };
     case AUTH_LOGOUT:
       return {

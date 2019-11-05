@@ -8,6 +8,9 @@ import {
   REMIND_ME
 } from "./actionTypes";
 
+import { setAlert } from "./alerts";
+import { getUser } from "./user";
+
 export const remindMe = state => {
   return {
     type: REMIND_ME,
@@ -35,11 +38,23 @@ export const registerSuccess = user => {
   };
 };
 
-export const authFail = error => {
-  return {
+export const authFail = error => dispatch => {
+  dispatch(
+    error.response !== undefined
+      ? setAlert(
+          `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+          "error"
+        )
+      : setAlert(
+          `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+          "error"
+        )
+  );
+
+  dispatch({
     type: AUTH_FAIL,
     payload: error
-  };
+  });
 };
 
 export const logout = () => {
@@ -60,13 +75,12 @@ export const authLogin = (username, password, isRemindMe) => {
         password: password
       })
       .then(res => {
-        const user = res.data;
-
         if (isRemindMe) {
-          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("user", JSON.stringify(res.data));
         }
 
-        dispatch(authSuccess(user));
+        dispatch(getUser(res.data));
+        dispatch(authSuccess(res.data));
       })
       .catch(err => dispatch(authFail(err)));
   };
@@ -98,6 +112,7 @@ export const authCheckState = () => dispatch => {
   if (user === null) {
     dispatch(logout());
   } else {
+    dispatch(getUser(user));
     dispatch(authSuccess(user));
   }
 };
