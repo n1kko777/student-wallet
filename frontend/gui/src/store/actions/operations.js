@@ -12,6 +12,7 @@ import {
 
 import axios from "axios";
 import { setAlert } from "./alerts";
+import { logout } from "./auth";
 
 let headers;
 
@@ -41,6 +42,8 @@ export const getOperations = token => dispatch => {
           "error"
         )
       );
+
+      dispatch(logout());
       dispatch({
         type: OPERATIONS_ERROR,
         payload: error.message
