@@ -2,12 +2,16 @@ import React from "react";
 
 import { Row, Col } from "react-flexbox-grid";
 
+import { connect } from "react-redux";
+
+import PropTypes from "prop-types";
+
 import AddOperationButton from "../buttons/AddOperationButton";
 import AddAmountButton from "../buttons/AddAmountButton";
 import ChangeWalletButton from "../buttons/ChangeWalletButton";
 import SearchButton from "../buttons/SearchButton";
 
-const CustomControls = () => {
+const CustomControls = ({ isWallet }) => {
   return (
     <div
       style={{
@@ -16,14 +20,16 @@ const CustomControls = () => {
     >
       <Row>
         <Col xs={12} sm={6} md={4} lg={3}>
-          <AddOperationButton />
+          <AddOperationButton isWallet={isWallet} />
         </Col>
         <Col xs={12} sm={6} md={4} lg={3}>
-          <AddAmountButton />
+          <AddAmountButton isWallet={isWallet} />
         </Col>
-        <Col xs={12} sm={6} md={4} lg={3}>
-          <ChangeWalletButton />
-        </Col>
+        {isWallet && (
+          <Col xs={12} sm={6} md={4} lg={3}>
+            <ChangeWalletButton />
+          </Col>
+        )}
         <Col xs={12} sm={6} md={4} lg={3}>
           <SearchButton />
         </Col>
@@ -32,4 +38,12 @@ const CustomControls = () => {
   );
 };
 
-export default CustomControls;
+CustomControls.propTypes = {
+  isWallet: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = ({ auth }) => ({
+  isWallet: auth.user.wallets !== null
+});
+
+export default connect(mapStateToProps)(CustomControls);

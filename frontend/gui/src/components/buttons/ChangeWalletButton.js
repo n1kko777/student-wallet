@@ -14,7 +14,10 @@ const ChangeWalletButton = () => {
       }}
       size={"large"}
     >
-      <Icon style={{ paddingRight: "8px", paddingLeft: "6px" }} type='retweet' />
+      <Icon
+        style={{ paddingRight: "8px", paddingLeft: "6px" }}
+        type='retweet'
+      />
       Перевести средства
     </Button>
   );
