@@ -11,11 +11,15 @@ from app.models import Wallet, Category, Operation
 
 
 class OperationViewSet(viewsets.ModelViewSet):
-    queryset = Operation.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = OperationSerializer
+
+    def get_queryset(self):
+        Operation.objects.all().order_by('created_at')
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = CategorySerializer
 
     def perform_create(self, serializer):
@@ -27,6 +31,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class WalletViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = WalletSerializer
 
     def perform_create(self, serializer):
@@ -38,8 +43,8 @@ class WalletViewSet(viewsets.ModelViewSet):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserSerializer
 
     def get_queryset(self):
         queryset = CustomUser.objects.filter(id=self.request.user.id)

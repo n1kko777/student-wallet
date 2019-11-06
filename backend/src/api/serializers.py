@@ -6,6 +6,7 @@ from app.models import Wallet, Operation, Category
 
 
 class WalletSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Wallet
         fields = ('id', 'wallet_amount',
@@ -15,21 +16,19 @@ class WalletSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('id', 'category_name', 'category_color', 'created_at')
+        fields = ('id', 'category_name',
+                  'category_color', 'created_at')
 
 
 class OperationSerializer(serializers.ModelSerializer):
-    wallet = WalletSerializer()
-    category = CategorySerializer()
-
     class Meta:
         model = Operation
         fields = ('id', 'credit', 'wallet', 'category', 'created_at')
 
 
 class UserSerializer(serializers.ModelSerializer):
-    wallets = WalletSerializer()
-    categories = CategorySerializer()
+    wallets = WalletSerializer(many=True, read_only=True)
+    categories = CategorySerializer(many=True, read_only=True)
 
     class Meta:
         model = CustomUser
@@ -38,6 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class TokenSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Token
         fields = ('key', 'user')
