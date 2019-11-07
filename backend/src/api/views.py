@@ -9,6 +9,8 @@ from .serializers import WalletSerializer, CategorySerializer, OperationSerializ
 from users.models import CustomUser
 from app.models import Wallet, Category, Operation
 
+from django.db.models import Sum
+
 
 class OperationViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]

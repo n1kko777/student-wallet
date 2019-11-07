@@ -20,10 +20,17 @@ export const getUser = user => dispatch => {
       headers: headers
     })
     .then(res => {
+      const user = res.data;
+      user.user_amount = 0;
+
+      user.wallets.map(
+        wallet => (user.user_amount += parseFloat(wallet.wallet_amount))
+      );
+
       setAlert("Данные получены", "sucess");
       dispatch({
         type: GET_USER,
-        payload: res.data
+        payload: user
       });
     })
     .catch(error => {

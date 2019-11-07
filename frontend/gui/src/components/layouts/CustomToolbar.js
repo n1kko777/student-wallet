@@ -26,7 +26,7 @@ const CustomToolbar = ({ isAuth, user }) => {
               <div className='amount'>
                 <OperationTitle
                   credit={
-                    isAuth && user.user_amount !== undefined
+                    isAuth && user.user_amount !== null
                       ? user.user_amount.toString()
                       : "0"
                   }
@@ -56,10 +56,10 @@ CustomToolbar.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, user }) => {
   return {
     isAuth: typeof auth.user["token"] !== "undefined",
-    user: auth.user
+    user: user.user
   };
 };
 
