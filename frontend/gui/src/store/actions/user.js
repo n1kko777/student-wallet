@@ -3,13 +3,10 @@ import { GET_USER, USER_ERROR, USER_LOADING } from "../actions/actionTypes";
 import axios from "axios";
 import { setAlert } from "./alerts";
 import { logout } from "./auth";
-import { getOperations } from "./operations";
 
 // Get user from server
 export const getUser = user => dispatch => {
   setLoading();
-
-  dispatch(getOperations());
 
   axios
     .get(`http://127.0.0.1:8000/api/v1/users/${user.id}/`, {

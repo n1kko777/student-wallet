@@ -68,7 +68,7 @@ const OperationsList = ({
     </Col>
   );
 
-  if (loading || operations === null) {
+  if (loading) {
     return (
       <Row start='xs'>
         {cardPreview}
@@ -100,7 +100,7 @@ const OperationsList = ({
         }}
       />
       <Row middle='xs'>
-        {operations.length > 0 ? (
+        {operations !== null && operations.length > 0 ? (
           operations.map(elem => (
             <OperationItem
               key={elem.id}
@@ -110,11 +110,12 @@ const OperationsList = ({
               wallet={
                 elem.wallet !== null && wallets !== null
                   ? wallets
-                      .map(
+                      .filter(
                         (wallet, i) =>
-                          elem.wallet === wallet.id && wallets[i].wallet_name
+                          elem.wallet === wallet.id &&
+                          wallets[i].wallet_name !== null
                       )[0]
-                      .toString()
+                      .wallet_name.toString()
                   : ""
               }
               category={
@@ -152,7 +153,7 @@ OperationsList.propTypes = {
 };
 
 const mapStateToProps = ({ user, operations }) => ({
-  loading: user.loading,
+  loading: operations.loading,
   userData: user.user,
   operations: operations
 });
