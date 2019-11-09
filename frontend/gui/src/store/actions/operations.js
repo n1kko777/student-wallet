@@ -14,25 +14,18 @@ import axios from "axios";
 import { setAlert } from "./alerts";
 import { logout } from "./auth";
 
-let headers;
-
 // Get operations from server
-export const getOperations = token => dispatch => {
+export const getOperations = () => dispatch => {
   setLoading();
 
-  headers = {
-    "Content-Type": "application/json",
-    Authorization: "Token " + token
-  };
-
   axios
-    .get("http://127.0.0.1:8000/api/v1/operations/", {
-      headers: headers
-    })
+    .get("http://127.0.0.1:8000/api/v1/operations/")
     .then(res => {
+      const operations = res.data;
+
       dispatch({
         type: GET_OPERATIONS,
-        payload: res.data
+        payload: operations
       });
     })
     .catch(error => {
@@ -48,11 +41,12 @@ export const getOperations = token => dispatch => {
             )
       );
 
-      dispatch(logout());
       dispatch({
         type: OPERATIONS_ERROR,
         payload: error.message
       });
+
+      dispatch(logout());
     });
 };
 
@@ -60,20 +54,14 @@ export const getOperations = token => dispatch => {
 export const addOperation = (operation, user) => dispatch => {
   setLoading();
   axios
-    .post(
-      `http://127.0.0.1:8000/api/v1/operations/`,
-      {
-        credit: operation.credit,
-        removeFromAmount: true,
-        category: operation.category,
-        wallet: operation.wallet,
-        created_at: operation.created_at,
-        owner: user.user_id
-      },
-      {
-        headers: headers
-      }
-    )
+    .post(`http://127.0.0.1:8000/api/v1/operations/`, {
+      credit: operation.credit,
+      removeFromAmount: true,
+      category: operation.category,
+      wallet: operation.wallet,
+      created_at: operation.created_at,
+      owner: user.user_id
+    })
     .then(res => {
       dispatch(setAlert("Запись создана.", "success"));
       dispatch({
@@ -105,9 +93,7 @@ export const deleteOperation = id => dispatch => {
   setLoading();
 
   axios
-    .delete(`http://127.0.0.1:8000/api/v1/operations/${id}/`, {
-      headers: headers
-    })
+    .delete(`http://127.0.0.1:8000/api/v1/operations/${id}/`)
     .then(res => {
       dispatch(setAlert("Запись удалена.", "success"));
 
@@ -139,20 +125,14 @@ export const deleteOperation = id => dispatch => {
 export const updateOperation = (operation, user) => dispatch => {
   setLoading();
   axios
-    .put(
-      `http://127.0.0.1:8000/api/v1/operations/${operation.id}/`,
-      {
-        credit: operation.credit,
-        removeFromAmount: true,
-        category: operation.category,
-        wallet: operation.wallet,
-        created_at: operation.created_at,
-        owner: user.user_id
-      },
-      {
-        headers: headers
-      }
-    )
+    .put(`http://127.0.0.1:8000/api/v1/operations/${operation.id}/`, {
+      credit: operation.credit,
+      removeFromAmount: true,
+      category: operation.category,
+      wallet: operation.wallet,
+      created_at: operation.created_at,
+      owner: user.user_id
+    })
     .then(res => {
       dispatch(setAlert("Запись обновлена.", "success"));
       dispatch({

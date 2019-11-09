@@ -1,13 +1,16 @@
 import { GET_USER, USER_ERROR, USER_LOADING } from "../actions/actionTypes";
 
 const initialState = {
-  loading: null,
+  loading: false,
   user: {
     current_user: null,
     username: null,
     wallets: null,
     categories: null,
-    user_amount: null
+    user_earn: null,
+    user_spend: null,
+    user_amount: null,
+    operations: null
   }
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Row } from "react-flexbox-grid";
 import PropTypes from "prop-types";
 
@@ -7,7 +7,6 @@ import { Col } from "react-flexbox-grid";
 
 import { connect } from "react-redux";
 import {
-  getOperations,
   deleteOperation,
   setCurrent,
   clearCurrent
@@ -19,18 +18,14 @@ import CopyOperation from "../operations/CopyOperation";
 import OperationItem from "./OperationItem";
 
 const OperationsList = ({
-  user,
+  userData,
+  operations: { operations },
   setCurrent,
   clearCurrent,
-  getOperations,
   deleteOperation,
-  loading,
-  operations
+  loading
 }) => {
-  useEffect(() => {
-    getOperations(user.token);
-    // eslint-disable-next-line
-  }, []);
+  const { wallets, categories } = userData;
 
   const [isModalUpdate, setModalUpdate] = useState(false);
   const [isModalCopy, setModalCopy] = useState(false);
@@ -108,9 +103,32 @@ const OperationsList = ({
         {operations.length > 0 ? (
           operations.map(elem => (
             <OperationItem
-              loading={loading}
               key={elem.id}
+              loading={loading}
               operation={elem}
+              credit={elem.credit}
+              wallet={
+                elem.wallet !== null && wallets !== null
+                  ? wallets
+                      .map(
+                        (wallet, i) =>
+                          elem.wallet === wallet.id && wallets[i].wallet_name
+                      )[0]
+                      .toString()
+                  : ""
+              }
+              category={
+                elem.category !== null && categories !== null
+                  ? categories
+                      .map(
+                        (category, i) =>
+                          elem.category === category.id &&
+                          categories[i].category_name
+                      )[0]
+                      .toString()
+                  : ""
+              }
+              removeFromAmount={elem.category !== null}
               showEditModal={showEditModal}
               showCopyModal={showCopyModal}
               onDelete={onDelete}
@@ -125,26 +143,24 @@ const OperationsList = ({
 };
 
 OperationsList.propTypes = {
-  user: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
-  operations: PropTypes.array,
+  userData: PropTypes.object.isRequired,
+  operations: PropTypes.object.isRequired,
   setCurrent: PropTypes.func.isRequired,
-  getOperations: PropTypes.func.isRequired,
   deleteOperation: PropTypes.func.isRequired,
   clearCurrent: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({ auth, operations }) => ({
-  user: auth.user,
-  loading: operations.loading,
-  operations: operations.operations
+const mapStateToProps = ({ user, operations }) => ({
+  loading: user.loading,
+  userData: user.user,
+  operations: operations
 });
 
 const mapDispatchToProps = dispatch => ({
   deleteOperation: id => dispatch(deleteOperation(id)),
   setCurrent: operation => dispatch(setCurrent(operation)),
-  clearCurrent: () => dispatch(clearCurrent()),
-  getOperations: token => dispatch(getOperations(token))
+  clearCurrent: () => dispatch(clearCurrent())
 });
 
 export default connect(

@@ -16,8 +16,13 @@ class OperationViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = OperationSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
     def get_queryset(self):
-        Operation.objects.all().order_by('created_at')
+        queryset = Operation.objects.filter(
+            owner=self.request.user)
+        return queryset
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -63,5 +68,5 @@ class CustomAuthToken(ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         return Response({
             'token': token.key,
-            'user_id': user.pk,
+            'id': user.pk,
         })

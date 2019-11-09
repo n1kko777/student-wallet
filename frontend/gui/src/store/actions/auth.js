@@ -10,6 +10,7 @@ import {
 
 import { setAlert } from "./alerts";
 import { getUser } from "./user";
+import { getOperations } from "./operations";
 
 export const remindMe = state => {
   return {
@@ -24,11 +25,17 @@ export const authStart = () => {
   };
 };
 
-export const authSuccess = user => {
-  return {
+export const authSuccess = user => dispatch => {
+  axios.defaults.headers.common["Authorization"] =
+    "Token " + JSON.parse(localStorage.getItem("user")).token;
+
+  dispatch(getUser(user));
+  dispatch(getOperations());
+
+  dispatch({
     type: AUTH_SUCCESS,
     payload: user
-  };
+  });
 };
 
 export const registerSuccess = user => {
@@ -59,6 +66,7 @@ export const authFail = error => dispatch => {
 
 export const logout = () => {
   localStorage.removeItem("user");
+  delete axios.defaults.headers.common["Authorization"];
 
   return {
     type: AUTH_LOGOUT
@@ -79,7 +87,6 @@ export const authLogin = (username, password, isRemindMe) => {
           localStorage.setItem("user", JSON.stringify(res.data));
         }
 
-        dispatch(getUser(res.data));
         dispatch(authSuccess(res.data));
       })
       .catch(err => dispatch(authFail(err)));
@@ -112,7 +119,6 @@ export const authCheckState = () => dispatch => {
   if (user === null) {
     dispatch(logout());
   } else {
-    dispatch(getUser(user));
     dispatch(authSuccess(user));
   }
 };

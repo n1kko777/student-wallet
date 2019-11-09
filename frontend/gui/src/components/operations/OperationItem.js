@@ -10,7 +10,10 @@ import PropTypes from "prop-types";
 
 const OperationItem = ({
   operation,
-  operation: { credit, category, wallet, created_at, removeFromAmount },
+  credit,
+  wallet,
+  category,
+  removeFromAmount,
   showEditModal,
   showCopyModal,
   onDelete,
@@ -68,7 +71,11 @@ const OperationItem = ({
                     fontSize: "12px"
                   }}
                 >
-                  {<Moment format='DD.MM.YYYY HH:mm'>{created_at}</Moment>}
+                  {
+                    <Moment format='DD.MM.YYYY HH:mm'>
+                      {operation.created_at}
+                    </Moment>
+                  }
                 </Text>
               </>
             }
@@ -81,6 +88,10 @@ const OperationItem = ({
 
 OperationItem.propTypes = {
   operation: PropTypes.object.isRequired,
+  credit: PropTypes.string.isRequired,
+  wallet: PropTypes.string.isRequired,
+  category: PropTypes.string,
+  removeFromAmount: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   showEditModal: PropTypes.func.isRequired,
   showCopyModal: PropTypes.func.isRequired,

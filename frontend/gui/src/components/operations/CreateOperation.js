@@ -1,32 +1,35 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { addOperation } from "../../store/actions/operations";
 
-import { Modal, Form, Input, Select, Icon, Divider, DatePicker } from "antd";
+import {
+  Modal,
+  Form,
+  InputNumber,
+  Select,
+  Icon,
+  Divider,
+  DatePicker
+} from "antd";
 import moment from "moment";
 
 const CreateOperation = ({
   addOperation,
-  user,
+  userData,
   visible,
   onCancel,
   onSubmit,
   form
 }) => {
+  const newCategory = useRef();
+
   const { getFieldDecorator } = form;
   const { Option } = Select;
 
-  const [newCategory, setNewCategory] = useState("");
-  const [categoryList, setCategoryList] = useState([
-    "Продукты",
-    "Развлечения",
-    "Хобби",
-    "Покупки"
-  ]);
-  const walletList = ["Наличные", "Сбербанк", "Кредитка"];
+  const { wallets, categories } = userData;
 
   const onCreate = () => {
     form.validateFields((err, fieldsValue) => {
@@ -34,18 +37,17 @@ const CreateOperation = ({
         return;
       }
 
-      addOperation(fieldsValue, user);
+      addOperation(fieldsValue);
       form.resetFields();
       onSubmit();
     });
   };
 
-  const onSearch = val => {
-    setNewCategory(val);
-  };
-
   const addCategoryItem = () => {
-    setCategoryList([...categoryList, newCategory]);
+    console.log(
+      "addCategoryItem :",
+      newCategory.current.rcSelect.state.inputValue
+    );
   };
 
   return (
@@ -63,10 +65,20 @@ const CreateOperation = ({
             rules: [
               {
                 required: true,
-                message: "Пожалуйста заполните данное поле!"
+                message: "Пожалуйста введите число!"
               }
             ]
-          })(<Input />)}
+          })(
+            <InputNumber
+              min={0}
+              formatter={value =>
+                `₽ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              // eslint-disable-next-line
+              parser={value => value.replace(/\₽\s?|(,*)/g, "")}
+              style={{ width: "100%" }}
+            />
+          )}
         </Form.Item>
         <Form.Item label='Укажите категорию' hasFeedback>
           {getFieldDecorator("category", {
@@ -76,7 +88,7 @@ const CreateOperation = ({
           })(
             <Select
               showSearch
-              onSearch={onSearch}
+              ref={newCategory}
               dropdownRender={menu => (
                 <div>
                   {menu}
@@ -91,11 +103,12 @@ const CreateOperation = ({
                 </div>
               )}
             >
-              {categoryList.map(category => (
-                <Option key={category} value={category}>
-                  {category}
-                </Option>
-              ))}
+              {categories !== null &&
+                categories.map(category => (
+                  <Option key={category.id} value={category.id}>
+                    {category.category_name}
+                  </Option>
+                ))}
             </Select>
           )}
         </Form.Item>
@@ -104,11 +117,12 @@ const CreateOperation = ({
             rules: [{ required: true, message: "Пожалуйста выберите кошелек!" }]
           })(
             <Select>
-              {walletList.map(wallet => (
-                <Option key={wallet} value={wallet}>
-                  {wallet}
-                </Option>
-              ))}
+              {wallets !== null &&
+                wallets.map(wallet => (
+                  <Option key={wallet.id} value={wallet.id}>
+                    {wallet.wallet_name}
+                  </Option>
+                ))}
             </Select>
           )}
         </Form.Item>
@@ -129,7 +143,7 @@ CreateOperation.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   addOperation: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  userData: PropTypes.object.isRequired
 };
 
 const WrappedCreateOperation = Form.create({
@@ -142,11 +156,11 @@ const WrappedCreateOperation = Form.create({
   }
 })(CreateOperation);
 
-const mapStateToProps = ({ auth }) => ({
-  user: auth.user
+const mapStateToProps = ({ user }) => ({
+  userData: user.user
 });
 const mapDispatchToProps = dispatch => ({
-  addOperation: (operation, user) => dispatch(addOperation(operation, user))
+  addOperation: operation => dispatch(addOperation(operation))
 });
 
 export default connect(

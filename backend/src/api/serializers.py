@@ -14,6 +14,7 @@ class WalletSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Category
         fields = ('id', 'category_name',
@@ -21,6 +22,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class OperationSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Operation
         fields = ('id', 'credit', 'wallet', 'category', 'created_at')
@@ -32,7 +34,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'wallets', 'categories', 'username', 'email')
+        fields = ('id', 'username', 'email', 'wallets',
+                  'categories')
 
 
 class TokenSerializer(serializers.ModelSerializer):

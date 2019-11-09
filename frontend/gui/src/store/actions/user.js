@@ -3,25 +3,27 @@ import { GET_USER, USER_ERROR, USER_LOADING } from "../actions/actionTypes";
 import axios from "axios";
 import { setAlert } from "./alerts";
 import { logout } from "./auth";
-
-let headers;
+import { getOperations } from "./operations";
 
 // Get user from server
 export const getUser = user => dispatch => {
   setLoading();
 
-  headers = {
-    "Content-Type": "application/json",
-    Authorization: "Token " + user.token
-  };
+  dispatch(getOperations());
 
   axios
-    .get(`http://127.0.0.1:8000/api/v1/users/${user.user_id}/`, {
-      headers: headers
+    .get(`http://127.0.0.1:8000/api/v1/users/${user.id}/`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + JSON.parse(localStorage.getItem("user")).token
+      }
     })
     .then(res => {
       const user = res.data;
       user.user_amount = 0;
+
+      user.user_earn = 0;
+      user.user_spend = 0;
 
       user.wallets.map(
         wallet => (user.user_amount += parseFloat(wallet.wallet_amount))

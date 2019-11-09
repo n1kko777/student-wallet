@@ -26,9 +26,12 @@ class Category(models.Model):
 
 
 class Operation(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              related_name='operations', on_delete=models.CASCADE)
     credit = models.DecimalField(max_digits=10, decimal_places=2)
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
