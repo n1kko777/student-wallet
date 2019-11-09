@@ -51,7 +51,7 @@ export const getOperations = () => dispatch => {
 };
 
 // Add operation
-export const addOperation = (operation, user) => dispatch => {
+export const addOperation = operation => dispatch => {
   setLoading();
   axios
     .post(`http://127.0.0.1:8000/api/v1/operations/`, {
@@ -59,8 +59,7 @@ export const addOperation = (operation, user) => dispatch => {
       removeFromAmount: true,
       category: operation.category,
       wallet: operation.wallet,
-      created_at: operation.created_at,
-      owner: user.user_id
+      created_at: operation.created_at
     })
     .then(res => {
       dispatch(setAlert("Запись создана.", "success"));
@@ -122,7 +121,7 @@ export const deleteOperation = id => dispatch => {
 };
 
 // Update operation on server
-export const updateOperation = (operation, user) => dispatch => {
+export const updateOperation = operation => dispatch => {
   setLoading();
   axios
     .put(`http://127.0.0.1:8000/api/v1/operations/${operation.id}/`, {
@@ -130,8 +129,7 @@ export const updateOperation = (operation, user) => dispatch => {
       removeFromAmount: true,
       category: operation.category,
       wallet: operation.wallet,
-      created_at: operation.created_at,
-      owner: user.user_id
+      created_at: operation.created_at
     })
     .then(res => {
       dispatch(setAlert("Запись обновлена.", "success"));

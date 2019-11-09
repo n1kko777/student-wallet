@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import PropTypes from "prop-types";
 
-import { Modal, Form, Input, Select, Icon, Divider, DatePicker } from "antd";
+import {
+  Modal,
+  Form,
+  InputNumber,
+  Select,
+  Icon,
+  Divider,
+  DatePicker
+} from "antd";
 import moment from "moment";
 
 import { connect } from "react-redux";
@@ -10,25 +18,19 @@ import { updateOperation } from "../../store/actions/operations";
 
 const UpdateOperation = ({
   current,
-  user,
   updateOperation,
+  userData,
   visible,
   onCancel,
   onSubmit,
   form
 }) => {
-  const { getFieldDecorator } = form;
+  const newCategory = useRef();
 
+  const { getFieldDecorator } = form;
   const { Option } = Select;
 
-  const [newCategory, setNewCategory] = useState("");
-  const [categoryList, setCategoryList] = useState([
-    "Продукты",
-    "Развлечения",
-    "Хобби",
-    "Покупки"
-  ]);
-  const walletList = ["Наличные", "Сбербанк", "Кредитка"];
+  const { wallets, categories } = userData;
 
   const onCreate = () => {
     form.validateFields((err, fieldsValue) => {
@@ -38,18 +40,17 @@ const UpdateOperation = ({
 
       fieldsValue.id = current.id;
 
-      updateOperation(fieldsValue, user);
+      updateOperation(fieldsValue);
       form.resetFields();
       onSubmit();
     });
   };
 
-  const onSearch = val => {
-    setNewCategory(val);
-  };
-
   const addCategoryItem = () => {
-    setCategoryList([...categoryList, newCategory]);
+    console.log(
+      "addCategoryItem :",
+      newCategory.current.rcSelect.state.inputValue
+    );
   };
 
   return (
@@ -67,10 +68,20 @@ const UpdateOperation = ({
             rules: [
               {
                 required: true,
-                message: "Пожалуйста заполните данное поле!"
+                message: "Пожалуйста введите число!"
               }
             ]
-          })(<Input />)}
+          })(
+            <InputNumber
+              min={0}
+              formatter={value =>
+                `₽ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              // eslint-disable-next-line
+              parser={value => value.replace(/\₽\s?|(,*)/g, "")}
+              style={{ width: "100%" }}
+            />
+          )}
         </Form.Item>
         <Form.Item label='Укажите категорию' hasFeedback>
           {getFieldDecorator("category", {
@@ -80,7 +91,7 @@ const UpdateOperation = ({
           })(
             <Select
               showSearch
-              onSearch={onSearch}
+              ref={newCategory}
               dropdownRender={menu => (
                 <div>
                   {menu}
@@ -95,11 +106,12 @@ const UpdateOperation = ({
                 </div>
               )}
             >
-              {categoryList.map(category => (
-                <Option key={category} value={category}>
-                  {category}
-                </Option>
-              ))}
+              {categories !== null &&
+                categories.map(category => (
+                  <Option key={category.id} value={category.id}>
+                    {category.category_name}
+                  </Option>
+                ))}
             </Select>
           )}
         </Form.Item>
@@ -108,11 +120,12 @@ const UpdateOperation = ({
             rules: [{ required: true, message: "Пожалуйста выберите кошелек!" }]
           })(
             <Select>
-              {walletList.map(wallet => (
-                <Option key={wallet} value={wallet}>
-                  {wallet}
-                </Option>
-              ))}
+              {wallets !== null &&
+                wallets.map(wallet => (
+                  <Option key={wallet.id} value={wallet.id}>
+                    {wallet.wallet_name}
+                  </Option>
+                ))}
             </Select>
           )}
         </Form.Item>
@@ -129,11 +142,12 @@ const UpdateOperation = ({
 
 UpdateOperation.propTypes = {
   current: PropTypes.object,
-  user: PropTypes.object.isRequired,
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  form: PropTypes.object.isRequired
+  updateOperation: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired,
+  userData: PropTypes.object.isRequired
 };
 
 const WrappedUpdateOperation = Form.create({
@@ -158,13 +172,12 @@ const WrappedUpdateOperation = Form.create({
 })(UpdateOperation);
 
 const mapDispatchToProps = dispatch => ({
-  updateOperation: (operation, user) =>
-    dispatch(updateOperation(operation, user))
+  updateOperation: operation => dispatch(updateOperation(operation))
 });
 
-const mapStateToProps = ({ auth, operations }) => ({
-  user: auth.user,
-  current: operations.current
+const mapStateToProps = ({ user, operations }) => ({
+  current: operations.current,
+  userData: user.user
 });
 
 export default connect(
