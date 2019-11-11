@@ -1,4 +1,9 @@
-import { GET_USER, USER_ERROR, USER_LOADING } from "../actions/actionTypes";
+import {
+  GET_USER,
+  UPDATE_USER,
+  USER_ERROR,
+  USER_LOADING
+} from "../actions/actionTypes";
 
 const initialState = {
   loading: false,
@@ -19,6 +24,12 @@ export default (state = initialState, action) => {
 
   switch (type) {
     case GET_USER:
+      return {
+        ...state,
+        user: payload,
+        loading: false
+      };
+    case UPDATE_USER:
       return {
         ...state,
         user: payload,

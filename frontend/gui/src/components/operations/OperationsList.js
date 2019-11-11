@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row } from "react-flexbox-grid";
 import PropTypes from "prop-types";
 
@@ -16,9 +16,11 @@ import UpdateOperation from "../operations/UpdateOperation";
 import CopyOperation from "../operations/CopyOperation";
 
 import OperationItem from "./OperationItem";
+import { updateUser } from "../../store/actions/user";
 
 const OperationsList = ({
   userData,
+  updateUser,
   operations: { operations },
   setCurrent,
   clearCurrent,
@@ -26,6 +28,22 @@ const OperationsList = ({
   loading
 }) => {
   const { wallets, categories } = userData;
+
+  useEffect(() => {
+    if (operations !== null) {
+      userData.user_earn = 0;
+      userData.user_spend = 0;
+      operations.map(
+        operation =>
+          (userData.user_spend +=
+            operation.category !== null
+              ? parseFloat(operation.credit)
+              : (userData.user_earn += parseFloat(operation.credit)))
+      );
+
+      updateUser(userData);
+    }
+  }, [userData, updateUser, operations]);
 
   const [isModalUpdate, setModalUpdate] = useState(false);
   const [isModalCopy, setModalCopy] = useState(false);
@@ -161,7 +179,8 @@ const mapStateToProps = ({ user, operations }) => ({
 const mapDispatchToProps = dispatch => ({
   deleteOperation: id => dispatch(deleteOperation(id)),
   setCurrent: operation => dispatch(setCurrent(operation)),
-  clearCurrent: () => dispatch(clearCurrent())
+  clearCurrent: () => dispatch(clearCurrent()),
+  updateUser: user => dispatch(updateUser(user))
 });
 
 export default connect(

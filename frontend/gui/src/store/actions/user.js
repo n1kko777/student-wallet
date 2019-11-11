@@ -1,4 +1,9 @@
-import { GET_USER, USER_ERROR, USER_LOADING } from "../actions/actionTypes";
+import {
+  GET_USER,
+  UPDATE_USER,
+  USER_ERROR,
+  USER_LOADING
+} from "../actions/actionTypes";
 
 import axios from "axios";
 import { setAlert } from "./alerts";
@@ -18,9 +23,6 @@ export const getUser = user => dispatch => {
     .then(res => {
       const user = res.data;
       user.user_amount = 0;
-
-      user.user_earn = 0;
-      user.user_spend = 0;
 
       user.wallets.map(
         wallet => (user.user_amount += parseFloat(wallet.wallet_amount))
@@ -51,6 +53,15 @@ export const getUser = user => dispatch => {
         payload: error.message
       });
     });
+};
+
+// update user
+export const updateUser = user => dispatch => {
+  setLoading();
+  dispatch({
+    type: UPDATE_USER,
+    payload: user
+  });
 };
 
 // Set loading to true

@@ -12,9 +12,7 @@ import OperationTitle from "../operations/OperationTitle";
 import CustomDatePicker from "../layouts/CustomDatePicker";
 import CustomAlert from "./CustomAlert";
 
-const CustomFooter = ({ userData }) => {
-  const { user_earn, user_spend } = userData;
-
+const CustomFooter = ({ user_earn, user_spend }) => {
   const { Footer } = Layout;
   const { Text } = Typography;
 
@@ -31,13 +29,21 @@ const CustomFooter = ({ userData }) => {
                 <Col xs={6}>
                   <Icon type='up' style={{ color: "red" }} />{" "}
                   <OperationTitle
-                    credit={user_spend !== null ? user_spend.toString() : "0"}
+                    credit={
+                      user_spend !== undefined && user_spend !== null
+                        ? user_spend.toString()
+                        : "0"
+                    }
                   />
                 </Col>
                 <Col xs={6}>
                   <Icon type='down' style={{ color: "green" }} />{" "}
                   <OperationTitle
-                    credit={user_earn !== null ? user_earn.toString() : "0"}
+                    credit={
+                      user_earn !== undefined && user_earn !== null
+                        ? user_earn.toString()
+                        : "0"
+                    }
                   />
                 </Col>
               </Row>
@@ -55,11 +61,13 @@ const CustomFooter = ({ userData }) => {
 };
 
 CustomFooter.propTypes = {
-  userData: PropTypes.object.isRequired
+  user_earn: PropTypes.number,
+  user_spend: PropTypes.number
 };
 
 const mapStateToProps = ({ user }) => ({
-  userData: user.user
+  user_earn: user.user.user_earn,
+  user_spend: user.user.user_spend
 });
 
 export default connect(mapStateToProps)(CustomFooter);
