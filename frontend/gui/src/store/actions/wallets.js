@@ -1,31 +1,31 @@
 import {
-  GET_OPERATIONS,
-  OPERATION_LOADING,
-  OPERATIONS_ERROR,
-  ADD_OPERATION,
-  DELETE_OPERATION,
-  OPERATION_CURRENT,
-  OPERATION_CLEAR_CURRENT,
-  UPDATE_OPERATION,
-  SEARCH_OPERATIONS
+  GET_WALLETS,
+  WALLET_LOADING,
+  WALLETS_ERROR,
+  ADD_WALLET,
+  DELETE_WALLET,
+  WALLET_CURRENT,
+  WALLET_CLEAR_CURRENT,
+  UPDATE_WALLET,
+  SEARCH_WALLETS
 } from "./actionTypes";
 
 import axios from "axios";
 import { setAlert } from "./alerts";
 import { logout } from "./auth";
 
-// Get operations from server
-export const getOperations = () => dispatch => {
+// Get wallets from server
+export const getWallets = () => dispatch => {
   setLoading();
 
   axios
-    .get("http://127.0.0.1:8000/api/v1/operations/")
+    .get("http://127.0.0.1:8000/api/v1/wallets/")
     .then(res => {
-      const operations = res.data;
+      const wallets = res.data;
 
       dispatch({
-        type: GET_OPERATIONS,
-        payload: operations
+        type: GET_WALLETS,
+        payload: wallets
       });
     })
     .catch(error => {
@@ -42,7 +42,7 @@ export const getOperations = () => dispatch => {
       );
 
       dispatch({
-        type: OPERATIONS_ERROR,
+        type: WALLETS_ERROR,
         payload: error.message
       });
 
@@ -50,20 +50,19 @@ export const getOperations = () => dispatch => {
     });
 };
 
-// Add operation
-export const addOperation = operation => dispatch => {
+// Add wallet
+export const addWallet = wallet => dispatch => {
   setLoading();
   axios
-    .post(`http://127.0.0.1:8000/api/v1/operations/`, {
-      credit: operation.credit,
-      category: operation.category,
-      wallet: operation.wallet,
-      created_at: operation.created_at
+    .post(`http://127.0.0.1:8000/api/v1/wallets/`, {
+      wallet_amount: wallet.wallet_amount,
+      wallet_name: wallet.wallet_name,
+      wallet_color: wallet.wallet_color
     })
     .then(res => {
       dispatch(setAlert("Запись создана.", "success"));
       dispatch({
-        type: ADD_OPERATION,
+        type: ADD_WALLET,
         payload: res.data
       });
     })
@@ -80,23 +79,23 @@ export const addOperation = operation => dispatch => {
             )
       );
       dispatch({
-        type: OPERATIONS_ERROR,
+        type: WALLETS_ERROR,
         payload: error.message
       });
     });
 };
 
-// Delete operation from server
-export const deleteOperation = id => dispatch => {
+// Delete wallet from server
+export const deleteWallet = id => dispatch => {
   setLoading();
 
   axios
-    .delete(`http://127.0.0.1:8000/api/v1/operations/${id}/`)
+    .delete(`http://127.0.0.1:8000/api/v1/wallets/${id}/`)
     .then(res => {
       dispatch(setAlert("Запись удалена.", "success"));
 
       dispatch({
-        type: DELETE_OPERATION,
+        type: DELETE_WALLET,
         payload: id
       });
     })
@@ -113,26 +112,25 @@ export const deleteOperation = id => dispatch => {
             )
       );
       dispatch({
-        type: OPERATIONS_ERROR,
+        type: WALLETS_ERROR,
         payload: error.message
       });
     });
 };
 
-// Update operation on server
-export const updateOperation = operation => dispatch => {
+// Update wallet on server
+export const updateWallet = wallet => dispatch => {
   setLoading();
   axios
-    .put(`http://127.0.0.1:8000/api/v1/operations/${operation.id}/`, {
-      credit: operation.credit,
-      category: operation.category,
-      wallet: operation.wallet,
-      created_at: operation.created_at
+    .put(`http://127.0.0.1:8000/api/v1/wallets/${wallet.id}/`, {
+      wallet_amount: wallet.wallet_amount,
+      wallet_name: wallet.wallet_name,
+      wallet_color: wallet.wallet_color
     })
     .then(res => {
       dispatch(setAlert("Запись обновлена.", "success"));
       dispatch({
-        type: UPDATE_OPERATION,
+        type: UPDATE_WALLET,
         payload: res.data
       });
     })
@@ -149,22 +147,22 @@ export const updateOperation = operation => dispatch => {
             )
       );
       dispatch({
-        type: OPERATIONS_ERROR,
+        type: WALLETS_ERROR,
         payload: error.message
       });
     });
 };
 
-// Search operations
-export const searchOperations = text => dispatch => {
+// Search wallets
+export const searchWallets = text => dispatch => {
   try {
     setLoading();
 
-    const res = fetch(`/operations?q=${text}`);
+    const res = fetch(`/wallets?q=${text}`);
     const data = res.json();
 
     dispatch({
-      type: SEARCH_OPERATIONS,
+      type: SEARCH_WALLETS,
       payload: data
     });
   } catch (error) {
@@ -175,30 +173,30 @@ export const searchOperations = text => dispatch => {
       )
     );
     dispatch({
-      type: OPERATIONS_ERROR,
+      type: WALLETS_ERROR,
       payload: error.message
     });
   }
 };
 
-// Set current operation
-export const setCurrent = operation => {
+// Set current wallet
+export const setCurrent = wallet => {
   return {
-    type: OPERATION_CURRENT,
-    payload: operation
+    type: WALLET_CURRENT,
+    payload: wallet
   };
 };
 
-// Clear current operation
+// Clear current wallet
 export const clearCurrent = () => {
   return {
-    type: OPERATION_CLEAR_CURRENT
+    type: WALLET_CLEAR_CURRENT
   };
 };
 
 // Set loading to true
 export const setLoading = () => {
   return {
-    type: OPERATION_LOADING
+    type: WALLET_LOADING
   };
 };

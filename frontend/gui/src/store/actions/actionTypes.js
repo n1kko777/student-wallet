@@ -4,6 +4,17 @@ export const UPDATE_USER = "UPDATE_USER";
 export const USER_LOADING = "USER_LOADING";
 export const USER_ERROR = "USER_ERROR";
 
+// WALLETS
+export const GET_WALLETS = "GET_WALLETS";
+export const WALLET_LOADING = "WALLET_LOADING";
+export const WALLETS_ERROR = "WALLETS_ERROR";
+export const ADD_WALLET = "ADD_WALLET";
+export const DELETE_WALLET = "DELETE_WALLET";
+export const WALLET_CURRENT = "WALLET_CURRENT";
+export const WALLET_CLEAR_CURRENT = "WALLET_CLEAR_CURRENT";
+export const UPDATE_WALLET = "UPDATE_WALLET";
+export const SEARCH_WALLETS = "SEARCH_WALLETS";
+
 // Operations
 export const GET_OPERATIONS = "GET_OPERATIONS";
 export const OPERATION_LOADING = "OPERATION_LOADING";
