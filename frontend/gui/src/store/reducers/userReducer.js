@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
         loading: true
       };
     case USER_ERROR:
-      console.error("payload :", payload);
+      console.error("USER_ERROR :", payload);
       return {
         ...state,
         error: payload

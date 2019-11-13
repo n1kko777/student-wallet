@@ -69,7 +69,7 @@ export default (state = initialState, action) => {
         loading: true
       };
     case OPERATIONS_ERROR:
-      console.error("payload :", payload);
+      console.error("OPERATIONS_ERROR :", payload);
       return {
         ...state,
         error: payload

@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import OperationTitle from "../operations/OperationTitle";
 import MainMenu from "./MainMenu";
 
-const CustomToolbar = ({ isAuth, user }) => {
+const CustomToolbar = ({ isAuth, user_amount }) => {
   const { Header } = Layout;
   const { Title } = Typography;
 
@@ -20,14 +20,14 @@ const CustomToolbar = ({ isAuth, user }) => {
   return (
     <Header style={{ display: "flex", alignItems: "center" }}>
       <Grid>
-        <Row middle='xs' between='xs'>
+        <Row middle="xs" between="xs">
           <Col xs={6} sm={4} md={3} lg={2}>
             {pathname === "/feed" ? (
-              <div className='amount'>
+              <div className="amount">
                 <OperationTitle
                   credit={
-                    isAuth && user.user_amount !== null
-                      ? user.user_amount.toString()
+                    isAuth && user_amount !== null && user_amount !== undefined
+                      ? user_amount.toString()
                       : "0"
                   }
                 />
@@ -53,13 +53,13 @@ const CustomToolbar = ({ isAuth, user }) => {
 
 CustomToolbar.propTypes = {
   isAuth: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired
+  user_amount: PropTypes.number
 };
 
 const mapStateToProps = ({ auth, user }) => {
   return {
     isAuth: typeof auth.user["token"] !== "undefined",
-    user: user.user
+    user_amount: user.user.user_amount
   };
 };
 

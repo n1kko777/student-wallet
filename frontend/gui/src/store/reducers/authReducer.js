@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
         error: null
       };
     case AUTH_FAIL:
-      console.error(action.payload);
+      console.error("AUTH_FAIL : " + action.payload);
       return {
         ...state,
         loading: false,

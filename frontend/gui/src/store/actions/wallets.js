@@ -62,8 +62,7 @@ export const addWallet = wallet => dispatch => {
     .then(res => {
       dispatch(setAlert("Запись создана.", "success"));
       dispatch({
-        type: ADD_WALLET,
-        payload: res.data
+        type: ADD_WALLET
       });
     })
     .catch(error => {
@@ -128,10 +127,8 @@ export const updateWallet = wallet => dispatch => {
       wallet_color: wallet.wallet_color
     })
     .then(res => {
-      dispatch(setAlert("Запись обновлена.", "success"));
       dispatch({
-        type: UPDATE_WALLET,
-        payload: res.data
+        type: UPDATE_WALLET
       });
     })
     .catch(error => {

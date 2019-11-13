@@ -30,7 +30,6 @@ export default (state = initialState, action) => {
     case ADD_WALLET:
       return {
         ...state,
-        wallets: [...state.wallets, payload],
         loading: false
       };
     case SEARCH_WALLETS:
@@ -51,14 +50,11 @@ export default (state = initialState, action) => {
     case UPDATE_WALLET:
       return {
         ...state,
-        wallets: state.wallets.map(wallet =>
-          wallet.id === payload.id ? payload : wallet
-        )
+        loading: false
       };
     case DELETE_WALLET:
       return {
         ...state,
-        wallets: state.wallets.filter(wallet => wallet.id !== payload),
         loading: false
       };
     case WALLET_LOADING:
@@ -67,7 +63,7 @@ export default (state = initialState, action) => {
         loading: true
       };
     case WALLETS_ERROR:
-      console.error("payload :", payload);
+      console.error("WALLETS_ERROR :", payload);
       return {
         ...state,
         error: payload

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { addOperation } from "../../store/actions/operations";
+import { updateWallet } from "../../store/actions/wallets";
 
 import {
   Modal,
@@ -18,6 +19,7 @@ import moment from "moment";
 
 const CreateOperation = ({
   addOperation,
+  updateWallet,
   userData,
   visible,
   onCancel,
@@ -38,6 +40,18 @@ const CreateOperation = ({
       }
 
       addOperation(fieldsValue);
+      // console.log("fieldsValue.wallet :", fieldsValue.wallet);
+
+      const newWallet = wallets.filter(
+        wallet => wallet.id === fieldsValue.wallet
+      )[0];
+
+      newWallet.wallet_amount = parseFloat(
+        parseFloat(newWallet.wallet_amount) - parseFloat(fieldsValue.credit)
+      );
+
+      updateWallet(newWallet);
+
       form.resetFields();
       onSubmit();
     });
@@ -53,14 +67,14 @@ const CreateOperation = ({
   return (
     <Modal
       visible={visible}
-      title='Добавить расход'
-      okText='Добавить'
-      cancelText='Отменить'
+      title="Добавить расход"
+      okText="Добавить"
+      cancelText="Отменить"
       onCancel={onCancel}
       onOk={onCreate}
     >
-      <Form layout='vertical'>
-        <Form.Item label='Сумма' hasFeedback>
+      <Form layout="vertical">
+        <Form.Item label="Сумма" hasFeedback>
           {getFieldDecorator("credit", {
             rules: [
               {
@@ -80,7 +94,7 @@ const CreateOperation = ({
             />
           )}
         </Form.Item>
-        <Form.Item label='Укажите категорию' hasFeedback>
+        <Form.Item label="Укажите категорию" hasFeedback>
           {getFieldDecorator("category", {
             rules: [
               { required: true, message: "Пожалуйста выберите категорию!" }
@@ -98,7 +112,7 @@ const CreateOperation = ({
                     onMouseDown={e => e.preventDefault()}
                     onClick={addCategoryItem}
                   >
-                    <Icon type='plus' /> Добавить категорию
+                    <Icon type="plus" /> Добавить категорию
                   </div>
                 </div>
               )}
@@ -112,14 +126,18 @@ const CreateOperation = ({
             </Select>
           )}
         </Form.Item>
-        <Form.Item label='Укажите кошелек' hasFeedback>
+        <Form.Item label="Укажите кошелек" hasFeedback>
           {getFieldDecorator("wallet", {
             rules: [{ required: true, message: "Пожалуйста выберите кошелек!" }]
           })(
             <Select>
               {wallets !== null &&
                 wallets.map(wallet => (
-                  <Option key={wallet.id} value={wallet.id}>
+                  <Option
+                    key={wallet.id}
+                    value={wallet.id}
+                    title={"Баланс: " + wallet.wallet_amount + " Р"}
+                  >
                     {wallet.wallet_name}
                   </Option>
                 ))}
@@ -127,7 +145,7 @@ const CreateOperation = ({
           )}
         </Form.Item>
 
-        <Form.Item label='Укажите дату'>
+        <Form.Item label="Укажите дату">
           {getFieldDecorator("created_at")(
             <DatePicker locale={locale} setFieldsValue={moment()} />
           )}
@@ -142,6 +160,7 @@ CreateOperation.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   addOperation: PropTypes.func.isRequired,
+  updateWallet: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   userData: PropTypes.object.isRequired
 };
@@ -160,7 +179,8 @@ const mapStateToProps = ({ user }) => ({
   userData: user.user
 });
 const mapDispatchToProps = dispatch => ({
-  addOperation: operation => dispatch(addOperation(operation))
+  addOperation: operation => dispatch(addOperation(operation)),
+  updateWallet: wallet => dispatch(updateWallet(wallet))
 });
 
 export default connect(

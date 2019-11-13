@@ -9,6 +9,14 @@ import axios from "axios";
 import { setAlert } from "./alerts";
 import { logout } from "./auth";
 
+const countUserMoney = user => {
+  user.user_amount = 0;
+
+  user.wallets.map(
+    wallet => (user.user_amount += parseFloat(wallet.wallet_amount))
+  );
+};
+
 // Get user from server
 export const getUser = user => dispatch => {
   setLoading();
@@ -22,11 +30,7 @@ export const getUser = user => dispatch => {
     })
     .then(res => {
       const user = res.data;
-      user.user_amount = 0;
-
-      user.wallets.map(
-        wallet => (user.user_amount += parseFloat(wallet.wallet_amount))
-      );
+      countUserMoney(user);
 
       setAlert("Данные получены", "sucess");
       dispatch({
@@ -58,6 +62,8 @@ export const getUser = user => dispatch => {
 // update user
 export const updateUser = user => dispatch => {
   setLoading();
+  countUserMoney(user);
+
   dispatch({
     type: UPDATE_USER,
     payload: user
