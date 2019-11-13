@@ -15,7 +15,6 @@ import {
   Redirect
 } from "react-router-dom";
 
-import Home from "./components/pages/Home";
 import Feed from "./components/pages/Feed";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
@@ -37,7 +36,7 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
 
   return (
     <Router>
-      <Layout className='layout'>
+      <Layout className="layout">
         <CustomToolbar />
         <Content
           style={{
@@ -50,23 +49,22 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
             <Switch>
               <Route
                 exact
-                path='/'
-                component={() => (isAuth ? <Redirect to='/feed' /> : <Home />)}
+                path="/"
+                component={() => (isAuth ? <Redirect to="/feed" /> : <Login />)}
               />
-              <Route exact path='/home' component={Home} />
-              <Route exact path='/login' component={Login} />
-              <Route exact path='/register' component={Register} />
-              <Route exact path='/reset' component={ResetPass} />
-              <Route exact path='/about' />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/reset" component={ResetPass} />
+              <Route exact path="/about" />
               <Route
                 exact
-                path='/feed'
+                path="/feed"
                 render={props =>
-                  isAuth ? <Feed {...props} /> : <Redirect to='/login' />
+                  isAuth ? <Feed {...props} /> : <Redirect to="/login" />
                 }
               />
-              <Route exact path='/settings' />
-              <Route exact path='/reports' />
+              <Route exact path="/settings" />
+              <Route exact path="/reports" />
               <Route component={PageNotFound} />
             </Switch>
           </Grid>
@@ -94,7 +92,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
