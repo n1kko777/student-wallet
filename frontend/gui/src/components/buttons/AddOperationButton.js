@@ -36,13 +36,14 @@ const AddOperationButton = ({ isWallet }) => {
         size={"large"}
         onClick={showModal}
       >
-        <Icon style={{ paddingRight: "8px", paddingLeft: "6px" }} type='plus' />
+        <Icon style={{ paddingRight: "8px", paddingLeft: "6px" }} type="plus" />
         Добавить расход
       </Button>
       <CreateOperation
         visible={isModalCreate}
         onSubmit={handleSubmit}
         onCancel={handleCancel}
+        isEarn={false}
       />
     </>
   );

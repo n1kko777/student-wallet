@@ -24,7 +24,8 @@ const CreateOperation = ({
   visible,
   onCancel,
   onSubmit,
-  form
+  form,
+  isEarn
 }) => {
   const newCategory = useRef();
 
@@ -46,9 +47,13 @@ const CreateOperation = ({
         wallet => wallet.id === fieldsValue.wallet
       )[0];
 
-      newWallet.wallet_amount = parseFloat(
-        parseFloat(newWallet.wallet_amount) - parseFloat(fieldsValue.credit)
-      );
+      newWallet.wallet_amount = !isEarn
+        ? parseFloat(
+            parseFloat(newWallet.wallet_amount) - parseFloat(fieldsValue.credit)
+          )
+        : parseFloat(
+            parseFloat(newWallet.wallet_amount) + parseFloat(fieldsValue.credit)
+          );
 
       updateWallet(newWallet);
 
@@ -67,7 +72,7 @@ const CreateOperation = ({
   return (
     <Modal
       visible={visible}
-      title="Добавить расход"
+      title={!isEarn ? "Добавить расход" : "Добавить доход"}
       okText="Добавить"
       cancelText="Отменить"
       onCancel={onCancel}
@@ -94,38 +99,40 @@ const CreateOperation = ({
             />
           )}
         </Form.Item>
-        <Form.Item label="Укажите категорию" hasFeedback>
-          {getFieldDecorator("category", {
-            rules: [
-              { required: true, message: "Пожалуйста выберите категорию!" }
-            ]
-          })(
-            <Select
-              showSearch
-              ref={newCategory}
-              dropdownRender={menu => (
-                <div>
-                  {menu}
-                  <Divider style={{ margin: "4px 0" }} />
-                  <div
-                    style={{ padding: "4px 8px", cursor: "pointer" }}
-                    onMouseDown={e => e.preventDefault()}
-                    onClick={addCategoryItem}
-                  >
-                    <Icon type="plus" /> Добавить категорию
+        {!isEarn && (
+          <Form.Item label="Укажите категорию" hasFeedback>
+            {getFieldDecorator("category", {
+              rules: [
+                { required: true, message: "Пожалуйста выберите категорию!" }
+              ]
+            })(
+              <Select
+                showSearch
+                ref={newCategory}
+                dropdownRender={menu => (
+                  <div>
+                    {menu}
+                    <Divider style={{ margin: "4px 0" }} />
+                    <div
+                      style={{ padding: "4px 8px", cursor: "pointer" }}
+                      onMouseDown={e => e.preventDefault()}
+                      onClick={addCategoryItem}
+                    >
+                      <Icon type="plus" /> Добавить категорию
+                    </div>
                   </div>
-                </div>
-              )}
-            >
-              {categories !== null &&
-                categories.map(category => (
-                  <Option key={category.id} value={category.id}>
-                    {category.category_name}
-                  </Option>
-                ))}
-            </Select>
-          )}
-        </Form.Item>
+                )}
+              >
+                {categories !== null &&
+                  categories.map(category => (
+                    <Option key={category.id} value={category.id}>
+                      {category.category_name}
+                    </Option>
+                  ))}
+              </Select>
+            )}
+          </Form.Item>
+        )}
         <Form.Item label="Укажите кошелек" hasFeedback>
           {getFieldDecorator("wallet", {
             rules: [{ required: true, message: "Пожалуйста выберите кошелек!" }]
@@ -156,6 +163,7 @@ const CreateOperation = ({
 };
 
 CreateOperation.propTypes = {
+  isEarn: PropTypes.bool.isRequired,
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

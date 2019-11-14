@@ -24,8 +24,14 @@ const CopyOperation = ({
   visible,
   onCancel,
   onSubmit,
-  form
+  form,
+  current
 }) => {
+  const hasCategory =
+    current !== null &&
+    current.category !== undefined &&
+    current.category !== null;
+
   const newCategory = useRef();
 
   const { getFieldDecorator } = form;
@@ -40,15 +46,17 @@ const CopyOperation = ({
       }
 
       addOperation(fieldsValue);
-      // console.log("fieldsValue.wallet :", fieldsValue.wallet);
-
       const newWallet = wallets.filter(
         wallet => wallet.id === fieldsValue.wallet
       )[0];
 
-      newWallet.wallet_amount = parseFloat(
-        parseFloat(newWallet.wallet_amount) - parseFloat(fieldsValue.credit)
-      );
+      newWallet.wallet_amount = hasCategory
+        ? parseFloat(
+            parseFloat(newWallet.wallet_amount) - parseFloat(fieldsValue.credit)
+          )
+        : parseFloat(
+            parseFloat(newWallet.wallet_amount) + parseFloat(fieldsValue.credit)
+          );
 
       updateWallet(newWallet);
 
@@ -67,7 +75,7 @@ const CopyOperation = ({
   return (
     <Modal
       visible={visible}
-      title="Скопировать расход"
+      title={hasCategory ? "Скопировать расход" : "Скопировать доход"}
       okText="Скопировать"
       cancelText="Отменить"
       onCancel={onCancel}
@@ -94,38 +102,40 @@ const CopyOperation = ({
             />
           )}
         </Form.Item>
-        <Form.Item label="Укажите категорию" hasFeedback>
-          {getFieldDecorator("category", {
-            rules: [
-              { required: true, message: "Пожалуйста выберите категорию!" }
-            ]
-          })(
-            <Select
-              showSearch
-              ref={newCategory}
-              dropdownRender={menu => (
-                <div>
-                  {menu}
-                  <Divider style={{ margin: "4px 0" }} />
-                  <div
-                    style={{ padding: "4px 8px", cursor: "pointer" }}
-                    onMouseDown={e => e.preventDefault()}
-                    onClick={addCategoryItem}
-                  >
-                    <Icon type="plus" /> Добавить категорию
+        {hasCategory && (
+          <Form.Item label="Укажите категорию" hasFeedback>
+            {getFieldDecorator("category", {
+              rules: [
+                { required: true, message: "Пожалуйста выберите категорию!" }
+              ]
+            })(
+              <Select
+                showSearch
+                ref={newCategory}
+                dropdownRender={menu => (
+                  <div>
+                    {menu}
+                    <Divider style={{ margin: "4px 0" }} />
+                    <div
+                      style={{ padding: "4px 8px", cursor: "pointer" }}
+                      onMouseDown={e => e.preventDefault()}
+                      onClick={addCategoryItem}
+                    >
+                      <Icon type="plus" /> Добавить категорию
+                    </div>
                   </div>
-                </div>
-              )}
-            >
-              {categories !== null &&
-                categories.map(category => (
-                  <Option key={category.id} value={category.id}>
-                    {category.category_name}
-                  </Option>
-                ))}
-            </Select>
-          )}
-        </Form.Item>
+                )}
+              >
+                {categories !== null &&
+                  categories.map(category => (
+                    <Option key={category.id} value={category.id}>
+                      {category.category_name}
+                    </Option>
+                  ))}
+              </Select>
+            )}
+          </Form.Item>
+        )}
         <Form.Item label="Укажите кошелек" hasFeedback>
           {getFieldDecorator("wallet", {
             rules: [{ required: true, message: "Пожалуйста выберите кошелек!" }]
