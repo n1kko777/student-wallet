@@ -15,9 +15,11 @@ import moment from "moment";
 
 import { connect } from "react-redux";
 import { addOperation } from "../../store/actions/operations";
+import { updateWallet } from "../../store/actions/wallets";
 
 const CopyOperation = ({
   addOperation,
+  updateWallet,
   userData,
   visible,
   onCancel,
@@ -38,6 +40,18 @@ const CopyOperation = ({
       }
 
       addOperation(fieldsValue);
+      // console.log("fieldsValue.wallet :", fieldsValue.wallet);
+
+      const newWallet = wallets.filter(
+        wallet => wallet.id === fieldsValue.wallet
+      )[0];
+
+      newWallet.wallet_amount = parseFloat(
+        parseFloat(newWallet.wallet_amount) - parseFloat(fieldsValue.credit)
+      );
+
+      updateWallet(newWallet);
+
       form.resetFields();
       onSubmit();
     });
@@ -53,14 +67,14 @@ const CopyOperation = ({
   return (
     <Modal
       visible={visible}
-      title='Скопировать расход'
-      okText='Скопировать'
-      cancelText='Отменить'
+      title="Скопировать расход"
+      okText="Скопировать"
+      cancelText="Отменить"
       onCancel={onCancel}
       onOk={onCreate}
     >
-      <Form layout='vertical'>
-        <Form.Item label='Сумма' hasFeedback>
+      <Form layout="vertical">
+        <Form.Item label="Сумма" hasFeedback>
           {getFieldDecorator("credit", {
             rules: [
               {
@@ -80,7 +94,7 @@ const CopyOperation = ({
             />
           )}
         </Form.Item>
-        <Form.Item label='Укажите категорию' hasFeedback>
+        <Form.Item label="Укажите категорию" hasFeedback>
           {getFieldDecorator("category", {
             rules: [
               { required: true, message: "Пожалуйста выберите категорию!" }
@@ -98,7 +112,7 @@ const CopyOperation = ({
                     onMouseDown={e => e.preventDefault()}
                     onClick={addCategoryItem}
                   >
-                    <Icon type='plus' /> Добавить категорию
+                    <Icon type="plus" /> Добавить категорию
                   </div>
                 </div>
               )}
@@ -112,14 +126,18 @@ const CopyOperation = ({
             </Select>
           )}
         </Form.Item>
-        <Form.Item label='Укажите кошелек' hasFeedback>
+        <Form.Item label="Укажите кошелек" hasFeedback>
           {getFieldDecorator("wallet", {
             rules: [{ required: true, message: "Пожалуйста выберите кошелек!" }]
           })(
             <Select>
               {wallets !== null &&
                 wallets.map(wallet => (
-                  <Option key={wallet.id} value={wallet.id}>
+                  <Option
+                    key={wallet.id}
+                    value={wallet.id}
+                    title={"Баланс: " + wallet.wallet_amount + " Р"}
+                  >
                     {wallet.wallet_name}
                   </Option>
                 ))}
@@ -127,7 +145,7 @@ const CopyOperation = ({
           )}
         </Form.Item>
 
-        <Form.Item label='Укажите дату'>
+        <Form.Item label="Укажите дату">
           {getFieldDecorator("created_at")(
             <DatePicker locale={locale} setFieldsValue={moment()} />
           )}
@@ -142,6 +160,7 @@ CopyOperation.propTypes = {
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  updateWallet: PropTypes.func.isRequired,
   addOperation: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   userData: PropTypes.object.isRequired
@@ -174,7 +193,8 @@ const mapStateToProps = ({ operations, user }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addOperation: operation => dispatch(addOperation(operation))
+  addOperation: operation => dispatch(addOperation(operation)),
+  updateWallet: wallet => dispatch(updateWallet(wallet))
 });
 
 export default connect(

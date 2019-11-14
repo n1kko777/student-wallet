@@ -11,6 +11,7 @@ import {
   setCurrent,
   clearCurrent
 } from "../../store/actions/operations";
+import { updateWallet } from "../../store/actions/wallets";
 
 import UpdateOperation from "../operations/UpdateOperation";
 import CopyOperation from "../operations/CopyOperation";
@@ -21,6 +22,7 @@ import { updateUser } from "../../store/actions/user";
 const OperationsList = ({
   userData,
   updateUser,
+  updateWallet,
   operations: { operations },
   setCurrent,
   clearCurrent,
@@ -72,6 +74,16 @@ const OperationsList = ({
 
   const onDelete = operation => {
     deleteOperation(operation.id);
+
+    const newWallet = wallets.filter(
+      wallet => wallet.id === operation.wallet
+    )[0];
+
+    newWallet.wallet_amount = parseFloat(
+      parseFloat(newWallet.wallet_amount) + parseFloat(operation.credit)
+    );
+
+    updateWallet(newWallet);
   };
 
   const { Meta } = Card;
@@ -80,7 +92,7 @@ const OperationsList = ({
     <Col xs={12} sm={6} md={4}>
       <Card style={{ marginBottom: "20px" }} bordered={false}>
         <Skeleton loading={loading} avatar active>
-          <Meta avatar='' title='' description='' />
+          <Meta avatar="" title="" description="" />
         </Skeleton>
       </Card>
     </Col>
@@ -88,7 +100,7 @@ const OperationsList = ({
 
   if (loading) {
     return (
-      <Row start='xs'>
+      <Row start="xs">
         {cardPreview}
         {cardPreview}
         {cardPreview}
@@ -117,7 +129,7 @@ const OperationsList = ({
           handleCancel(setModalCopy);
         }}
       />
-      <Row middle='xs'>
+      <Row middle="xs">
         {operations !== null && operations.length > 0 ? (
           operations.map(elem => (
             <OperationItem
@@ -164,6 +176,7 @@ const OperationsList = ({
 OperationsList.propTypes = {
   loading: PropTypes.bool.isRequired,
   userData: PropTypes.object.isRequired,
+  updateWallet: PropTypes.func.isRequired,
   operations: PropTypes.object.isRequired,
   setCurrent: PropTypes.func.isRequired,
   deleteOperation: PropTypes.func.isRequired,
@@ -180,10 +193,8 @@ const mapDispatchToProps = dispatch => ({
   deleteOperation: id => dispatch(deleteOperation(id)),
   setCurrent: operation => dispatch(setCurrent(operation)),
   clearCurrent: () => dispatch(clearCurrent()),
-  updateUser: user => dispatch(updateUser(user))
+  updateUser: user => dispatch(updateUser(user)),
+  updateWallet: wallet => dispatch(updateWallet(wallet))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OperationsList);
+export default connect(mapStateToProps, mapDispatchToProps)(OperationsList);

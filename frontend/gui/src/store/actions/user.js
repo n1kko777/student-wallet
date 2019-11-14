@@ -12,9 +12,10 @@ import { logout } from "./auth";
 const countUserMoney = user => {
   user.user_amount = 0;
 
-  user.wallets.map(
-    wallet => (user.user_amount += parseFloat(wallet.wallet_amount))
-  );
+  user.wallets !== null &&
+    user.wallets.map(
+      wallet => (user.user_amount += parseFloat(wallet.wallet_amount))
+    );
 };
 
 // Get user from server
