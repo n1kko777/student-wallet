@@ -1,7 +1,7 @@
 import React from "react";
 import Moment from "react-moment";
 
-import { Card, Skeleton, Icon, Typography } from "antd";
+import { Card, Skeleton, Icon, Typography, Popconfirm } from "antd";
 import { Col } from "react-flexbox-grid";
 
 import OperationTitle from "./OperationTitle";
@@ -30,20 +30,23 @@ const OperationItem = ({
         actions={
           !loading && [
             <Icon
-              type='copy'
-              key='copy'
+              type="copy"
+              key="copy"
               onClick={() => showCopyModal(operation)}
             />,
             <Icon
-              type='edit'
-              key='edit'
+              type="edit"
+              key="edit"
               onClick={() => showEditModal(operation)}
             />,
-            <Icon
-              type='delete'
-              key='delete'
-              onClick={() => onDelete(operation)}
-            />
+            <Popconfirm
+              title="Удалить запись？"
+              okText="Да"
+              cancelText="Нет"
+              onConfirm={() => onDelete(operation)}
+            >
+              <Icon type="delete" key="delete" />
+            </Popconfirm>
           ]
         }
       >
@@ -51,9 +54,9 @@ const OperationItem = ({
           <Meta
             avatar={
               removeFromAmount ? (
-                <Icon type='up' key='up' style={{ color: "red" }} />
+                <Icon type="up" key="up" style={{ color: "red" }} />
               ) : (
-                <Icon type='down' key='down' style={{ color: "green" }} />
+                <Icon type="down" key="down" style={{ color: "green" }} />
               )
             }
             title={<OperationTitle credit={credit} />}
@@ -65,14 +68,14 @@ const OperationItem = ({
                   <Text>{wallet}</Text>
                 </p>
                 <Text
-                  type='secondary'
+                  type="secondary"
                   style={{
                     display: "block",
                     fontSize: "12px"
                   }}
                 >
                   {
-                    <Moment format='DD.MM.YYYY HH:mm'>
+                    <Moment format="DD.MM.YYYY HH:mm">
                       {operation.created_at}
                     </Moment>
                   }
