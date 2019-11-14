@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Typography } from "antd";
+import { Layout, Typography, Select, Icon } from "antd";
 import { Grid, Row, Col } from "react-flexbox-grid";
 
 import { Link, useLocation } from "react-router-dom";
@@ -11,9 +11,10 @@ import PropTypes from "prop-types";
 import OperationTitle from "../operations/OperationTitle";
 import MainMenu from "./MainMenu";
 
-const CustomToolbar = ({ isAuth, user_amount }) => {
+const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
   const { Header } = Layout;
   const { Title } = Typography;
+  const { Option } = Select;
 
   const { pathname } = useLocation();
 
@@ -21,18 +22,49 @@ const CustomToolbar = ({ isAuth, user_amount }) => {
     <Header style={{ display: "flex", alignItems: "center" }}>
       <Grid>
         <Row middle="xs" between="xs">
-          <Col xs={6} sm={4} md={3} lg={2}>
+          <Col xs={7} sm={5} md={4} lg={3}>
             {pathname === "/feed" ? (
-              <div className="amount">
-                <OperationTitle
-                  credit={
-                    isAuth && user_amount !== null && user_amount !== undefined
-                      ? user_amount.toString()
-                      : "0"
-                  }
-                />
-              </div>
+              <Select
+                defaultValue="main"
+                className="select-title"
+                dropdownClassName="select-title__option"
+                loading={userLoading}
+              >
+                <Option value="main">
+                  <OperationTitle
+                    credit={
+                      isAuth &&
+                      user_amount !== null &&
+                      user_amount !== undefined
+                        ? user_amount.toString()
+                        : "0"
+                    }
+                  />
+                </Option>
+
+                {wallets !== null &&
+                  wallets.map(wallet => (
+                    <Option key={wallet.id} value={wallet.wallet_name}>
+                      <OperationTitle
+                        credit={
+                          wallet.wallet_amount !== null
+                            ? wallet.wallet_amount.toString()
+                            : "0"
+                        }
+                      />
+                    </Option>
+                  ))}
+              </Select>
             ) : (
+              // <div className="amount">
+              // <OperationTitle
+              //   credit={
+              //     isAuth && user_amount !== null && user_amount !== undefined
+              //       ? user_amount.toString()
+              //       : "0"
+              //   }
+              // />
+              // </div>
               <Link to={isAuth ? "/feed" : "/"}>
                 <Title style={{ color: "#fff", marginBottom: "0" }} level={3}>
                   StudWall
@@ -53,13 +85,17 @@ const CustomToolbar = ({ isAuth, user_amount }) => {
 
 CustomToolbar.propTypes = {
   isAuth: PropTypes.bool.isRequired,
-  user_amount: PropTypes.number
+  user_amount: PropTypes.number,
+  userLoading: PropTypes.bool.isRequired,
+  wallets: PropTypes.array
 };
 
 const mapStateToProps = ({ auth, user }) => {
   return {
     isAuth: typeof auth.user["token"] !== "undefined",
-    user_amount: user.user.user_amount
+    wallets: user.user.wallets,
+    user_amount: user.user.user_amount,
+    userLoading: user.loading
   };
 };
 
