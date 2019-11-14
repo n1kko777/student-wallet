@@ -6,7 +6,7 @@ import {
 } from "../actions/actionTypes";
 
 const initialState = {
-  loading: false,
+  loading: true,
   user: {
     current_user: null,
     username: null,

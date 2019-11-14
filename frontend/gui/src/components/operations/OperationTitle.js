@@ -31,7 +31,7 @@ const OperationTitle = ({ credit }) => {
     splitToDigits(credit.replace(/\s/g, ""));
   }
 
-  return <>{credit} &#8381;</>;
+  return <>&#8381; {credit}</>;
 };
 
 OperationTitle.propTypes = {

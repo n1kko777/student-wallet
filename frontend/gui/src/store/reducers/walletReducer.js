@@ -13,7 +13,7 @@ import {
 const initialState = {
   wallets: null,
   current: null,
-  loading: false,
+  loading: true,
   error: null
 };
 
