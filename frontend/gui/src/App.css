@@ -14,12 +14,13 @@
 }
 
 .select-title .ant-select-selection,
-.select-title__option .ant-select-dropdown-menu-item {
+.select-title__option .ant-select-dropdown-menu-item,
+.select-title__add {
   width: 100%;
   background: #324454;
   color: #fff !important;
-  font-size: 21px;
-  line-height: 35px;
+  font-size: 18px;
+  line-height: 33px;
   padding: 0 11px;
   text-align: left;
   outline: none;
@@ -30,15 +31,24 @@
 
 .select-title .ant-select-selection__rendered {
   margin-left: 0;
+  padding-top: 2px;
 }
 
 .ant-select-arrow {
   color: #fff;
 }
 
+.select-title__add {
+  font-size: 14px;
+  line-height: 28px;
+  cursor: pointer;
+  padding-bottom: 4px;
+}
+
 .select-title__option .ant-select-dropdown-menu-item-selected,
 .select-title__option
-  .ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled) {
+  .ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled),
+.select-title__add:hover {
   background-color: #4d6982;
 }
 

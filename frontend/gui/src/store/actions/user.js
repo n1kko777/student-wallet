@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 import { setAlert } from "./alerts";
 import { logout } from "./auth";
+import store from "../index";
 
 const countUserMoney = user => {
   user.user_amount = 0;
@@ -19,7 +20,7 @@ const countUserMoney = user => {
 };
 
 // Get user from server
-export const getUser = user => dispatch => {
+export const getUser = (user = store.getState().user.user) => dispatch => {
   setLoading();
 
   axios

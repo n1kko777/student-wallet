@@ -12,6 +12,7 @@ import {
 
 import axios from "axios";
 import { setAlert } from "./alerts";
+import { getUser } from "./user";
 import { logout } from "./auth";
 
 // Get wallets from server
@@ -64,6 +65,7 @@ export const addWallet = wallet => dispatch => {
       dispatch({
         type: ADD_WALLET
       });
+      dispatch(getUser());
     })
     .catch(error => {
       dispatch(

@@ -1,5 +1,5 @@
-import React from "react";
-import { Layout, Typography, Select, Icon } from "antd";
+import React, { useState } from "react";
+import { Layout, Typography, Select, Icon, Divider } from "antd";
 import { Grid, Row, Col } from "react-flexbox-grid";
 
 import { Link, useLocation } from "react-router-dom";
@@ -11,75 +11,104 @@ import PropTypes from "prop-types";
 import OperationTitle from "../operations/OperationTitle";
 import MainMenu from "./MainMenu";
 
+import CreateWallet from "../wallets/CreateWallet";
+
 const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
   const { Header } = Layout;
   const { Title } = Typography;
   const { Option } = Select;
 
   const { pathname } = useLocation();
+  const [isModalCreate, setModalCreate] = useState(false);
+
+  const showModal = () => {
+    setModalCreate(true);
+  };
+
+  const handleCancel = () => {
+    setModalCreate(false);
+  };
+
+  const handleSubmit = () => {
+    setModalCreate(false);
+  };
 
   return (
-    <Header style={{ display: "flex", alignItems: "center" }}>
-      <Grid>
-        <Row middle="xs" between="xs">
-          <Col xs={7} sm={5} md={4} lg={3}>
-            {pathname === "/feed" ? (
-              <Select
-                defaultValue="main"
-                className="select-title"
-                dropdownClassName="select-title__option"
-                loading={userLoading}
-              >
-                <Option value="main">
-                  <OperationTitle
-                    credit={
-                      isAuth &&
-                      user_amount !== null &&
-                      user_amount !== undefined
-                        ? user_amount.toString()
-                        : "0"
-                    }
-                  />
-                </Option>
+    <>
+      <CreateWallet
+        visible={isModalCreate}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+      />
 
-                {wallets !== null &&
-                  wallets.map(wallet => (
-                    <Option key={wallet.id} value={wallet.wallet_name}>
-                      <OperationTitle
-                        credit={
-                          wallet.wallet_amount !== null
-                            ? wallet.wallet_amount.toString()
-                            : "0"
-                        }
+      <Header style={{ display: "flex", alignItems: "center", padding: "0" }}>
+        <Grid>
+          <Row middle="xs" between="xs">
+            <Col xs={7} sm={5} md={4} lg={3}>
+              {pathname === "/feed" ? (
+                <Select
+                  defaultValue="main"
+                  className="select-title"
+                  dropdownClassName="select-title__option"
+                  loading={userLoading}
+                  dropdownRender={menu => (
+                    <div style={{ background: "#324454" }}>
+                      {menu}
+                      <Divider
+                        style={{ margin: "4px 0", background: "#fff" }}
                       />
-                    </Option>
-                  ))}
-              </Select>
-            ) : (
-              // <div className="amount">
-              // <OperationTitle
-              //   credit={
-              //     isAuth && user_amount !== null && user_amount !== undefined
-              //       ? user_amount.toString()
-              //       : "0"
-              //   }
-              // />
-              // </div>
-              <Link to={isAuth ? "/feed" : "/"}>
-                <Title style={{ color: "#fff", marginBottom: "0" }} level={3}>
-                  StudWall
-                </Title>
-              </Link>
-            )}
-          </Col>
-          <Col xs={2} sm={1}>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <MainMenu />
-            </div>
-          </Col>
-        </Row>
-      </Grid>
-    </Header>
+                      <div
+                        onMouseDown={e => e.preventDefault()}
+                        onClick={showModal}
+                        className="select-title__add"
+                      >
+                        <Icon type="plus" /> Добавить кошелек
+                      </div>
+                    </div>
+                  )}
+                >
+                  <Option value="main">
+                    <OperationTitle
+                      credit={
+                        isAuth &&
+                        user_amount !== null &&
+                        user_amount !== undefined
+                          ? user_amount.toString()
+                          : "0"
+                      }
+                    />
+                  </Option>
+
+                  {wallets !== null &&
+                    wallets.map(wallet => (
+                      <Option key={wallet.id} value={wallet.wallet_name}>
+                        <OperationTitle
+                          credit={
+                            wallet.wallet_amount !== null
+                              ? wallet.wallet_amount.toString()
+                              : "0"
+                          }
+                        />
+                      </Option>
+                    ))}
+                </Select>
+              ) : (
+                <Link to={isAuth ? "/feed" : "/"}>
+                  <Title style={{ color: "#fff", marginBottom: "0" }} level={3}>
+                    StudWall
+                  </Title>
+                </Link>
+              )}
+            </Col>
+            <Col xs={2} sm={1}>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <MainMenu />
+              </div>
+            </Col>
+          </Row>
+        </Grid>
+      </Header>
+    </>
   );
 };
 
