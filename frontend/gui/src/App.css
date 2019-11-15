@@ -1,3 +1,7 @@
+input,
+select {
+  font-size: 16px !important;
+}
 .humburger {
   display: flex;
   justify-content: center;

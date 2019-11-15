@@ -41,10 +41,10 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
         onCancel={handleCancel}
       />
 
-      <Header style={{ display: "flex", alignItems: "center", padding: "0" }}>
+      <Header style={{ padding: "0" }}>
         <Grid>
           <Row middle="xs" between="xs">
-            <Col xs={7} sm={5} md={4} lg={3}>
+            <Col xs={isAuth ? 9 : 3} sm={isAuth ? 6 : 3} md={4} lg={3}>
               {pathname === "/feed" ? (
                 <Select
                   defaultValue="main"
@@ -100,7 +100,7 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
                 </Link>
               )}
             </Col>
-            <Col xs={2} sm={1}>
+            <Col xs={isAuth ? 3 : 9}>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
                 <MainMenu />
               </div>
