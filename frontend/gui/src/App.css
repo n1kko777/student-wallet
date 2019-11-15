@@ -56,6 +56,21 @@ select {
   background-color: #4d6982;
 }
 
+.main-menu {
+  border: none;
+  border-radius: 0;
+  width: 190px;
+  background: #324454;
+}
+
+.main-menu .ant-dropdown-menu-item > a {
+  color: #fff;
+}
+
+.main-menu .ant-dropdown-menu-item:hover {
+  background-color: #4d6982;
+}
+
 .footer {
   position: fixed;
   background: #fafafa;
