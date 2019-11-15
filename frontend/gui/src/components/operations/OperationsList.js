@@ -151,6 +151,17 @@ const OperationsList = ({
                       .wallet_name.toString()
                   : ""
               }
+              wallet_color={
+                elem.wallet !== null && wallets !== null
+                  ? wallets
+                      .filter(
+                        (wallet, i) =>
+                          elem.wallet === wallet.id &&
+                          wallets[i].wallet_color !== null
+                      )[0]
+                      .wallet_color.toString()
+                  : ""
+              }
               category={
                 elem.category !== null && categories !== null
                   ? categories

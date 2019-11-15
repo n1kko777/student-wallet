@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const OperationTitle = ({ credit }) => {
+const OperationTitle = ({ credit, color }) => {
   const splitToDigits = str => {
     let parts = (str + "").split("."),
       main = parts[0],
@@ -31,11 +31,17 @@ const OperationTitle = ({ credit }) => {
     splitToDigits(credit.replace(/\s/g, ""));
   }
 
-  return <>&#8381; {credit}</>;
+  return (
+    <>
+      <span style={{ color: color !== "" ? color : "initial" }}>&#8381;</span>{" "}
+      {credit}
+    </>
+  );
 };
 
 OperationTitle.propTypes = {
-  credit: PropTypes.string.isRequired
+  credit: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired
 };
 
 export default OperationTitle;

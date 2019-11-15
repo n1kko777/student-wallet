@@ -77,3 +77,17 @@ select {
 .login-form-button {
   width: 100%;
 }
+
+.hidden-input {
+  border: none;
+  background: #fff !important;
+  color: transparent !important;
+  cursor: default !important;
+  opacity: 0 !important;
+}
+
+.circle-picker {
+  width: 100% !important;
+  margin-top: -30px;
+  padding-right: 15px;
+}

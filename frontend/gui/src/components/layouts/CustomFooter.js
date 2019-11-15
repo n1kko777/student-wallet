@@ -19,16 +19,17 @@ const CustomFooter = ({ user_earn, user_spend }) => {
   const { pathname } = useLocation();
 
   return (
-    <Footer className='footer'>
+    <Footer className="footer">
       <CustomAlert />
       <Grid>
         {pathname === "/feed" ? (
-          <Row between='xs'>
+          <Row between="xs">
             <Col xs={12} sm={6} md={4}>
-              <Row between='xs'>
+              <Row between="xs">
                 <Col xs={6}>
-                  <Icon type='up' style={{ color: "red" }} />{" "}
+                  <Icon type="up" style={{ color: "red" }} />{" "}
                   <OperationTitle
+                    color={""}
                     credit={
                       user_spend !== undefined && user_spend !== null
                         ? user_spend.toString()
@@ -37,8 +38,9 @@ const CustomFooter = ({ user_earn, user_spend }) => {
                   />
                 </Col>
                 <Col xs={6}>
-                  <Icon type='down' style={{ color: "green" }} />{" "}
+                  <Icon type="down" style={{ color: "green" }} />{" "}
                   <OperationTitle
+                    color={""}
                     credit={
                       user_earn !== undefined && user_earn !== null
                         ? user_earn.toString()

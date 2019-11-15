@@ -6,6 +6,7 @@ import { addWallet } from "../../store/actions/wallets";
 
 import { Modal, Form, Input, InputNumber } from "antd";
 import moment from "moment";
+import { CirclePicker } from "react-color";
 
 const CreateWallet = ({ addWallet, visible, onCancel, onSubmit, form }) => {
   const { getFieldDecorator } = form;
@@ -19,6 +20,13 @@ const CreateWallet = ({ addWallet, visible, onCancel, onSubmit, form }) => {
       addWallet(fieldsValue);
       form.resetFields();
       onSubmit();
+    });
+  };
+
+  const handleChange = (color, event) => {
+    event.target.style.boxShadow = `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}) 0px 0px 0px 4px inset`;
+    form.setFieldsValue({
+      wallet_color: color.hex
     });
   };
 
@@ -70,7 +78,11 @@ const CreateWallet = ({ addWallet, visible, onCancel, onSubmit, form }) => {
                 message: "Пожалуйста введите цвет!"
               }
             ]
-          })(<Input style={{ width: "100%" }} />)}
+          })(<Input className="hidden-input" disabled />)}
+
+          <div>
+            <CirclePicker onChange={handleChange} />
+          </div>
         </Form.Item>
       </Form>
     </Modal>

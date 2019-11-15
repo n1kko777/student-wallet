@@ -12,6 +12,7 @@ const OperationItem = ({
   operation,
   credit,
   wallet,
+  wallet_color,
   category,
   removeFromAmount,
   showEditModal,
@@ -59,13 +60,27 @@ const OperationItem = ({
                 <Icon type="down" key="down" style={{ color: "green" }} />
               )
             }
-            title={<OperationTitle credit={credit} />}
+            title={<OperationTitle credit={credit} color={wallet_color} />}
             description={
               <>
                 <p>
                   <Text>{category}</Text>
                   <br />
-                  <Text>{wallet}</Text>
+                  <Text>
+                    <span
+                      style={{
+                        display: "inline-block",
+                        width: "6px",
+                        height: "6px",
+                        borderRadius: "50%",
+                        verticalAlign: "middle",
+                        marginRight: "5px",
+                        background:
+                          wallet_color !== "" ? wallet_color : "initial"
+                      }}
+                    ></span>
+                    {wallet}
+                  </Text>
                 </p>
                 <Text
                   type="secondary"
@@ -93,6 +108,7 @@ OperationItem.propTypes = {
   operation: PropTypes.object.isRequired,
   credit: PropTypes.string.isRequired,
   wallet: PropTypes.string.isRequired,
+  wallet_color: PropTypes.string.isRequired,
   category: PropTypes.string,
   removeFromAmount: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,

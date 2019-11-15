@@ -76,6 +76,7 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
                           ? user_amount.toString()
                           : "0"
                       }
+                      color={"#fff"}
                     />
                   </Option>
 
@@ -87,6 +88,11 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
                             wallet.wallet_amount !== null
                               ? wallet.wallet_amount.toString()
                               : "0"
+                          }
+                          color={
+                            wallet.wallet_color !== null
+                              ? wallet.wallet_color.toString()
+                              : ""
                           }
                         />
                       </Option>

@@ -145,6 +145,20 @@ const CreateOperation = ({
                     value={wallet.id}
                     title={"Баланс: " + wallet.wallet_amount + " Р"}
                   >
+                    <span
+                      style={{
+                        display: "inline-block",
+                        width: "6px",
+                        height: "6px",
+                        borderRadius: "50%",
+                        marginRight: "5px",
+                        verticalAlign: "middle",
+                        background:
+                          wallet.wallet_color !== ""
+                            ? wallet.wallet_color
+                            : "initial"
+                      }}
+                    ></span>{" "}
                     {wallet.wallet_name}
                   </Option>
                 ))}
