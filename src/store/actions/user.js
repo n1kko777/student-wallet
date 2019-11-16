@@ -20,7 +20,7 @@ export const getUser = (user = store.getState().user.user) => dispatch => {
   setLoading();
 
   axios
-    .get(`http://127.0.0.1:8000/api/v1/users/${user.id}/`, {
+    .get(`https://studwall-app.herokuapp.com/api/v1/users/${user.id}/`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Token " + JSON.parse(localStorage.getItem("user")).token
