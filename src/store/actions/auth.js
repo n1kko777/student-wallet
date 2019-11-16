@@ -81,7 +81,7 @@ export const authLogin = (username, password, isRemindMe) => {
     dispatch(authStart());
 
     axios
-      .post("http://127.0.0.1:8000/api/v1/api-token-auth/login/", {
+      .post("https://studwall-app.herokuapp.com/api/v1/api-token-auth/login/", {
         username: username,
         password: password
       })
@@ -101,7 +101,7 @@ export const authSignUp = (username, email, password1, password2) => {
     dispatch(authStart());
 
     axios
-      .post("http://127.0.0.1:8000/rest/auth/register/", {
+      .post("https://studwall-app.herokuapp.com/rest/auth/register/", {
         username: username,
         email: email,
         password1: password1,
