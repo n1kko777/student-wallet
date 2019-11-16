@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # deploy to heroku
-    'whitenoise.runzserver_nostatic',
+    'whitenoise.runserver_nostatic',
 
     # rest
     'rest_framework',
