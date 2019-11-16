@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
-import { addWallet } from "../../store/actions/wallets";
+import { addCategory } from "../../store/actions/categories";
 
-import { Modal, Form, Input, InputNumber } from "antd";
+import { Modal, Form, Input } from "antd";
 import moment from "moment";
 import { CirclePicker } from "react-color";
 
-const CreateWallet = ({ addWallet, visible, onCancel, onSubmit, form }) => {
+const CreateCategory = ({ addCategory, visible, onCancel, onSubmit, form }) => {
   const { getFieldDecorator } = form;
 
   const onCreate = () => {
@@ -17,7 +17,7 @@ const CreateWallet = ({ addWallet, visible, onCancel, onSubmit, form }) => {
         return;
       }
 
-      addWallet(fieldsValue);
+      addCategory(fieldsValue);
       form.resetFields();
       onSubmit();
     });
@@ -26,52 +26,32 @@ const CreateWallet = ({ addWallet, visible, onCancel, onSubmit, form }) => {
   const handleChange = (color, event) => {
     event.target.style.boxShadow = `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}) 0px 0px 0px 4px inset`;
     form.setFieldsValue({
-      wallet_color: color.hex
+      category_color: color.hex
     });
   };
 
   return (
     <Modal
       visible={visible}
-      title="Добавить кошелек"
+      title="Добавить категорию"
       okText="Добавить"
       cancelText="Отменить"
       onCancel={onCancel}
       onOk={onCreate}
     >
       <Form layout="vertical">
-        <Form.Item label="Название кошелька" hasFeedback>
-          {getFieldDecorator("wallet_name", {
+        <Form.Item label="Название категории" hasFeedback>
+          {getFieldDecorator("category_name", {
             rules: [
               {
                 required: true,
-                message: "Пожалуйста введите название кошелька!"
+                message: "Пожалуйста введите название категории!"
               }
             ]
           })(<Input style={{ width: "100%" }} />)}
         </Form.Item>
-        <Form.Item label="Остаток в кошельке" hasFeedback>
-          {getFieldDecorator("wallet_amount", {
-            rules: [
-              {
-                required: true,
-                message: "Пожалуйста введите число!"
-              }
-            ]
-          })(
-            <InputNumber
-              min={0}
-              formatter={value =>
-                `₽ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              // eslint-disable-next-line
-              parser={value => value.replace(/\₽\s?|(,*)/g, "")}
-              style={{ width: "100%" }}
-            />
-          )}
-        </Form.Item>
-        <Form.Item label="Выберите цвет кошелька" hasFeedback>
-          {getFieldDecorator("wallet_color", {
+        <Form.Item label="Выберите цвет категории" hasFeedback>
+          {getFieldDecorator("category_color", {
             rules: [
               {
                 required: true,
@@ -89,15 +69,15 @@ const CreateWallet = ({ addWallet, visible, onCancel, onSubmit, form }) => {
   );
 };
 
-CreateWallet.propTypes = {
+CreateCategory.propTypes = {
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  addWallet: PropTypes.func.isRequired,
+  addCategory: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired
 };
 
-const WrappedCreateWallet = Form.create({
+const WrappedCreateCategory = Form.create({
   mapPropsToFields() {
     return {
       created_at: Form.createFormField({
@@ -105,10 +85,10 @@ const WrappedCreateWallet = Form.create({
       })
     };
   }
-})(CreateWallet);
+})(CreateCategory);
 
 const mapDispatchToProps = dispatch => ({
-  addWallet: operation => dispatch(addWallet(operation))
+  addCategory: operation => dispatch(addCategory(operation))
 });
 
-export default connect(null, mapDispatchToProps)(WrappedCreateWallet);
+export default connect(null, mapDispatchToProps)(WrappedCreateCategory);

@@ -3,6 +3,7 @@ import authReducer from "./authReducer";
 import alertReducer from "./alertReducer";
 import operationReducer from "./operationReducer";
 import walletReducer from "./walletReducer";
+import categoryReducer from "./categoryReducer";
 import userReducer from "./userReducer";
 
 export default combineReducers({
@@ -10,5 +11,6 @@ export default combineReducers({
   alert: alertReducer,
   operations: operationReducer,
   wallets: walletReducer,
+  categories: categoryReducer,
   user: userReducer
 });

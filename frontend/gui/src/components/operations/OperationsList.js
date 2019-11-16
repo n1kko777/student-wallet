@@ -23,14 +23,14 @@ const OperationsList = ({
   userData,
   updateUser,
   updateWallet,
+  wallets,
+  categories,
   operations: { operations },
   setCurrent,
   clearCurrent,
   deleteOperation,
   loading
 }) => {
-  const { wallets, categories } = userData;
-
   useEffect(() => {
     if (operations !== null) {
       userData.user_earn = 0;
@@ -165,12 +165,12 @@ const OperationsList = ({
               category={
                 elem.category !== null && categories !== null
                   ? categories
-                      .map(
+                      .filter(
                         (category, i) =>
                           elem.category === category.id &&
-                          categories[i].category_name
+                          categories[i].category_name !== null
                       )[0]
-                      .toString()
+                      .category_name.toString()
                   : ""
               }
               removeFromAmount={elem.category !== null}
@@ -191,6 +191,8 @@ OperationsList.propTypes = {
   loading: PropTypes.bool.isRequired,
   userData: PropTypes.object.isRequired,
   updateWallet: PropTypes.func.isRequired,
+  wallets: PropTypes.array,
+  categories: PropTypes.array,
   operations: PropTypes.object.isRequired,
   setCurrent: PropTypes.func.isRequired,
   deleteOperation: PropTypes.func.isRequired,
@@ -200,6 +202,8 @@ OperationsList.propTypes = {
 const mapStateToProps = ({ user, operations }) => ({
   loading: operations.loading,
   userData: user.user,
+  wallets: user.user.wallets,
+  categories: user.user.categories,
   operations: operations
 });
 

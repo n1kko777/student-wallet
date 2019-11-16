@@ -20,6 +20,7 @@ const OperationItem = ({
   onDelete,
   loading
 }) => {
+  console.log("category :", category);
   const { Meta } = Card;
   const { Text } = Typography;
 
