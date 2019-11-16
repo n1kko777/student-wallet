@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import OperationTitle from "../operations/OperationTitle";
-import CustomDatePicker from "../layouts/CustomDatePicker";
+import CustomDatePicker from "./CustomDatePicker";
 
 const CustomFooter = ({ user_earn, user_spend }) => {
   const { Footer } = Layout;

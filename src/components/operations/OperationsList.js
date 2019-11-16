@@ -13,8 +13,8 @@ import {
 } from "../../store/actions/operations";
 import { updateWallet } from "../../store/actions/wallets";
 
-import UpdateOperation from "../operations/UpdateOperation";
-import CopyOperation from "../operations/CopyOperation";
+import UpdateOperation from "./UpdateOperation";
+import CopyOperation from "./CopyOperation";
 
 import OperationItem from "./OperationItem";
 import { updateUser } from "../../store/actions/user";

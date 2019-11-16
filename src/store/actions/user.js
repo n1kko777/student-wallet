@@ -1,9 +1,4 @@
-import {
-  GET_USER,
-  UPDATE_USER,
-  USER_ERROR,
-  USER_LOADING
-} from "../actions/actionTypes";
+import { GET_USER, UPDATE_USER, USER_ERROR, USER_LOADING } from "./actionTypes";
 
 import axios from "axios";
 import { message } from "antd";
