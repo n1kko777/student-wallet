@@ -6,7 +6,8 @@ import {
 } from "../actions/actionTypes";
 
 import axios from "axios";
-import { setAlert } from "./alerts";
+import { message } from "antd";
+
 import { logout } from "./auth";
 import store from "../index";
 
@@ -34,24 +35,22 @@ export const getUser = (user = store.getState().user.user) => dispatch => {
       const user = res.data;
       countUserMoney(user);
 
-      setAlert("Данные получены", "sucess");
+      message.success("Данные получены.");
       dispatch({
         type: GET_USER,
         payload: user
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
 
       dispatch(logout());
       dispatch({

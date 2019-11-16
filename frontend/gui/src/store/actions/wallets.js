@@ -11,7 +11,8 @@ import {
 } from "./actionTypes";
 
 import axios from "axios";
-import { setAlert } from "./alerts";
+import { message } from "antd";
+
 import { getUser } from "./user";
 import { logout } from "./auth";
 
@@ -30,17 +31,15 @@ export const getWallets = () => dispatch => {
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
 
       dispatch({
         type: WALLETS_ERROR,
@@ -61,24 +60,23 @@ export const addWallet = wallet => dispatch => {
       wallet_color: wallet.wallet_color
     })
     .then(res => {
-      dispatch(setAlert("Запись создана.", "success"));
+      message.success("Запись создана.");
       dispatch({
         type: ADD_WALLET
       });
       dispatch(getUser());
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
+
       dispatch({
         type: WALLETS_ERROR,
         payload: error.message
@@ -93,7 +91,7 @@ export const deleteWallet = id => dispatch => {
   axios
     .delete(`http://127.0.0.1:8000/api/v1/wallets/${id}/`)
     .then(res => {
-      dispatch(setAlert("Запись удалена.", "success"));
+      message.success("Запись удалена.");
 
       dispatch({
         type: DELETE_WALLET,
@@ -101,17 +99,16 @@ export const deleteWallet = id => dispatch => {
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
+
       dispatch({
         type: WALLETS_ERROR,
         payload: error.message
@@ -134,17 +131,16 @@ export const updateWallet = wallet => dispatch => {
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
+
       dispatch({
         type: WALLETS_ERROR,
         payload: error.message
@@ -165,12 +161,10 @@ export const searchWallets = text => dispatch => {
       payload: data
     });
   } catch (error) {
-    dispatch(
-      setAlert(
-        `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-        "error"
-      )
+    message.error(
+      `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`
     );
+
     dispatch({
       type: WALLETS_ERROR,
       payload: error.message

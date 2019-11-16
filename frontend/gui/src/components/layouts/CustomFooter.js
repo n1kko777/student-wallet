@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 
 import OperationTitle from "../operations/OperationTitle";
 import CustomDatePicker from "../layouts/CustomDatePicker";
-import CustomAlert from "./CustomAlert";
 
 const CustomFooter = ({ user_earn, user_spend }) => {
   const { Footer } = Layout;
@@ -20,7 +19,6 @@ const CustomFooter = ({ user_earn, user_spend }) => {
 
   return (
     <Footer className="footer">
-      <CustomAlert />
       <Grid>
         {pathname === "/feed" ? (
           <Row between="xs">

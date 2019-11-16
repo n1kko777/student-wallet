@@ -1,17 +1,15 @@
 import React, { useEffect } from "react";
-import { Form, Icon, Input, Button, Checkbox, Spin } from "antd";
+import { message, Form, Icon, Input, Button, Checkbox, Spin } from "antd";
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { authLogin, remindMe } from "../../store/actions/auth";
-import { setAlert } from "../../store/actions/alerts";
 
 import { useHistory } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
 const Login = ({
-  setAlert,
   isAuth,
   isRemindMe,
   remindMe,
@@ -28,7 +26,7 @@ const Login = ({
 
   useEffect(() => {
     if (error !== null) {
-      setAlert(error.message, "error", 10000);
+      message.error(error.message, 5);
     }
     // eslint-disable-next-line
   }, []);
@@ -50,7 +48,7 @@ const Login = ({
 
   const { getFieldDecorator } = form;
 
-  const antIcon = <Icon type='loading' style={{ fontSize: 32 }} spin />;
+  const antIcon = <Icon type="loading" style={{ fontSize: 32 }} spin />;
 
   return (
     <div
@@ -59,16 +57,16 @@ const Login = ({
       {loading ? (
         <Spin indicator={antIcon} />
       ) : (
-        <Form onSubmit={handleSubmit} className='login-form'>
+        <Form onSubmit={handleSubmit} className="login-form">
           <Form.Item>
             {getFieldDecorator("username", {
               rules: [{ required: true, message: "Пожалуйста введите почту!" }]
             })(
               <Input
                 prefix={
-                  <Icon type='user' style={{ color: "rgba(0,0,0,.25)" }} />
+                  <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder='логин'
+                placeholder="логин"
               />
             )}
           </Form.Item>
@@ -78,10 +76,10 @@ const Login = ({
             })(
               <Input
                 prefix={
-                  <Icon type='lock' style={{ color: "rgba(0,0,0,.25)" }} />
+                  <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                type='password'
-                placeholder='Пароль'
+                type="password"
+                placeholder="Пароль"
               />
             )}
           </Form.Item>
@@ -91,17 +89,17 @@ const Login = ({
                 Запомнить меня
               </Checkbox>
             )}
-            <Link className='login-form-forgot' to='/reset'>
+            <Link className="login-form-forgot" to="/reset">
               Восстановить пароль
             </Link>
             <Button
-              type='primary'
-              htmlType='submit'
-              className='login-form-button'
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
             >
               Войти
             </Button>
-            Или <Link to='/register'>Зарегистрироваться!</Link>
+            Или <Link to="/register">Зарегистрироваться!</Link>
           </Form.Item>
         </Form>
       )}
@@ -117,7 +115,6 @@ Login.propTypes = {
   loading: PropTypes.bool.isRequired,
   onAuth: PropTypes.func.isRequired,
   remindMe: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired,
   error: PropTypes.object
 };
 
@@ -134,8 +131,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onAuth: (username, password, isRemindMe) =>
       dispatch(authLogin(username, password, isRemindMe)),
-    remindMe: state => dispatch(remindMe(state)),
-    setAlert: (msg, type, time) => dispatch(setAlert(msg, type, time))
+    remindMe: state => dispatch(remindMe(state))
   };
 };
 

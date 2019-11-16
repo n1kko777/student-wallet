@@ -3,20 +3,12 @@ import { Form, Input, Button, Icon, Spin } from "antd";
 
 import { connect } from "react-redux";
 import { authSignUp } from "../../store/actions/auth";
-import { setAlert } from "../../store/actions/alerts";
 
 import { useHistory, Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-const Register = ({
-  setAlert,
-  isRegister,
-  form,
-  onRegister,
-  loading,
-  error
-}) => {
+const Register = ({ isRegister, form, onRegister, loading, error }) => {
   const { push } = useHistory();
   const [confirmDirty, setConfirmDirty] = useState(false);
 
@@ -25,13 +17,6 @@ const Register = ({
       push("/login");
     }
   });
-
-  useEffect(() => {
-    if (error !== null) {
-      setAlert(error.message, "error", 10000);
-    }
-    // eslint-disable-next-line
-  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -69,7 +54,7 @@ const Register = ({
 
   const { getFieldDecorator } = form;
 
-  const antIcon = <Icon type='loading' style={{ fontSize: 32 }} spin />;
+  const antIcon = <Icon type="loading" style={{ fontSize: 32 }} spin />;
 
   return (
     <div
@@ -78,7 +63,7 @@ const Register = ({
       {loading ? (
         <Spin indicator={antIcon} />
       ) : (
-        <Form onSubmit={handleSubmit} className='login-form'>
+        <Form onSubmit={handleSubmit} className="login-form">
           <Form.Item>
             {getFieldDecorator("nickname", {
               rules: [
@@ -91,9 +76,9 @@ const Register = ({
             })(
               <Input
                 prefix={
-                  <Icon type='user' style={{ color: "rgba(0,0,0,.25)" }} />
+                  <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder='Ваш логин'
+                placeholder="Ваш логин"
               />
             )}
           </Form.Item>
@@ -112,9 +97,9 @@ const Register = ({
             })(
               <Input
                 prefix={
-                  <Icon type='mail' style={{ color: "rgba(0,0,0,.25)" }} />
+                  <Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder='Почта'
+                placeholder="Почта"
               />
             )}
           </Form.Item>
@@ -132,9 +117,9 @@ const Register = ({
             })(
               <Input.Password
                 prefix={
-                  <Icon type='lock' style={{ color: "rgba(0,0,0,.25)" }} />
+                  <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder='Пароль'
+                placeholder="Пароль"
               />
             )}
           </Form.Item>
@@ -152,22 +137,22 @@ const Register = ({
             })(
               <Input.Password
                 prefix={
-                  <Icon type='lock' style={{ color: "rgba(0,0,0,.25)" }} />
+                  <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder='Подтвердите пароль'
+                placeholder="Подтвердите пароль"
                 onBlur={handleConfirmBlur}
               />
             )}
           </Form.Item>
           <Form.Item>
             <Button
-              type='primary'
-              htmlType='submit'
-              className='login-form-button'
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
             >
               Зарегистрироваться
             </Button>
-            Или <Link to='/login'>Войти!</Link>
+            Или <Link to="/login">Войти!</Link>
           </Form.Item>
         </Form>
       )}
@@ -182,7 +167,6 @@ Register.propTypes = {
   isRegister: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   onRegister: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired,
   error: PropTypes.object
 };
 
@@ -197,8 +181,7 @@ const mapStateToProps = ({ auth }) => {
 const mapDispatchToProps = dispatch => {
   return {
     onRegister: (nickname, email, password1, password2) =>
-      dispatch(authSignUp(nickname, email, password1, password2)),
-    setAlert: (msg, type, time) => dispatch(setAlert(msg, type, time))
+      dispatch(authSignUp(nickname, email, password1, password2))
   };
 };
 

@@ -11,7 +11,8 @@ import {
 } from "./actionTypes";
 
 import axios from "axios";
-import { setAlert } from "./alerts";
+import { message } from "antd";
+
 import { getUser } from "./user";
 import { logout } from "./auth";
 
@@ -30,17 +31,15 @@ export const getCategorys = () => dispatch => {
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
 
       dispatch({
         type: CATEGORIES_ERROR,
@@ -60,24 +59,23 @@ export const addCategory = category => dispatch => {
       category_color: category.category_color
     })
     .then(res => {
-      dispatch(setAlert("Запись создана.", "success"));
+      message.success("Запись создана.");
       dispatch({
         type: ADD_CATEGORY
       });
       dispatch(getUser());
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
+
       dispatch({
         type: CATEGORIES_ERROR,
         payload: error.message
@@ -92,7 +90,7 @@ export const deleteCategory = id => dispatch => {
   axios
     .delete(`http://127.0.0.1:8000/api/v1/categories/${id}/`)
     .then(res => {
-      dispatch(setAlert("Запись удалена.", "success"));
+      message.success("Запись удалена.");
 
       dispatch({
         type: DELETE_CATEGORY,
@@ -100,17 +98,16 @@ export const deleteCategory = id => dispatch => {
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
+
       dispatch({
         type: CATEGORIES_ERROR,
         payload: error.message
@@ -132,17 +129,16 @@ export const updateCategory = category => dispatch => {
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
+
       dispatch({
         type: CATEGORIES_ERROR,
         payload: error.message
@@ -163,12 +159,10 @@ export const searchCategorys = text => dispatch => {
       payload: data
     });
   } catch (error) {
-    dispatch(
-      setAlert(
-        `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-        "error"
-      )
+    message.error(
+      `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`
     );
+
     dispatch({
       type: CATEGORIES_ERROR,
       payload: error.message

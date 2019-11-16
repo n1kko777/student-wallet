@@ -37,10 +37,6 @@ export const OPERATION_CLEAR_CURRENT = "OPERATION_CLEAR_CURRENT";
 export const UPDATE_OPERATION = "UPDATE_OPERATION";
 export const SEARCH_OPERATIONS = "SEARCH_OPERATIONS";
 
-// Alerts
-export const SET_ALERT = "SET_ALERT";
-export const REMOVE_ALERT = "REMOVE_ALERT";
-
 // Auth
 export const REMIND_ME = "REMIND_ME";
 export const AUTH_START = "AUTH_START";

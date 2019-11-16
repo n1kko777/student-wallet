@@ -11,7 +11,8 @@ import {
 } from "./actionTypes";
 
 import axios from "axios";
-import { setAlert } from "./alerts";
+import { message } from "antd";
+
 import { logout } from "./auth";
 
 // Get operations from server
@@ -29,17 +30,15 @@ export const getOperations = () => dispatch => {
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
 
       dispatch({
         type: OPERATIONS_ERROR,
@@ -61,24 +60,23 @@ export const addOperation = operation => dispatch => {
       created_at: operation.created_at
     })
     .then(res => {
-      dispatch(setAlert("Запись создана.", "success"));
+      message.success("Запись создана.");
       dispatch({
         type: ADD_OPERATION,
         payload: res.data
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
+
       dispatch({
         type: OPERATIONS_ERROR,
         payload: error.message
@@ -93,7 +91,7 @@ export const deleteOperation = id => dispatch => {
   axios
     .delete(`http://127.0.0.1:8000/api/v1/operations/${id}/`)
     .then(res => {
-      dispatch(setAlert("Запись удалена.", "success"));
+      message.success("Запись удалена.");
 
       dispatch({
         type: DELETE_OPERATION,
@@ -101,17 +99,16 @@ export const deleteOperation = id => dispatch => {
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
+
       dispatch({
         type: OPERATIONS_ERROR,
         payload: error.message
@@ -130,24 +127,24 @@ export const updateOperation = operation => dispatch => {
       created_at: operation.created_at
     })
     .then(res => {
-      dispatch(setAlert("Запись обновлена.", "success"));
+      message.success("Запись обновлена.");
+
       dispatch({
         type: UPDATE_OPERATION,
         payload: res.data
       });
     })
     .catch(error => {
-      dispatch(
-        error.response !== undefined
-          ? setAlert(
-              `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-              "error"
-            )
-          : setAlert(
-              `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-              "error"
-            )
-      );
+      error.response !== undefined
+        ? message.error(
+            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
+            5
+          )
+        : message.error(
+            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
+            5
+          );
+
       dispatch({
         type: OPERATIONS_ERROR,
         payload: error.message
@@ -168,12 +165,10 @@ export const searchOperations = text => dispatch => {
       payload: data
     });
   } catch (error) {
-    dispatch(
-      setAlert(
-        `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-        "error"
-      )
+    message.error(
+      `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`
     );
+
     dispatch({
       type: OPERATIONS_ERROR,
       payload: error.message
