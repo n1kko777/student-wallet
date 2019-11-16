@@ -106,7 +106,7 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
                 </Link>
               )}
             </Col>
-            <Col xs={isAuth ? 3 : 9}>
+            <Col xs={isAuth ? 3 : 8}>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
                 <MainMenu />
               </div>
