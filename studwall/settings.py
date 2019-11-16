@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+# Import django_heroku module at the top of your settings.py file
+import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -37,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # deploy to heroku
+    'whitenoise.runzserver_nostatic',
 
     # rest
     'rest_framework',
@@ -134,16 +139,20 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Configure app for Heroku deployment
+django_heroku.settings(locals())
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
-]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# Place static in the same location as webpack build files
+STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
+STATICFILES_DIRS = []
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
