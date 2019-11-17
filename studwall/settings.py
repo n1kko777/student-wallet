@@ -155,19 +155,17 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication'
-    ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    )
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
 }
 
 REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'api.serializers.TokenSerializer',
 }
-
-CORS_ORIGIN_ALLOW_ALL = True
 
 # Auth
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -189,6 +187,12 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
+)
+
+CSRF_COOKIE_NAME = "csrftoken"
 
 django_heroku.settings(locals())
 
