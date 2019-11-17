@@ -21,7 +21,7 @@ export const getCategorys = () => dispatch => {
   setLoading();
 
   axios
-    .get("hhttps://studwallet.herokuapp.com/api/v1/categories/")
+    .get("https://studwallet.herokuapp.com/api/v1/categories/")
     .then(res => {
       const categories = res.data;
 
@@ -54,7 +54,7 @@ export const getCategorys = () => dispatch => {
 export const addCategory = category => dispatch => {
   setLoading();
   axios
-    .post(`hhttps://studwallet.herokuapp.com/api/v1/categories/`, {
+    .post(`https://studwallet.herokuapp.com/api/v1/categories/`, {
       category_name: category.category_name,
       category_color: category.category_color
     })
@@ -88,7 +88,7 @@ export const deleteCategory = id => dispatch => {
   setLoading();
 
   axios
-    .delete(`hhttps://studwallet.herokuapp.com/api/v1/categories/${id}/`)
+    .delete(`https://studwallet.herokuapp.com/api/v1/categories/${id}/`)
     .then(res => {
       message.success("Запись удалена.");
 
@@ -119,7 +119,7 @@ export const deleteCategory = id => dispatch => {
 export const updateCategory = category => dispatch => {
   setLoading();
   axios
-    .put(`hhttps://studwallet.herokuapp.com/api/v1/categories/${category.id}/`, {
+    .put(`https://studwallet.herokuapp.com/api/v1/categories/${category.id}/`, {
       category_name: category.category_name,
       category_color: category.category_color
     })

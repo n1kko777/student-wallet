@@ -20,7 +20,7 @@ export const getUser = (user = store.getState().user.user) => dispatch => {
   setLoading();
 
   axios
-    .get(`hhttps://studwallet.herokuapp.com/api/v1/users/${user.id}/`, {
+    .get(`https://studwallet.herokuapp.com/api/v1/users/${user.id}/`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Token " + JSON.parse(localStorage.getItem("user")).token
