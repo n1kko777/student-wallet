@@ -100,14 +100,14 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
                 </Select>
               ) : (
                 <Link to={isAuth ? "/feed" : "/"}>
-                  <Title style={{ color: "#fff", marginBottom: "0" }} level={3}>
+                  <Title style={{ display: "flex", height: "100%", alignItems="center", color: "#fff", marginBottom: "0" }} level={3}>
                     StudWall
                   </Title>
                 </Link>
               )}
             </Col>
             <Col xs={isAuth ? 3 : 8}>
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <div style={{ display: "flex", height: "100%", alignItems="center", justifyContent: "flex-end" }}>
                 <MainMenu />
               </div>
             </Col>

@@ -189,7 +189,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
+    'http://localhost:3000',
 )
 
 CSRF_COOKIE_NAME = "csrftoken"
