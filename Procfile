@@ -1,1 +1,1 @@
-web: gunicorn herokugisproject.wsgi --log-file=-
+web: gunicorn studwall.wsgi --log-file=-
