@@ -25,7 +25,7 @@ SECRET_KEY = '$(((t1=ysx8mv30sll-2joq!g39r8wfcvh9m!(8f(5!wp_o8gv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'studwall-app.herokuapp.com']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'studwall-app.herokuapp.com']
 
 
 # Application definition
