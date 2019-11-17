@@ -20,7 +20,7 @@ export const getOperations = () => dispatch => {
   setLoading();
 
   axios
-    .get("https://studwall-app.herokuapp.com/api/v1/operations/")
+    .get("hhttps://studwallet.herokuapp.com/api/v1/operations/")
     .then(res => {
       const operations = res.data;
 
@@ -53,7 +53,7 @@ export const getOperations = () => dispatch => {
 export const addOperation = operation => dispatch => {
   setLoading();
   axios
-    .post(`https://studwall-app.herokuapp.com/api/v1/operations/`, {
+    .post(`hhttps://studwallet.herokuapp.com/api/v1/operations/`, {
       credit: operation.credit,
       category: operation.category,
       wallet: operation.wallet,
@@ -89,7 +89,7 @@ export const deleteOperation = id => dispatch => {
   setLoading();
 
   axios
-    .delete(`https://studwall-app.herokuapp.com/api/v1/operations/${id}/`)
+    .delete(`hhttps://studwallet.herokuapp.com/api/v1/operations/${id}/`)
     .then(res => {
       message.success("Запись удалена.");
 
@@ -120,7 +120,7 @@ export const deleteOperation = id => dispatch => {
 export const updateOperation = operation => dispatch => {
   setLoading();
   axios
-    .put(`https://studwall-app.herokuapp.com/api/v1/operations/${operation.id}/`, {
+    .put(`hhttps://studwallet.herokuapp.com/api/v1/operations/${operation.id}/`, {
       credit: operation.credit,
       category: operation.category,
       wallet: operation.wallet,

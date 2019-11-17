@@ -81,7 +81,7 @@ export const authLogin = (username, password, isRemindMe) => {
     dispatch(authStart());
 
     axios
-      .post("https://studwall-app.herokuapp.com/api/v1/api-token-auth/login/", {
+      .post("hhttps://studwallet.herokuapp.com/api/v1/api-token-auth/login/", {
         username: username,
         password: password
       })
@@ -101,7 +101,7 @@ export const authSignUp = (username, email, password1, password2) => {
     dispatch(authStart());
 
     axios
-      .post("https://studwall-app.herokuapp.com/rest/auth/register/", {
+      .post("hhttps://studwallet.herokuapp.com/rest/auth/register/", {
         username: username,
         email: email,
         password1: password1,

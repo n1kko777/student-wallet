@@ -21,7 +21,7 @@ export const getWallets = () => dispatch => {
   setLoading();
 
   axios
-    .get("https://studwall-app.herokuapp.com/api/v1/wallets/")
+    .get("hhttps://studwallet.herokuapp.com/api/v1/wallets/")
     .then(res => {
       const wallets = res.data;
 
@@ -54,7 +54,7 @@ export const getWallets = () => dispatch => {
 export const addWallet = wallet => dispatch => {
   setLoading();
   axios
-    .post(`https://studwall-app.herokuapp.com/api/v1/wallets/`, {
+    .post(`hhttps://studwallet.herokuapp.com/api/v1/wallets/`, {
       wallet_amount: wallet.wallet_amount,
       wallet_name: wallet.wallet_name,
       wallet_color: wallet.wallet_color
@@ -89,7 +89,7 @@ export const deleteWallet = id => dispatch => {
   setLoading();
 
   axios
-    .delete(`https://studwall-app.herokuapp.com/api/v1/wallets/${id}/`)
+    .delete(`hhttps://studwallet.herokuapp.com/api/v1/wallets/${id}/`)
     .then(res => {
       message.success("Запись удалена.");
 
@@ -120,7 +120,7 @@ export const deleteWallet = id => dispatch => {
 export const updateWallet = wallet => dispatch => {
   setLoading();
   axios
-    .put(`https://studwall-app.herokuapp.com/api/v1/wallets/${wallet.id}/`, {
+    .put(`hhttps://studwallet.herokuapp.com/api/v1/wallets/${wallet.id}/`, {
       wallet_amount: wallet.wallet_amount,
       wallet_name: wallet.wallet_name,
       wallet_color: wallet.wallet_color
