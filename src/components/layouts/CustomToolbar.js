@@ -119,7 +119,7 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
               <div
                 style={{
                   display: "flex",
-                  height: "100%",
+                  height: "64px",
                   alignItems: "center",
                   justifyContent: "flex-end"
                 }}

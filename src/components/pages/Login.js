@@ -28,7 +28,7 @@ const Login = ({
     if (error !== null) {
       message.error(error.message, 5);
     }
-    // eslint-disable-next-line
+    
   }, []);
 
   const { push } = useHistory();
