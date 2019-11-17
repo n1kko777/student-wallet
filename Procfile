@@ -1,2 +1,2 @@
-release: python manage.py migrate
-web: gunicorn studwall.wsgi --log-file -
+release: python manage.py makemigrations && python manage.py migrate && python manage.py runserver
+web: gunicorn herokugisproject.wsgi --log-file=-
