@@ -1,3 +1,6 @@
+import axios from "axios";
+import { endpointAPI } from "../constants";
+
 import {
   GET_CATEGORIES,
   CATEGORY_LOADING,
@@ -10,7 +13,6 @@ import {
   SEARCH_CATEGORIES
 } from "./actionTypes";
 
-import axios from "axios";
 import { message } from "antd";
 
 import { getUser } from "./user";
@@ -21,7 +23,7 @@ export const getCategorys = () => dispatch => {
   setLoading();
 
   axios
-    .get("https://studwall-app.herokuapp.com/api/v1/categories/")
+    .get(`${endpointAPI}/categories/`)
     .then(res => {
       const categories = res.data;
 
@@ -31,15 +33,28 @@ export const getCategorys = () => dispatch => {
       });
     })
     .catch(error => {
-      error.response !== undefined
-        ? message.error(
-            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-            5
-          )
-        : message.error(
-            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-            5
-          );
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const keys = [];
+
+        for (const k in error.response.data) keys.push(k);
+
+        message.error(
+          `Код ошибки: ${error.response.status}. ${
+            error.response.data[keys[0]]
+          } Повторите попытку позже.`,
+          10
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error(
+          "Не удалось соединиться с сервером. Повторите попытку позже.",
+          10
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+      }
 
       dispatch({
         type: CATEGORIES_ERROR,
@@ -54,7 +69,7 @@ export const getCategorys = () => dispatch => {
 export const addCategory = category => dispatch => {
   setLoading();
   axios
-    .post(`https://studwall-app.herokuapp.com/api/v1/categories/`, {
+    .post(`${endpointAPI}/categories/`, {
       category_name: category.category_name,
       category_color: category.category_color
     })
@@ -66,15 +81,28 @@ export const addCategory = category => dispatch => {
       dispatch(getUser());
     })
     .catch(error => {
-      error.response !== undefined
-        ? message.error(
-            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-            5
-          )
-        : message.error(
-            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-            5
-          );
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const keys = [];
+
+        for (const k in error.response.data) keys.push(k);
+
+        message.error(
+          `Код ошибки: ${error.response.status}. ${
+            error.response.data[keys[0]]
+          } Повторите попытку позже.`,
+          10
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error(
+          "Не удалось соединиться с сервером. Повторите попытку позже.",
+          10
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+      }
 
       dispatch({
         type: CATEGORIES_ERROR,
@@ -88,7 +116,7 @@ export const deleteCategory = id => dispatch => {
   setLoading();
 
   axios
-    .delete(`https://studwall-app.herokuapp.com/api/v1/categories/${id}/`)
+    .delete(`${endpointAPI}/categories/${id}/`)
     .then(res => {
       message.success("Запись удалена.");
 
@@ -98,15 +126,28 @@ export const deleteCategory = id => dispatch => {
       });
     })
     .catch(error => {
-      error.response !== undefined
-        ? message.error(
-            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-            5
-          )
-        : message.error(
-            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-            5
-          );
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const keys = [];
+
+        for (const k in error.response.data) keys.push(k);
+
+        message.error(
+          `Код ошибки: ${error.response.status}. ${
+            error.response.data[keys[0]]
+          } Повторите попытку позже.`,
+          10
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error(
+          "Не удалось соединиться с сервером. Повторите попытку позже.",
+          10
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+      }
 
       dispatch({
         type: CATEGORIES_ERROR,
@@ -119,7 +160,7 @@ export const deleteCategory = id => dispatch => {
 export const updateCategory = category => dispatch => {
   setLoading();
   axios
-    .put(`https://studwall-app.herokuapp.com/api/v1/categories/${category.id}/`, {
+    .put(`${endpointAPI}/categories/${category.id}/`, {
       category_name: category.category_name,
       category_color: category.category_color
     })
@@ -129,15 +170,28 @@ export const updateCategory = category => dispatch => {
       });
     })
     .catch(error => {
-      error.response !== undefined
-        ? message.error(
-            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-            5
-          )
-        : message.error(
-            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-            5
-          );
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const keys = [];
+
+        for (const k in error.response.data) keys.push(k);
+
+        message.error(
+          `Код ошибки: ${error.response.status}. ${
+            error.response.data[keys[0]]
+          } Повторите попытку позже.`,
+          10
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error(
+          "Не удалось соединиться с сервером. Повторите попытку позже.",
+          10
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+      }
 
       dispatch({
         type: CATEGORIES_ERROR,
@@ -159,9 +213,28 @@ export const searchCategorys = text => dispatch => {
       payload: data
     });
   } catch (error) {
-    message.error(
-      `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`
-    );
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      const keys = [];
+
+      for (const k in error.response.data) keys.push(k);
+
+      message.error(
+        `Код ошибки: ${error.response.status}. ${
+          error.response.data[keys[0]]
+        } Повторите попытку позже.`,
+        10
+      );
+    } else if (error.request) {
+      // The request was made but no response was received
+      message.error(
+        "Не удалось соединиться с сервером. Повторите попытку позже.",
+        10
+      );
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+    }
 
     dispatch({
       type: CATEGORIES_ERROR,

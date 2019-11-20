@@ -1,4 +1,6 @@
 import axios from "axios";
+import { url, endpointAPI } from "../constants";
+
 import {
   REGISTER_SUCCESS,
   AUTH_START,
@@ -40,9 +42,7 @@ export const authSuccess = user => dispatch => {
 };
 
 export const registerSuccess = user => {
-  message
-    .success("Регистрация прошла успешно!")
-    .then(() => message.info("Войдите в систему!"));
+  message.success("Регистрация прошла успешно!");
 
   return {
     type: REGISTER_SUCCESS,
@@ -51,15 +51,28 @@ export const registerSuccess = user => {
 };
 
 export const authFail = error => dispatch => {
-  error.response !== undefined
-    ? message.error(
-        `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-        10
-      )
-    : message.error(
-        `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-        10
-      );
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    const keys = [];
+
+    for (const k in error.response.data) keys.push(k);
+
+    message.error(
+      `Код ошибки: ${error.response.status}. ${
+        error.response.data[keys[0]]
+      } Повторите попытку позже.`,
+      10
+    );
+  } else if (error.request) {
+    // The request was made but no response was received
+    message.error(
+      "Не удалось соединиться с сервером. Повторите попытку позже.",
+      10
+    );
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+  }
 
   dispatch({
     type: AUTH_FAIL,
@@ -81,7 +94,7 @@ export const authLogin = (username, password, isRemindMe) => {
     dispatch(authStart());
 
     axios
-      .post("https://studwall-app.herokuapp.com/api/v1/api-token-auth/login/", {
+      .post(`${endpointAPI}/api-token-auth/login/`, {
         username: username,
         password: password
       })
@@ -92,7 +105,7 @@ export const authLogin = (username, password, isRemindMe) => {
 
         dispatch(authSuccess(res.data));
       })
-      .catch(err => dispatch(authFail(err)));
+      .catch(error => dispatch(authFail(error)));
   };
 };
 
@@ -101,7 +114,7 @@ export const authSignUp = (username, email, password1, password2) => {
     dispatch(authStart());
 
     axios
-      .post("https://studwall-app.herokuapp.com/rest/auth/register/", {
+      .post(`${url}/rest/auth/register/`, {
         username: username,
         email: email,
         password1: password1,

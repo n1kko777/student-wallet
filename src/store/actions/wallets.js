@@ -1,3 +1,6 @@
+import axios from "axios";
+import { endpointAPI } from "../constants";
+
 import {
   GET_WALLETS,
   WALLET_LOADING,
@@ -10,7 +13,6 @@ import {
   SEARCH_WALLETS
 } from "./actionTypes";
 
-import axios from "axios";
 import { message } from "antd";
 
 import { getUser } from "./user";
@@ -21,7 +23,7 @@ export const getWallets = () => dispatch => {
   setLoading();
 
   axios
-    .get("https://studwall-app.herokuapp.com/api/v1/wallets/")
+    .get(`${endpointAPI}/wallets/`)
     .then(res => {
       const wallets = res.data;
 
@@ -31,15 +33,28 @@ export const getWallets = () => dispatch => {
       });
     })
     .catch(error => {
-      error.response !== undefined
-        ? message.error(
-            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-            5
-          )
-        : message.error(
-            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-            5
-          );
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const keys = [];
+
+        for (const k in error.response.data) keys.push(k);
+
+        message.error(
+          `Код ошибки: ${error.response.status}. ${
+            error.response.data[keys[0]]
+          } Повторите попытку позже.`,
+          10
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error(
+          "Не удалось соединиться с сервером. Повторите попытку позже.",
+          10
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+      }
 
       dispatch({
         type: WALLETS_ERROR,
@@ -54,7 +69,7 @@ export const getWallets = () => dispatch => {
 export const addWallet = wallet => dispatch => {
   setLoading();
   axios
-    .post(`https://studwall-app.herokuapp.com/api/v1/wallets/`, {
+    .post(`${endpointAPI}/wallets/`, {
       wallet_amount: wallet.wallet_amount,
       wallet_name: wallet.wallet_name,
       wallet_color: wallet.wallet_color
@@ -67,15 +82,28 @@ export const addWallet = wallet => dispatch => {
       dispatch(getUser());
     })
     .catch(error => {
-      error.response !== undefined
-        ? message.error(
-            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-            5
-          )
-        : message.error(
-            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-            5
-          );
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const keys = [];
+
+        for (const k in error.response.data) keys.push(k);
+
+        message.error(
+          `Код ошибки: ${error.response.status}. ${
+            error.response.data[keys[0]]
+          } Повторите попытку позже.`,
+          10
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error(
+          "Не удалось соединиться с сервером. Повторите попытку позже.",
+          10
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+      }
 
       dispatch({
         type: WALLETS_ERROR,
@@ -89,7 +117,7 @@ export const deleteWallet = id => dispatch => {
   setLoading();
 
   axios
-    .delete(`https://studwall-app.herokuapp.com/api/v1/wallets/${id}/`)
+    .delete(`${endpointAPI}/wallets/${id}/`)
     .then(res => {
       message.success("Запись удалена.");
 
@@ -99,15 +127,28 @@ export const deleteWallet = id => dispatch => {
       });
     })
     .catch(error => {
-      error.response !== undefined
-        ? message.error(
-            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-            5
-          )
-        : message.error(
-            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-            5
-          );
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const keys = [];
+
+        for (const k in error.response.data) keys.push(k);
+
+        message.error(
+          `Код ошибки: ${error.response.status}. ${
+            error.response.data[keys[0]]
+          } Повторите попытку позже.`,
+          10
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error(
+          "Не удалось соединиться с сервером. Повторите попытку позже.",
+          10
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+      }
 
       dispatch({
         type: WALLETS_ERROR,
@@ -120,7 +161,7 @@ export const deleteWallet = id => dispatch => {
 export const updateWallet = wallet => dispatch => {
   setLoading();
   axios
-    .put(`https://studwall-app.herokuapp.com/api/v1/wallets/${wallet.id}/`, {
+    .put(`${endpointAPI}/wallets/${wallet.id}/`, {
       wallet_amount: wallet.wallet_amount,
       wallet_name: wallet.wallet_name,
       wallet_color: wallet.wallet_color
@@ -131,15 +172,28 @@ export const updateWallet = wallet => dispatch => {
       });
     })
     .catch(error => {
-      error.response !== undefined
-        ? message.error(
-            `Произошла ошибка ${error.response.status} ${error.response.statusText}! Повторите попытку позже.`,
-            5
-          )
-        : message.error(
-            `Произошла ошибка ${error.message} ! Повторите попытку позже.`,
-            5
-          );
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const keys = [];
+
+        for (const k in error.response.data) keys.push(k);
+
+        message.error(
+          `Код ошибки: ${error.response.status}. ${
+            error.response.data[keys[0]]
+          } Повторите попытку позже.`,
+          10
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error(
+          "Не удалось соединиться с сервером. Повторите попытку позже.",
+          10
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+      }
 
       dispatch({
         type: WALLETS_ERROR,
