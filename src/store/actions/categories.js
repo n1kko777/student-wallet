@@ -19,17 +19,15 @@ import { getUser } from "./user";
 import { logout } from "./auth";
 
 // Get categories from server
-export const getCategorys = () => dispatch => {
+export const getCategories = () => dispatch => {
   setLoading();
 
   axios
     .get(`${endpointAPI}/categories/`)
     .then(res => {
-      const categories = res.data;
-
       dispatch({
         type: GET_CATEGORIES,
-        payload: categories
+        payload: res.data.reverse()
       });
     })
     .catch(error => {
