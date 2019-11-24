@@ -56,9 +56,9 @@ INSTALLED_APPS = [
     'sslserver',
 
     # my app
-    'api',
     'users',
     'app',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -187,3 +187,8 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_NAME = "csrftoken"
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
