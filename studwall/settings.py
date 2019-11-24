@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     # my app
     'api',
     'users',
-    'app'
+    'app',
 ]
 
 MIDDLEWARE = [
