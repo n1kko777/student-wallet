@@ -50,8 +50,10 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
 
-    # cors
+    # network
     'corsheaders',
+    'djangosecure',
+    'sslserver',
 
     # my app
     'api',
@@ -183,3 +185,5 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
+
+SECURE_SSL_REDIRECT = True
