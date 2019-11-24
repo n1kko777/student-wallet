@@ -22,7 +22,7 @@ const CustomFooter = ({ user_earn, user_spend }) => {
       <Grid>
         {pathname === "/feed" ? (
           <Row between="xs">
-            <Col xs={12} sm={6} md={4}>
+            <Col xs={12} sm={4} md={4}>
               <Row between="xs">
                 <Col xs={6}>
                   <Icon type="up" style={{ color: "red" }} />{" "}
@@ -48,7 +48,7 @@ const CustomFooter = ({ user_earn, user_spend }) => {
                 </Col>
               </Row>
             </Col>
-            <Col xs={12} sm={6} md={4}>
+            <Col xs={12} sm={8} md={6}>
               <CustomDatePicker />
             </Col>
           </Row>

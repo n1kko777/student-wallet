@@ -89,11 +89,7 @@ const OperationItem = ({
                     fontSize: "12px"
                   }}
                 >
-                  {
-                    <Moment format="DD.MM.YYYY HH:mm">
-                      {operation.created_at}
-                    </Moment>
-                  }
+                  {<Moment format="DD.MM.YYYY">{operation.created_at}</Moment>}
                 </Text>
               </>
             }
