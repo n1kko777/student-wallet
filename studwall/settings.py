@@ -20,10 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$(((t1=ysx8mv30sll-2joq!g39r8wfcvh9m!(8f(5!wp_o8gv'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', '07a6321d9a34d8202264e9dfbec96138cd4b41ba52c3a64a')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', True)
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'studwallet.herokuapp.com']
 
@@ -56,9 +57,9 @@ INSTALLED_APPS = [
     'sslserver',
 
     # my app
-    'api',
     'users',
-    'app'
+    'app',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -187,3 +188,8 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_NAME = "csrftoken"
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
