@@ -49,7 +49,7 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
           justifyContent: "center"
         }}
       >
-        <div className="header">
+        <div className="header" style={{ width: "100%" }}>
           <Grid>
             <Row middle="xs" between="xs">
               <Col xs={isAuth ? 9 : 3} sm={isAuth ? 6 : 3} md={4} lg={3}>
