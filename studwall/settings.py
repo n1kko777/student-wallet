@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +25,7 @@ SECRET_KEY = os.environ.get(
     'SECRET_KEY', '07a6321d9a34d8202264e9dfbec96138cd4b41ba52c3a64a')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', True)
+DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'studwallet.herokuapp.com']
 
@@ -193,3 +194,5 @@ CSRF_COOKIE_NAME = "csrftoken"
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )
+
+django_heroku.settings(locals())
