@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get(
     'SECRET_KEY', '07a6321d9a34d8202264e9dfbec96138cd4b41ba52c3a64a')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG', True)
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'studwallet.herokuapp.com']
 
