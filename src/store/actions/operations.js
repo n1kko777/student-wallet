@@ -24,11 +24,9 @@ export const getOperations = () => dispatch => {
   axios
     .get(`${endpointAPI}/operations/`)
     .then(res => {
-      const operations = res.data;
-
       dispatch({
         type: GET_OPERATIONS,
-        payload: operations
+        payload: res.data.reverse()
       });
     })
     .catch(error => {
@@ -78,7 +76,7 @@ export const addOperation = operation => dispatch => {
       message.success("Запись создана.");
       dispatch({
         type: ADD_OPERATION,
-        payload: res.data
+        payload: res.data.reverse()
       });
     })
     .catch(error => {
@@ -172,7 +170,7 @@ export const updateOperation = operation => dispatch => {
 
       dispatch({
         type: UPDATE_OPERATION,
-        payload: res.data
+        payload: res.data.reverse()
       });
     })
     .catch(error => {

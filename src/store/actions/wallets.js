@@ -25,11 +25,9 @@ export const getWallets = () => dispatch => {
   axios
     .get(`${endpointAPI}/wallets/`)
     .then(res => {
-      const wallets = res.data;
-
       dispatch({
         type: GET_WALLETS,
-        payload: wallets
+        payload: res.data.reverse()
       });
     })
     .catch(error => {
