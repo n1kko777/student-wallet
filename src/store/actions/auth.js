@@ -15,6 +15,9 @@ import { message } from "antd";
 import { getUser } from "./user";
 import { getOperations } from "./operations";
 
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
 export const remindMe = state => {
   return {
     type: REMIND_ME,
