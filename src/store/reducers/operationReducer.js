@@ -24,13 +24,13 @@ export default (state = initialState, action) => {
     case GET_OPERATIONS:
       return {
         ...state,
-        operations: payload,
+        operations: payload.reverse(),
         loading: false
       };
     case ADD_OPERATION:
       return {
         ...state,
-        operations: [...state.operations, payload],
+        operations: [...state.operations.reverse(), payload].reverse(),
         loading: false
       };
     case SEARCH_OPERATIONS:
@@ -51,16 +51,18 @@ export default (state = initialState, action) => {
     case UPDATE_OPERATION:
       return {
         ...state,
-        operations: state.operations.map(operation =>
-          operation.id === payload.id ? payload : operation
-        )
+        operations: state.operations
+          .reverse()
+          .map(operation => (operation.id === payload.id ? payload : operation))
+          .reverse()
       };
     case DELETE_OPERATION:
       return {
         ...state,
-        operations: state.operations.filter(
-          operation => operation.id !== payload
-        ),
+        operations: state.operations
+          .reverse()
+          .filter(operation => operation.id !== payload)
+          .reverse(),
         loading: false
       };
     case OPERATION_LOADING:
