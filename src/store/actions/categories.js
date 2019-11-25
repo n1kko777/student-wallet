@@ -27,7 +27,7 @@ export const getCategories = () => dispatch => {
     .then(res => {
       dispatch({
         type: GET_CATEGORIES,
-        payload: res.data.reverse()
+        payload: res.data
       });
     })
     .catch(error => {

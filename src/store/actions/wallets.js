@@ -27,7 +27,7 @@ export const getWallets = () => dispatch => {
     .then(res => {
       dispatch({
         type: GET_WALLETS,
-        payload: res.data.reverse()
+        payload: res.data
       });
     })
     .catch(error => {
