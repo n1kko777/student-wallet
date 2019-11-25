@@ -26,7 +26,7 @@ export const getOperations = () => dispatch => {
     .then(res => {
       dispatch({
         type: GET_OPERATIONS,
-        payload: res.data.reverse()
+        payload: res.data
       });
     })
     .catch(error => {
@@ -76,7 +76,7 @@ export const addOperation = operation => dispatch => {
       message.success("Запись создана.");
       dispatch({
         type: ADD_OPERATION,
-        payload: res.data.reverse()
+        payload: res.data
       });
     })
     .catch(error => {
@@ -170,7 +170,7 @@ export const updateOperation = operation => dispatch => {
 
       dispatch({
         type: UPDATE_OPERATION,
-        payload: res.data.reverse()
+        payload: res.data
       });
     })
     .catch(error => {

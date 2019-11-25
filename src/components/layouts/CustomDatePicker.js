@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import locale from "antd/es/date-picker/locale/ru_RU";
 
 import { DatePicker } from "antd";
-import { Grid, Row, Col } from "react-flexbox-grid";
+import { Row, Col } from "react-flexbox-grid";
 import moment from "moment";
 
 const CustomDatePicker = () => {
