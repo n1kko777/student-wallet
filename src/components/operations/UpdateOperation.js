@@ -48,8 +48,6 @@ const UpdateOperation = ({
       fieldsValue.id = current.id;
 
       updateOperation(fieldsValue);
-      // console.log("fieldsValue.wallet :", fieldsValue.wallet);
-
       const newWallet = wallets.filter(
         wallet => wallet.id === fieldsValue.wallet
       )[0];
@@ -102,10 +100,8 @@ const UpdateOperation = ({
             <InputNumber
               min={0}
               formatter={value =>
-                `₽ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
-              // eslint-disable-next-line
-              parser={value => value.replace(/\₽\s?|(,*)/g, "")}
               style={{ width: "100%" }}
             />
           )}
