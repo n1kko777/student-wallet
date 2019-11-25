@@ -108,10 +108,8 @@ const CopyOperation = ({
               <InputNumber
                 min={0}
                 formatter={value =>
-                  `₽ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 }
-                // eslint-disable-next-line
-                parser={value => value.replace(/\₽\s?|(,*)/g, "")}
                 style={{ width: "100%" }}
               />
             )}
