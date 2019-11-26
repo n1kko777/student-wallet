@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 
 import Feed from "./components/pages/Feed";
+import { About } from "./components/pages/About";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import ResetPass from "./components/pages/ResetPass";
@@ -55,7 +56,7 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/reset" component={ResetPass} />
-              <Route exact path="/about" />
+              <Route exact path="/about" component={About} />
               <Route
                 exact
                 path="/feed"
