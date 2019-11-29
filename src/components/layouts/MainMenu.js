@@ -21,6 +21,11 @@ const MainMenu = ({ isAuth, onLogout }) => {
           <Icon type="form" /> Отчет
         </Link>
       </Menu.Item>
+      <Menu.Item>
+        <Link rel="noopener noreferrer" to="/about">
+          <Icon type="info" /> О приложении
+        </Link>
+      </Menu.Item>
       <Menu.Item onClick={onLogout}>
         <Link rel="noopener noreferrer" to="/">
           <Icon type="logout" /> Выход
