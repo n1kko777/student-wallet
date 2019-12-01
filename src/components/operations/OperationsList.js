@@ -146,9 +146,8 @@ const OperationsList = ({
                   ? wallets
                       .filter(
                         (wallet, i) =>
-                          (elem.wallet === wallet.id &&
-                            wallets[i].wallet_name !== null) ||
-                          wallets[i].wallet_name !== undefined
+                          elem.wallet === wallet.id &&
+                          wallets[i].wallet_name !== null
                       )[0]
                       .wallet_name.toString()
                   : ""
