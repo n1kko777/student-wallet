@@ -68,7 +68,7 @@ export const addWallet = wallet => dispatch => {
   setLoading();
   axios
     .post(`${endpointAPI}/wallets/`, {
-      wallet_amount: wallet.wallet_amount,
+      wallet_amount: parseFloat(wallet.wallet_amount).toFixed(2),
       wallet_name: wallet.wallet_name,
       wallet_color: wallet.wallet_color
     })
@@ -160,7 +160,7 @@ export const updateWallet = wallet => dispatch => {
   setLoading();
   axios
     .put(`${endpointAPI}/wallets/${wallet.id}/`, {
-      wallet_amount: wallet.wallet_amount,
+      wallet_amount: parseFloat(wallet.wallet_amount).toFixed(2),
       wallet_name: wallet.wallet_name,
       wallet_color: wallet.wallet_color
     })

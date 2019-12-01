@@ -67,7 +67,7 @@ export const addOperation = operation => dispatch => {
   setLoading();
   axios
     .post(`${endpointAPI}/operations/`, {
-      credit: operation.credit,
+      credit: parseFloat(operation.credit).toFixed(2),
       category: operation.category,
       wallet: operation.wallet,
       operation_type:
@@ -162,7 +162,7 @@ export const updateOperation = operation => dispatch => {
   setLoading();
   axios
     .put(`${endpointAPI}/operations/${operation.id}/`, {
-      credit: operation.credit,
+      credit: parseFloat(operation.credit).toFixed(2),
       category: operation.category,
       wallet: operation.wallet,
       operation_type:

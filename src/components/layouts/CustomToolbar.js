@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Typography, Select, Icon, Divider, message } from "antd";
+import { Layout, Typography, Select, Icon, Divider } from "antd";
 import { Grid, Row, Col } from "react-flexbox-grid";
 
 import { Link, useLocation } from "react-router-dom";
@@ -32,17 +32,6 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
   const handleSubmit = () => {
     setModalCreate(false);
   };
-
-  if (wallets !== null && wallets.length === 0) {
-    message.info("Пожалуйста добавьте кошелек");
-    return (
-      <CreateWallet
-        visible={true}
-        onSubmit={handleSubmit}
-        onCancel={handleCancel}
-      />
-    );
-  }
 
   return (
     <>
@@ -101,7 +90,7 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
 
                     {wallets !== null &&
                       wallets.map(wallet => (
-                        <Option key={wallet.id} value={wallet.wallet_name}>
+                        <Option key={wallet.id} value={wallet.id}>
                           <OperationTitle
                             credit={
                               wallet.wallet_amount !== null
