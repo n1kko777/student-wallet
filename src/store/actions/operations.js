@@ -70,6 +70,8 @@ export const addOperation = operation => dispatch => {
       credit: operation.credit,
       category: operation.category,
       wallet: operation.wallet,
+      operation_type:
+        operation.category === null || operation.category === undefined ? 1 : 0,
       created_at: operation.created_at
     })
     .then(res => {
@@ -163,6 +165,8 @@ export const updateOperation = operation => dispatch => {
       credit: operation.credit,
       category: operation.category,
       wallet: operation.wallet,
+      operation_type:
+        operation.category === null || operation.category === undefined ? 1 : 0,
       created_at: operation.created_at
     })
     .then(res => {

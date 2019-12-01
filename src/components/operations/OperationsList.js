@@ -36,9 +36,10 @@ const OperationsList = ({
       userData.user_earn = 0;
       userData.user_spend = 0;
       operations.map(operation =>
-        operation.category !== null
+        operation.operation_type === 0
           ? (userData.user_spend += parseFloat(operation.credit))
-          : (userData.user_earn += parseFloat(operation.credit))
+          : operation.operation_type === 1 &&
+            (userData.user_earn += parseFloat(operation.credit))
       );
 
       updateUser(userData);
@@ -77,14 +78,14 @@ const OperationsList = ({
       wallet => wallet.id === operation.wallet
     )[0];
 
-    newWallet.wallet_amount =
-      operation.category !== null && operation.category !== undefined
-        ? parseFloat(
-            parseFloat(newWallet.wallet_amount) + parseFloat(operation.credit)
-          )
-        : parseFloat(
-            parseFloat(newWallet.wallet_amount) - parseFloat(operation.credit)
-          );
+    operation.operation_type === 0
+      ? (newWallet.wallet_amount = parseFloat(
+          parseFloat(newWallet.wallet_amount) + parseFloat(operation.credit)
+        ))
+      : operation.operation_type === 1 &&
+        (newWallet.wallet_amount = parseFloat(
+          parseFloat(newWallet.wallet_amount) - parseFloat(operation.credit)
+        ));
 
     updateWallet(newWallet);
   };
