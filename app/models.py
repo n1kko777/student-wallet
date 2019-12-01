@@ -25,6 +25,10 @@ class Category(models.Model):
         return '%d: %s' % (self.id, self.category_name)
 
 
+# operation_type:
+# 0 – spend money
+# 1 – earn money
+# 2 – transfer money
 class Operation(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='operations', on_delete=models.CASCADE)
@@ -32,6 +36,7 @@ class Operation(models.Model):
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, null=True, blank=True)
+    operation_type = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

@@ -25,7 +25,8 @@ class OperationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Operation
-        fields = ('id', 'credit', 'wallet', 'category', 'created_at')
+        fields = ('id', 'credit', 'wallet', 'category',
+                  'operation_type', 'created_at')
 
 
 class UserSerializer(serializers.ModelSerializer):
