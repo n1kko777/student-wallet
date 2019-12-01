@@ -11,7 +11,7 @@ const RulesModal = ({ visible, handleOk, handleCancel }) => {
       title="Политика в отношении персональных данных"
       visible={visible}
       okText={"Принять"}
-      cancelText={"Отклонить"}
+      cancelText={"Закрыть"}
       onOk={handleOk}
       onCancel={handleCancel}
       width="90vw"

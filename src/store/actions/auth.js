@@ -29,6 +29,8 @@ export const authStart = () => {
 };
 
 export const authSuccess = user => dispatch => {
+  message.info("Пожалуйста обновите свои операции!!!");
+
   axios.defaults.headers.common["Authorization"] =
     "Token " + JSON.parse(localStorage.getItem("user")).token;
 
