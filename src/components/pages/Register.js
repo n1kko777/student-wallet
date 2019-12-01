@@ -18,7 +18,7 @@ const Register = ({ form, onRegister, loading }) => {
   const handleSubmit = e => {
     e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
+      if (!err && values.agreement) {
         onRegister(
           values.nickname,
           values.email,
@@ -70,7 +70,6 @@ const Register = ({ form, onRegister, loading }) => {
         }}
         handleCancel={() => {
           setRuleModal(false);
-          form.setFieldsValue({ agreement: false });
         }}
       />
       <div
@@ -192,7 +191,8 @@ const Register = ({ form, onRegister, loading }) => {
                     message: "Необходимо принять пользовательское соглашение."
                   }
                 ],
-                valuePropName: "checked"
+                valuePropName: "checked",
+                initialValue: true
               })(
                 <Checkbox>
                   Я прочитал(а) и принимаю условия{" "}
