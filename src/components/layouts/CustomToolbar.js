@@ -86,6 +86,7 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
                         }
                         color={"#fff"}
                       />
+                      <small>Баланс</small>
                     </Option>
 
                     {wallets !== null &&
@@ -103,6 +104,9 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
                                 : ""
                             }
                           />
+                          <small style={{ color: `${wallet.wallet_color}` }}>
+                            {wallet.wallet_name}
+                          </small>
                         </Option>
                       ))}
                   </Select>
