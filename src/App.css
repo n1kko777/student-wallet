@@ -56,6 +56,20 @@ select {
   background-color: #4d6982;
 }
 
+.select-title .ant-select-selection-selected-value small {
+  display: none;
+}
+
+.select-title__option .ant-select-dropdown-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.select-title__option .ant-select-dropdown-menu-item small {
+  display: inline-block;
+  margin-left: auto;
+}
+
 .main-menu {
   border: none;
   border-radius: 0;

@@ -33,7 +33,9 @@ const OperationTitle = ({ credit, color }) => {
 
   return (
     <>
-      <span style={{ color: color !== "" ? color : "initial" }}>&#8381;</span>{" "}
+      <span style={{ color: color !== "" ? color : "initial" }}>
+        &#8381;&nbsp;
+      </span>
       {credit}
     </>
   );
