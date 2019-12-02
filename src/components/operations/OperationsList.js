@@ -135,51 +135,59 @@ const OperationsList = ({
       />
       <Row middle="xs">
         {operations !== null && operations.length > 0 ? (
-          operations.map(elem => (
-            <OperationItem
-              key={elem.id}
-              loading={loading}
-              operation={elem}
-              credit={elem.credit}
-              wallet={
-                elem.wallet !== null && wallets !== null
-                  ? wallets
-                      .filter(
-                        (wallet, i) =>
-                          elem.wallet === wallet.id &&
-                          wallets[i].wallet_name !== null
-                      )[0]
-                      .wallet_name.toString()
-                  : ""
-              }
-              wallet_color={
-                elem.wallet !== null && wallets !== null
-                  ? wallets
-                      .filter(
-                        (wallet, i) =>
-                          elem.wallet === wallet.id &&
-                          wallets[i].wallet_color !== null
-                      )[0]
-                      .wallet_color.toString()
-                  : ""
-              }
-              category={
-                elem.category !== null && categories !== null
-                  ? categories
-                      .filter(
-                        (category, i) =>
-                          elem.category === category.id &&
-                          categories[i].category_name !== null
-                      )[0]
-                      .category_name.toString()
-                  : ""
-              }
-              removeFromAmount={elem.category !== null}
-              showEditModal={showEditModal}
-              showCopyModal={showCopyModal}
-              onDelete={onDelete}
-            />
-          ))
+          operations
+            .sort((a, b) =>
+              b.created_at > a.created_at
+                ? 1
+                : a.created_at > b.created_at
+                ? -1
+                : 0
+            )
+            .map(elem => (
+              <OperationItem
+                key={elem.id}
+                loading={loading}
+                operation={elem}
+                credit={elem.credit}
+                wallet={
+                  elem.wallet !== null && wallets !== null
+                    ? wallets
+                        .filter(
+                          (wallet, i) =>
+                            elem.wallet === wallet.id &&
+                            wallets[i].wallet_name !== null
+                        )[0]
+                        .wallet_name.toString()
+                    : ""
+                }
+                wallet_color={
+                  elem.wallet !== null && wallets !== null
+                    ? wallets
+                        .filter(
+                          (wallet, i) =>
+                            elem.wallet === wallet.id &&
+                            wallets[i].wallet_color !== null
+                        )[0]
+                        .wallet_color.toString()
+                    : ""
+                }
+                category={
+                  elem.category !== null && categories !== null
+                    ? categories
+                        .filter(
+                          (category, i) =>
+                            elem.category === category.id &&
+                            categories[i].category_name !== null
+                        )[0]
+                        .category_name.toString()
+                    : ""
+                }
+                removeFromAmount={elem.category !== null}
+                showEditModal={showEditModal}
+                showCopyModal={showCopyModal}
+                onDelete={onDelete}
+              />
+            ))
         ) : (
           <p style={{ width: "100%", textAlign: "center" }}>Список пуст.</p>
         )}
