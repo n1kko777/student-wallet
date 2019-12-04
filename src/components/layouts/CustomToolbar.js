@@ -13,7 +13,16 @@ import MainMenu from "./MainMenu";
 
 import CreateWallet from "../wallets/CreateWallet";
 
-const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
+import { setCurrent, clearCurrent } from "../../store/actions/wallets";
+
+const CustomToolbar = ({
+  isAuth,
+  user_amount,
+  userLoading,
+  wallets,
+  setCurrentWallet,
+  clearCurrentWallet
+}) => {
   const { Header } = Layout;
   const { Title } = Typography;
   const { Option } = Select;
@@ -31,6 +40,12 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
 
   const handleSubmit = () => {
     setModalCreate(false);
+  };
+
+  const onChangeWallet = e => {
+    e === "all"
+      ? clearCurrentWallet()
+      : setCurrentWallet(wallets.filter(wallet => wallet.id === e)[0]);
   };
 
   return (
@@ -55,7 +70,8 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
               <Col xs={isAuth ? 9 : 3} sm={isAuth ? 6 : 3} md={4} lg={3}>
                 {pathname === "/feed" ? (
                   <Select
-                    defaultValue="main"
+                    defaultValue="all"
+                    onChange={onChangeWallet}
                     className="select-title"
                     dropdownClassName="select-title__option"
                     loading={userLoading}
@@ -75,7 +91,7 @@ const CustomToolbar = ({ isAuth, user_amount, userLoading, wallets }) => {
                       </div>
                     )}
                   >
-                    <Option value="main">
+                    <Option value="all">
                       <OperationTitle
                         credit={
                           isAuth &&
@@ -138,7 +154,9 @@ CustomToolbar.propTypes = {
   isAuth: PropTypes.bool.isRequired,
   user_amount: PropTypes.number,
   userLoading: PropTypes.bool.isRequired,
-  wallets: PropTypes.array
+  wallets: PropTypes.array,
+  setCurrentWallet: PropTypes.func.isRequired,
+  clearCurrentWallet: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({ auth, user }) => {
@@ -150,4 +168,9 @@ const mapStateToProps = ({ auth, user }) => {
   };
 };
 
-export default connect(mapStateToProps)(CustomToolbar);
+const mapDispatchToProps = dispatch => ({
+  setCurrentWallet: wallet => dispatch(setCurrent(wallet)),
+  clearCurrentWallet: () => dispatch(clearCurrent())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomToolbar);

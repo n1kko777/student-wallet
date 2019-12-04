@@ -33,7 +33,8 @@ const OperationsList = ({
   deleteOperation,
   loading,
   day_start,
-  day_end
+  day_end,
+  currentWallet
 }) => {
   useEffect(() => {
     if (operations !== null) {
@@ -46,6 +47,11 @@ const OperationsList = ({
             moment(day_end)
           )
         )
+        .filter(operation =>
+          currentWallet !== null
+            ? operation.wallet === currentWallet.id
+            : operation
+        )
         .map(operation =>
           operation.operation_type === 0
             ? (userData.user_spend += parseFloat(operation.credit))
@@ -55,7 +61,7 @@ const OperationsList = ({
 
       updateUser(userData);
     }
-  }, [userData, updateUser, operations, day_start, day_end]);
+  }, [userData, updateUser, operations, day_start, day_end, currentWallet]);
 
   const [isModalUpdate, setModalUpdate] = useState(false);
   const [isModalCopy, setModalCopy] = useState(false);
@@ -153,6 +159,11 @@ const OperationsList = ({
                 moment(day_end)
               )
             )
+            .filter(operation =>
+              currentWallet !== null
+                ? operation.wallet === currentWallet.id
+                : operation
+            )
             .sort((a, b) =>
               new Date(b.created_at) > new Date(a.created_at)
                 ? 1
@@ -224,17 +235,19 @@ OperationsList.propTypes = {
   deleteOperation: PropTypes.func.isRequired,
   clearCurrent: PropTypes.func.isRequired,
   day_start: PropTypes.object,
-  day_end: PropTypes.object
+  day_end: PropTypes.object,
+  currentWallet: PropTypes.object
 };
 
-const mapStateToProps = ({ user, operations }) => ({
+const mapStateToProps = ({ user, operations, wallets }) => ({
   loading: operations.loading,
   userData: user.user,
   wallets: user.user.wallets,
   categories: user.user.categories,
   operations: operations,
   day_start: operations.day_start,
-  day_end: operations.day_end
+  day_end: operations.day_end,
+  currentWallet: wallets.current
 });
 
 const mapDispatchToProps = dispatch => ({

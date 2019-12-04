@@ -13,14 +13,7 @@ import { updateFilterDate } from "../../store/actions/operations";
 
 const CustomDatePicker = ({ day_start, day_end, updateFilterDate }) => {
   useEffect(() => {
-    updateFilterDate(
-      moment()
-        .isoWeekday(1)
-        .startOf("day"),
-      moment()
-        .isoWeekday(7)
-        .endOf("day")
-    );
+    updateFilterDate(moment().startOf("month"), moment().endOf("month"));
   }, [updateFilterDate]);
 
   const [endOpen, setEndOpen] = useState(false);
@@ -34,23 +27,13 @@ const CustomDatePicker = ({ day_start, day_end, updateFilterDate }) => {
 
   const onStartChange = value => {
     value === null
-      ? updateFilterDate(
-          moment()
-            .isoWeekday(1)
-            .startOf("day"),
-          day_end
-        )
+      ? updateFilterDate(moment().startOf("month"), day_end)
       : updateFilterDate(value.startOf("day"), day_end);
   };
 
   const onEndChange = value => {
     value === null
-      ? updateFilterDate(
-          day_start,
-          moment()
-            .isoWeekday(7)
-            .endOf("day")
-        )
+      ? updateFilterDate(day_start, moment().endOf("month"))
       : updateFilterDate(day_start, value.endOf("day"));
   };
 
