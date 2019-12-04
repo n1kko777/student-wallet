@@ -1,36 +1,57 @@
-// moment(each.date).isBetween(last7DayStart, yesterdayEndOfRange) ;
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import locale from "antd/es/date-picker/locale/ru_RU";
 
 import { DatePicker } from "antd";
 import { Row, Col } from "react-flexbox-grid";
+
 import moment from "moment";
 
-const CustomDatePicker = () => {
-  const [startValue, setStartValue] = useState(moment().isoWeekday(1));
-  const [endValue, setEndValue] = useState(moment().isoWeekday(7));
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+import { updateFilterDate } from "../../store/actions/operations";
+
+const CustomDatePicker = ({ day_start, day_end, updateFilterDate }) => {
+  useEffect(() => {
+    updateFilterDate(
+      moment()
+        .isoWeekday(1)
+        .startOf("day"),
+      moment()
+        .isoWeekday(7)
+        .endOf("day")
+    );
+  }, [updateFilterDate]);
+
   const [endOpen, setEndOpen] = useState(false);
 
-  const disabledEndDate = endValue => {
-    if (!endValue || !startValue) {
+  const disabledEndDate = day_end => {
+    if (!day_end || !day_start) {
       return false;
     }
-    return endValue.valueOf() <= startValue.valueOf();
+    return day_end.valueOf() <= day_start.valueOf();
   };
 
   const onStartChange = value => {
-    setStartValue(value);
+    value === null
+      ? updateFilterDate(
+          moment()
+            .isoWeekday(1)
+            .startOf("day"),
+          day_end
+        )
+      : updateFilterDate(value.startOf("day"), day_end);
   };
 
   const onEndChange = value => {
-    setEndValue(value);
-  };
-
-  const handleStartOpenChange = open => {
-    if (!open) {
-      setEndOpen(true);
-    }
+    value === null
+      ? updateFilterDate(
+          day_start,
+          moment()
+            .isoWeekday(7)
+            .endOf("day")
+        )
+      : updateFilterDate(day_start, value.endOf("day"));
   };
 
   const handleEndOpenChange = open => {
@@ -43,11 +64,10 @@ const CustomDatePicker = () => {
         <DatePicker
           style={{ width: "100%" }}
           format="DD.MM.YYYY"
-          value={startValue}
+          value={day_start}
           placeholder="Начало периода"
           locale={locale}
           onChange={onStartChange}
-          onOpenChange={handleStartOpenChange}
         />
       </Col>
       <Col xs={6}>
@@ -55,7 +75,7 @@ const CustomDatePicker = () => {
           style={{ width: "100%" }}
           disabledDate={disabledEndDate}
           format="DD.MM.YYYY"
-          value={endValue}
+          value={day_end}
           placeholder="Конец периода"
           locale={locale}
           onChange={onEndChange}
@@ -65,25 +85,22 @@ const CustomDatePicker = () => {
       </Col>
     </Row>
   );
-
-  // const onChange = (dates, dateStrings) => {
-  //   console.log("From: ", dates[0], ", to: ", dates[1]);
-  //   console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
-  // };
-
-  // return (
-  //   <RangePicker
-  //     defaultValue={[moment().startOf("week"), moment().endOf("week")]}
-  //     ranges={{
-  //       Сегодня: [moment(), moment()],
-  //       "Текущая неделя": [moment().startOf("week"), moment().endOf("week")],
-  //       "Текущий месяц": [moment().startOf("month"), moment().endOf("month")]
-  //     }}
-  //     style={{ width: "100%", fontSize: "16px" }}
-  //     locale={locale}
-  //     onChange={onChange}
-  //   />
-  // );
 };
 
-export default CustomDatePicker;
+CustomDatePicker.propTypes = {
+  day_start: PropTypes.object,
+  day_end: PropTypes.object,
+  updateFilterDate: PropTypes.func.isRequired
+};
+
+const mapStateToProps = ({ operations }) => ({
+  day_start: operations.day_start,
+  day_end: operations.day_end
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateFilterDate: (day_start, day_end) =>
+    dispatch(updateFilterDate(day_start, day_end))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomDatePicker);

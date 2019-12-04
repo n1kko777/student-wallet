@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import { Card, Skeleton } from "antd";
 import { Col } from "react-flexbox-grid";
 
+import moment from "moment";
+
 import { connect } from "react-redux";
 import {
   deleteOperation,
@@ -29,22 +31,31 @@ const OperationsList = ({
   setCurrent,
   clearCurrent,
   deleteOperation,
-  loading
+  loading,
+  day_start,
+  day_end
 }) => {
   useEffect(() => {
     if (operations !== null) {
       userData.user_earn = 0;
       userData.user_spend = 0;
-      operations.map(operation =>
-        operation.operation_type === 0
-          ? (userData.user_spend += parseFloat(operation.credit))
-          : operation.operation_type === 1 &&
-            (userData.user_earn += parseFloat(operation.credit))
-      );
+      operations
+        .filter(operation =>
+          moment(operation.created_at).isBetween(
+            moment(day_start),
+            moment(day_end)
+          )
+        )
+        .map(operation =>
+          operation.operation_type === 0
+            ? (userData.user_spend += parseFloat(operation.credit))
+            : operation.operation_type === 1 &&
+              (userData.user_earn += parseFloat(operation.credit))
+        );
 
       updateUser(userData);
     }
-  }, [userData, updateUser, operations]);
+  }, [userData, updateUser, operations, day_start, day_end]);
 
   const [isModalUpdate, setModalUpdate] = useState(false);
   const [isModalCopy, setModalCopy] = useState(false);
@@ -135,51 +146,65 @@ const OperationsList = ({
       />
       <Row middle="xs">
         {operations !== null && operations.length > 0 ? (
-          operations.map(elem => (
-            <OperationItem
-              key={elem.id}
-              loading={loading}
-              operation={elem}
-              credit={elem.credit}
-              wallet={
-                elem.wallet !== null && wallets !== null
-                  ? wallets
-                      .filter(
-                        (wallet, i) =>
-                          elem.wallet === wallet.id &&
-                          wallets[i].wallet_name !== null
-                      )[0]
-                      .wallet_name.toString()
-                  : ""
-              }
-              wallet_color={
-                elem.wallet !== null && wallets !== null
-                  ? wallets
-                      .filter(
-                        (wallet, i) =>
-                          elem.wallet === wallet.id &&
-                          wallets[i].wallet_color !== null
-                      )[0]
-                      .wallet_color.toString()
-                  : ""
-              }
-              category={
-                elem.category !== null && categories !== null
-                  ? categories
-                      .filter(
-                        (category, i) =>
-                          elem.category === category.id &&
-                          categories[i].category_name !== null
-                      )[0]
-                      .category_name.toString()
-                  : ""
-              }
-              removeFromAmount={elem.category !== null}
-              showEditModal={showEditModal}
-              showCopyModal={showCopyModal}
-              onDelete={onDelete}
-            />
-          ))
+          operations
+            .filter(operation =>
+              moment(operation.created_at).isBetween(
+                moment(day_start),
+                moment(day_end)
+              )
+            )
+            .sort((a, b) =>
+              new Date(b.created_at) > new Date(a.created_at)
+                ? 1
+                : new Date(a.created_at) > new Date(b.created_at)
+                ? -1
+                : 0
+            )
+            .map(elem => (
+              <OperationItem
+                key={elem.id}
+                loading={loading}
+                operation={elem}
+                credit={elem.credit}
+                wallet={
+                  elem.wallet !== null && wallets !== null
+                    ? wallets
+                        .filter(
+                          (wallet, i) =>
+                            elem.wallet === wallet.id &&
+                            wallets[i].wallet_name !== null
+                        )[0]
+                        .wallet_name.toString()
+                    : ""
+                }
+                wallet_color={
+                  elem.wallet !== null && wallets !== null
+                    ? wallets
+                        .filter(
+                          (wallet, i) =>
+                            elem.wallet === wallet.id &&
+                            wallets[i].wallet_color !== null
+                        )[0]
+                        .wallet_color.toString()
+                    : ""
+                }
+                category={
+                  elem.category !== null && categories !== null
+                    ? categories
+                        .filter(
+                          (category, i) =>
+                            elem.category === category.id &&
+                            categories[i].category_name !== null
+                        )[0]
+                        .category_name.toString()
+                    : ""
+                }
+                removeFromAmount={elem.category !== null}
+                showEditModal={showEditModal}
+                showCopyModal={showCopyModal}
+                onDelete={onDelete}
+              />
+            ))
         ) : (
           <p style={{ width: "100%", textAlign: "center" }}>Список пуст.</p>
         )}
@@ -197,7 +222,9 @@ OperationsList.propTypes = {
   operations: PropTypes.object.isRequired,
   setCurrent: PropTypes.func.isRequired,
   deleteOperation: PropTypes.func.isRequired,
-  clearCurrent: PropTypes.func.isRequired
+  clearCurrent: PropTypes.func.isRequired,
+  day_start: PropTypes.object,
+  day_end: PropTypes.object
 };
 
 const mapStateToProps = ({ user, operations }) => ({
@@ -205,7 +232,9 @@ const mapStateToProps = ({ user, operations }) => ({
   userData: user.user,
   wallets: user.user.wallets,
   categories: user.user.categories,
-  operations: operations
+  operations: operations,
+  day_start: operations.day_start,
+  day_end: operations.day_end
 });
 
 const mapDispatchToProps = dispatch => ({

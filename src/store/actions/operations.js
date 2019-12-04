@@ -10,6 +10,7 @@ import {
   OPERATION_CURRENT,
   OPERATION_CLEAR_CURRENT,
   UPDATE_OPERATION,
+  UPDATE_OPERATION_DATE,
   SEARCH_OPERATIONS
 } from "./actionTypes";
 
@@ -206,6 +207,13 @@ export const updateOperation = operation => dispatch => {
         payload: error.message
       });
     });
+};
+
+export const updateFilterDate = (day_start, day_end) => dispatch => {
+  dispatch({
+    type: UPDATE_OPERATION_DATE,
+    payload: { day_start, day_end }
+  });
 };
 
 // Search operations
