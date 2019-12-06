@@ -9,7 +9,6 @@ import PropTypes from "prop-types";
 import AddOperationButton from "../buttons/AddOperationButton";
 import AddAmountButton from "../buttons/AddAmountButton";
 import ChangeWalletButton from "../buttons/ChangeWalletButton";
-import SearchButton from "../buttons/SearchButton";
 
 const CustomControls = ({ isWallet, walletCount }) => {
   return (
@@ -30,9 +29,6 @@ const CustomControls = ({ isWallet, walletCount }) => {
             <ChangeWalletButton />
           </Col>
         )}
-        <Col xs={12} sm={6} md={4} lg={3}>
-          <SearchButton />
-        </Col>
       </Row>
     </div>
   );
