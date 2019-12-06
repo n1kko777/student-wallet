@@ -39,35 +39,79 @@ const UpdateOperation = ({
 
   const { wallets, categories } = userData;
 
+  const { confirm } = Modal;
+
   const onCreate = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
       }
 
-      fieldsValue.id = current.id;
+      if (
+        +wallets.filter(wallet => wallet.id === fieldsValue.wallet)[0]
+          .wallet_amount -
+          +fieldsValue.credit <
+        0
+      ) {
+        confirm({
+          title: "Недостаточно средств на счете!",
+          content: "Все равно провести операцию?",
+          okText: "Подтвердить",
+          cancelText: "Отменить",
+          onOk() {
+            fieldsValue.id = current.id;
 
-      updateOperation(fieldsValue);
-      const newWallet = wallets.filter(
-        wallet => wallet.id === fieldsValue.wallet
-      )[0];
+            updateOperation(fieldsValue);
+            const newWallet = wallets.filter(
+              wallet => wallet.id === fieldsValue.wallet
+            )[0];
 
-      newWallet.wallet_amount = hasCategory
-        ? parseFloat(
-            parseFloat(newWallet.wallet_amount) -
-              parseFloat(fieldsValue.credit) +
-              parseFloat(current.credit)
-          )
-        : parseFloat(
-            parseFloat(newWallet.wallet_amount) +
-              parseFloat(fieldsValue.credit) -
-              parseFloat(current.credit)
-          );
+            newWallet.wallet_amount = hasCategory
+              ? parseFloat(
+                  parseFloat(newWallet.wallet_amount) -
+                    parseFloat(fieldsValue.credit) +
+                    parseFloat(current.credit)
+                )
+              : parseFloat(
+                  parseFloat(newWallet.wallet_amount) +
+                    parseFloat(fieldsValue.credit) -
+                    parseFloat(current.credit)
+                );
 
-      updateWallet(newWallet);
+            updateWallet(newWallet);
 
-      form.resetFields();
-      onSubmit();
+            form.resetFields();
+            onSubmit();
+          },
+          onCancel() {
+            return;
+          }
+        });
+      } else {
+        fieldsValue.id = current.id;
+
+        updateOperation(fieldsValue);
+        const newWallet = wallets.filter(
+          wallet => wallet.id === fieldsValue.wallet
+        )[0];
+
+        newWallet.wallet_amount = hasCategory
+          ? parseFloat(
+              parseFloat(newWallet.wallet_amount) -
+                parseFloat(fieldsValue.credit) +
+                parseFloat(current.credit)
+            )
+          : parseFloat(
+              parseFloat(newWallet.wallet_amount) +
+                parseFloat(fieldsValue.credit) -
+                parseFloat(current.credit)
+            );
+
+        updateWallet(newWallet);
+
+        form.resetFields();
+        onSubmit();
+      }
     });
   };
 

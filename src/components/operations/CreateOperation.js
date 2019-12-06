@@ -49,29 +49,71 @@ const CreateOperation = ({
     setModalCreate(false);
   };
 
+  const { confirm } = Modal;
+
   const onCreate = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
       }
 
-      addOperation(fieldsValue);
-      const newWallet = wallets.filter(
-        wallet => wallet.id === fieldsValue.wallet
-      )[0];
+      if (
+        +wallets.filter(wallet => wallet.id === fieldsValue.wallet)[0]
+          .wallet_amount -
+          +fieldsValue.credit <
+        0
+      ) {
+        confirm({
+          title: "Недостаточно средств на счете!",
+          content: "Все равно провести операцию?",
+          okText: "Подтвердить",
+          cancelText: "Отменить",
+          onOk() {
+            addOperation(fieldsValue);
+            const newWallet = wallets.filter(
+              wallet => wallet.id === fieldsValue.wallet
+            )[0];
 
-      newWallet.wallet_amount = !isEarn
-        ? parseFloat(
-            parseFloat(newWallet.wallet_amount) - parseFloat(fieldsValue.credit)
-          )
-        : parseFloat(
-            parseFloat(newWallet.wallet_amount) + parseFloat(fieldsValue.credit)
-          );
+            newWallet.wallet_amount = !isEarn
+              ? parseFloat(
+                  parseFloat(newWallet.wallet_amount) -
+                    parseFloat(fieldsValue.credit)
+                )
+              : parseFloat(
+                  parseFloat(newWallet.wallet_amount) +
+                    parseFloat(fieldsValue.credit)
+                );
 
-      updateWallet(newWallet);
+            updateWallet(newWallet);
 
-      form.resetFields();
-      onSubmit();
+            form.resetFields();
+            onSubmit();
+          },
+          onCancel() {
+            return;
+          }
+        });
+      } else {
+        addOperation(fieldsValue);
+        const newWallet = wallets.filter(
+          wallet => wallet.id === fieldsValue.wallet
+        )[0];
+
+        newWallet.wallet_amount = !isEarn
+          ? parseFloat(
+              parseFloat(newWallet.wallet_amount) -
+                parseFloat(fieldsValue.credit)
+            )
+          : parseFloat(
+              parseFloat(newWallet.wallet_amount) +
+                parseFloat(fieldsValue.credit)
+            );
+
+        updateWallet(newWallet);
+
+        form.resetFields();
+        onSubmit();
+      }
     });
   };
 
