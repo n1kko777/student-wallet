@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
 from .permissions import IsOwnerOrReadOnly
 from .serializers import WalletSerializer, CategorySerializer, OperationSerializer, UserSerializer
@@ -10,6 +11,12 @@ from users.models import CustomUser
 from app.models import Wallet, Category, Operation
 
 from django.db.models import Sum
+
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return
 
 
 class OperationViewSet(viewsets.ModelViewSet):
@@ -52,6 +59,8 @@ class WalletViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
+    authentication_classes = (
+        CsrfExemptSessionAuthentication, TokenAuthentication)
 
     def get_queryset(self):
         queryset = CustomUser.objects.filter(id=self.request.user.id)
