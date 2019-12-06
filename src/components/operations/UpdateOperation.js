@@ -140,9 +140,9 @@ const UpdateOperation = ({
             )}
           </Form.Item>
         )}
-        <Form.Item label="Укажите кошелек" hasFeedback>
+        <Form.Item label="Укажите счет" hasFeedback>
           {getFieldDecorator("wallet", {
-            rules: [{ required: true, message: "Пожалуйста выберите кошелек!" }]
+            rules: [{ required: true, message: "Пожалуйста выберите счет!" }]
           })(
             <Select>
               {wallets !== null &&

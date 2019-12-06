@@ -33,24 +33,24 @@ const CreateWallet = ({ addWallet, visible, onCancel, onSubmit, form }) => {
   return (
     <Modal
       visible={visible}
-      title="Добавить кошелек"
+      title="Добавить счет"
       okText="Добавить"
       cancelText="Отменить"
       onCancel={onCancel}
       onOk={onCreate}
     >
       <Form layout="vertical">
-        <Form.Item label="Название кошелька" hasFeedback>
+        <Form.Item label="Название счета" hasFeedback>
           {getFieldDecorator("wallet_name", {
             rules: [
               {
                 required: true,
-                message: "Пожалуйста введите название кошелька!"
+                message: "Пожалуйста введите название счета!"
               }
             ]
           })(<Input style={{ width: "100%" }} />)}
         </Form.Item>
-        <Form.Item label="Остаток в кошельке" hasFeedback>
+        <Form.Item label="Остаток на счете" hasFeedback>
           {getFieldDecorator("wallet_amount", {
             rules: [
               {
@@ -68,7 +68,7 @@ const CreateWallet = ({ addWallet, visible, onCancel, onSubmit, form }) => {
             />
           )}
         </Form.Item>
-        <Form.Item label="Выберите цвет кошелька" hasFeedback>
+        <Form.Item label="Выберите цвет счета" hasFeedback>
           {getFieldDecorator("wallet_color", {
             rules: [
               {
