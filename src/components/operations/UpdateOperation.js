@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import PropTypes from "prop-types";
 
@@ -17,11 +17,14 @@ import { connect } from "react-redux";
 import { updateOperation } from "../../store/actions/operations";
 import { updateWallet } from "../../store/actions/wallets";
 
+import CreateCategory from "../categories/CreateCategory";
+
 const UpdateOperation = ({
   current,
   updateOperation,
   updateWallet,
-  userData,
+  wallets,
+  categories,
   visible,
   onCancel,
   onSubmit,
@@ -32,12 +35,8 @@ const UpdateOperation = ({
     current.category !== undefined &&
     current.category !== null;
 
-  const newCategory = useRef();
-
   const { getFieldDecorator } = form;
   const { Option } = Select;
-
-  const { wallets, categories } = userData;
 
   const { confirm } = Modal;
 
@@ -115,101 +114,156 @@ const UpdateOperation = ({
     });
   };
 
-  const addCategoryItem = () => {
-    console.log(
-      "addCategoryItem :",
-      newCategory.current.rcSelect.state.inputValue
-    );
+  const [isModalCreate, setModalCreate] = useState(false);
+
+  const showModal = () => {
+    setModalCreate(true);
+  };
+
+  const handleCancel = () => {
+    setModalCreate(false);
+  };
+
+  const handleSubmit = () => {
+    setModalCreate(false);
   };
 
   return (
-    <Modal
-      visible={visible}
-      title={hasCategory ? "Обновить расход" : "Обновить доход"}
-      okText="Обновить"
-      cancelText="Отменить"
-      onCancel={onCancel}
-      onOk={onCreate}
-    >
-      <Form layout="vertical">
-        <Form.Item label="Сумма" hasFeedback>
-          {getFieldDecorator("credit", {
-            rules: [
-              {
-                required: true,
-                message: "Пожалуйста введите число!"
-              }
-            ]
-          })(
-            <InputNumber
-              min={0}
-              formatter={value =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              style={{ width: "100%" }}
-            />
-          )}
-        </Form.Item>
-        {hasCategory && (
-          <Form.Item label="Укажите категорию" hasFeedback>
-            {getFieldDecorator("category", {
+    <>
+      <CreateCategory
+        visible={isModalCreate}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+      />
+      <Modal
+        visible={visible}
+        title={hasCategory ? "Обновить расход" : "Обновить доход"}
+        okText="Обновить"
+        cancelText="Отменить"
+        onCancel={onCancel}
+        onOk={onCreate}
+      >
+        <Form layout="vertical">
+          <Form.Item label="Сумма" hasFeedback>
+            {getFieldDecorator("credit", {
               rules: [
-                { required: true, message: "Пожалуйста выберите категорию!" }
+                {
+                  required: true,
+                  message: "Пожалуйста введите число!"
+                }
               ]
+            })(
+              <InputNumber
+                min={0}
+                formatter={value =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                style={{ width: "100%" }}
+              />
+            )}
+          </Form.Item>
+          {hasCategory && (
+            <Form.Item label="Укажите категорию" hasFeedback>
+              {getFieldDecorator("category", {
+                rules: [
+                  { required: true, message: "Пожалуйста выберите категорию!" }
+                ]
+              })(
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.props.children[2]
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                  dropdownRender={menu => (
+                    <div>
+                      {menu}
+                      <Divider style={{ margin: "4px 0" }} />
+                      <div
+                        style={{ padding: "4px 8px", cursor: "pointer" }}
+                        onMouseDown={e => e.preventDefault()}
+                        onClick={showModal}
+                      >
+                        <Icon type="plus" /> Добавить категорию
+                      </div>
+                    </div>
+                  )}
+                >
+                  {categories !== null &&
+                    categories.map(category => (
+                      <Option key={category.id} value={category.id}>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            width: "6px",
+                            height: "6px",
+                            borderRadius: "50%",
+                            marginRight: "5px",
+                            verticalAlign: "middle",
+                            background:
+                              category.category_color !== ""
+                                ? category.category_color
+                                : "initial"
+                          }}
+                        ></span>{" "}
+                        {category.category_name}
+                      </Option>
+                    ))}
+                </Select>
+              )}
+            </Form.Item>
+          )}
+          <Form.Item label="Укажите счет" hasFeedback>
+            {getFieldDecorator("wallet", {
+              rules: [{ required: true, message: "Пожалуйста выберите счет!" }]
             })(
               <Select
                 showSearch
-                ref={newCategory}
-                dropdownRender={menu => (
-                  <div>
-                    {menu}
-                    <Divider style={{ margin: "4px 0" }} />
-                    <div
-                      style={{ padding: "4px 8px", cursor: "pointer" }}
-                      onMouseDown={e => e.preventDefault()}
-                      onClick={addCategoryItem}
-                    >
-                      <Icon type="plus" /> Добавить категорию
-                    </div>
-                  </div>
-                )}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.props.children[2]
+                    .toLowerCase()
+                    .indexOf(input.toLowerCase()) >= 0
+                }
               >
-                {categories !== null &&
-                  categories.map(category => (
-                    <Option key={category.id} value={category.id}>
-                      {category.category_name}
+                {wallets !== null &&
+                  wallets.map(wallet => (
+                    <Option
+                      key={wallet.id}
+                      value={wallet.id}
+                      title={"Баланс: " + wallet.wallet_amount + " Р"}
+                    >
+                      <span
+                        style={{
+                          display: "inline-block",
+                          width: "6px",
+                          height: "6px",
+                          borderRadius: "50%",
+                          marginRight: "5px",
+                          verticalAlign: "middle",
+                          background:
+                            wallet.wallet_color !== ""
+                              ? wallet.wallet_color
+                              : "initial"
+                        }}
+                      ></span>{" "}
+                      {wallet.wallet_name}
                     </Option>
                   ))}
               </Select>
             )}
           </Form.Item>
-        )}
-        <Form.Item label="Укажите счет" hasFeedback>
-          {getFieldDecorator("wallet", {
-            rules: [{ required: true, message: "Пожалуйста выберите счет!" }]
-          })(
-            <Select>
-              {wallets !== null &&
-                wallets.map(wallet => (
-                  <Option
-                    key={wallet.id}
-                    value={wallet.id}
-                    title={"Баланс: " + wallet.wallet_amount + " Р"}
-                  >
-                    {wallet.wallet_name}
-                  </Option>
-                ))}
-            </Select>
-          )}
-        </Form.Item>
 
-        <Form.Item label="Укажите дату">
-          {getFieldDecorator("created_at")(
-            <DatePicker locale={locale} setFieldsValue={moment()} />
-          )}
-        </Form.Item>
-      </Form>
-    </Modal>
+          <Form.Item label="Укажите дату">
+            {getFieldDecorator("created_at")(
+              <DatePicker locale={locale} setFieldsValue={moment()} />
+            )}
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
   );
 };
 
@@ -221,7 +275,8 @@ UpdateOperation.propTypes = {
   updateWallet: PropTypes.func.isRequired,
   updateOperation: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
-  userData: PropTypes.object.isRequired
+  wallets: PropTypes.array,
+  categories: PropTypes.array
 };
 
 const WrappedUpdateOperation = Form.create({
@@ -252,7 +307,8 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = ({ user, operations }) => ({
   current: operations.current,
-  userData: user.user
+  wallets: user.user.wallets,
+  categories: user.user.categories
 });
 
 export default connect(

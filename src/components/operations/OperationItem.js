@@ -14,6 +14,7 @@ const OperationItem = ({
   wallet,
   wallet_color,
   category,
+  category_color,
   removeFromAmount,
   showEditModal,
   showCopyModal,
@@ -64,8 +65,6 @@ const OperationItem = ({
             description={
               <>
                 <p>
-                  <Text>{category}</Text>
-                  <br />
                   <Text>
                     <span
                       style={{
@@ -80,6 +79,22 @@ const OperationItem = ({
                       }}
                     ></span>
                     {wallet}
+                  </Text>
+                  <br />
+                  <Text>
+                    <span
+                      style={{
+                        display: "inline-block",
+                        width: "6px",
+                        height: "6px",
+                        borderRadius: "50%",
+                        verticalAlign: "middle",
+                        marginRight: "5px",
+                        background:
+                          category_color !== "" ? category_color : "initial"
+                      }}
+                    ></span>
+                    {category}
                   </Text>
                 </p>
                 <Text
@@ -106,6 +121,7 @@ OperationItem.propTypes = {
   wallet: PropTypes.string.isRequired,
   wallet_color: PropTypes.string.isRequired,
   category: PropTypes.string,
+  category_color: PropTypes.string.isRequired,
   removeFromAmount: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   showEditModal: PropTypes.func.isRequired,

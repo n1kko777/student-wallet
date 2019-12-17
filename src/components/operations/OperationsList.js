@@ -210,6 +210,17 @@ const OperationsList = ({
                         .category_name.toString()
                     : ""
                 }
+                category_color={
+                  elem.category !== null && categories !== null
+                    ? categories
+                        .filter(
+                          (category, i) =>
+                            elem.category === category.id &&
+                            categories[i].category_color !== null
+                        )[0]
+                        .category_color.toString()
+                    : ""
+                }
                 removeFromAmount={elem.category !== null}
                 showEditModal={showEditModal}
                 showCopyModal={showCopyModal}

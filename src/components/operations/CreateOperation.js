@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import PropTypes from "prop-types";
 
@@ -22,19 +22,17 @@ import CreateCategory from "../categories/CreateCategory";
 const CreateOperation = ({
   addOperation,
   updateWallet,
-  userData,
+  wallets,
+  categories,
   visible,
   onCancel,
   onSubmit,
   form,
   isEarn
 }) => {
-  const newCategory = useRef();
-
   const { getFieldDecorator } = form;
   const { Option } = Select;
 
-  const { wallets, categories } = userData;
   const [isModalCreate, setModalCreate] = useState(false);
 
   const showModal = () => {
@@ -160,7 +158,12 @@ const CreateOperation = ({
               })(
                 <Select
                   showSearch
-                  ref={newCategory}
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.props.children[2]
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
                   dropdownRender={menu => (
                     <div>
                       {menu}
@@ -178,6 +181,20 @@ const CreateOperation = ({
                   {categories !== null &&
                     categories.map(category => (
                       <Option key={category.id} value={category.id}>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            width: "6px",
+                            height: "6px",
+                            borderRadius: "50%",
+                            marginRight: "5px",
+                            verticalAlign: "middle",
+                            background:
+                              category.category_color !== ""
+                                ? category.category_color
+                                : "initial"
+                          }}
+                        ></span>{" "}
                         {category.category_name}
                       </Option>
                     ))}
@@ -189,7 +206,15 @@ const CreateOperation = ({
             {getFieldDecorator("wallet", {
               rules: [{ required: true, message: "Пожалуйста выберите счет!" }]
             })(
-              <Select>
+              <Select
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.props.children[2]
+                    .toLowerCase()
+                    .indexOf(input.toLowerCase()) >= 0
+                }
+              >
                 {wallets !== null &&
                   wallets.map(wallet => (
                     <Option
@@ -237,7 +262,8 @@ CreateOperation.propTypes = {
   addOperation: PropTypes.func.isRequired,
   updateWallet: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
-  userData: PropTypes.object.isRequired
+  wallets: PropTypes.array,
+  categories: PropTypes.array
 };
 
 const WrappedCreateOperation = Form.create({
@@ -251,7 +277,8 @@ const WrappedCreateOperation = Form.create({
 })(CreateOperation);
 
 const mapStateToProps = ({ user }) => ({
-  userData: user.user
+  wallets: user.user.wallets,
+  categories: user.user.categories
 });
 const mapDispatchToProps = dispatch => ({
   addOperation: operation => dispatch(addOperation(operation)),
