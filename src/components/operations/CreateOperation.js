@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import PropTypes from "prop-types";
 
@@ -22,19 +22,17 @@ import CreateCategory from "../categories/CreateCategory";
 const CreateOperation = ({
   addOperation,
   updateWallet,
-  userData,
+  wallets,
+  categories,
   visible,
   onCancel,
   onSubmit,
   form,
   isEarn
 }) => {
-  const newCategory = useRef();
-
   const { getFieldDecorator } = form;
   const { Option } = Select;
 
-  const { wallets, categories } = userData;
   const [isModalCreate, setModalCreate] = useState(false);
 
   const showModal = () => {
@@ -49,29 +47,71 @@ const CreateOperation = ({
     setModalCreate(false);
   };
 
+  const { confirm } = Modal;
+
   const onCreate = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
       }
 
-      addOperation(fieldsValue);
-      const newWallet = wallets.filter(
-        wallet => wallet.id === fieldsValue.wallet
-      )[0];
+      if (
+        +wallets.filter(wallet => wallet.id === fieldsValue.wallet)[0]
+          .wallet_amount -
+          +fieldsValue.credit <
+        0
+      ) {
+        confirm({
+          title: "Недостаточно средств на счете!",
+          content: "Все равно провести операцию?",
+          okText: "Подтвердить",
+          cancelText: "Отменить",
+          onOk() {
+            addOperation(fieldsValue);
+            const newWallet = wallets.filter(
+              wallet => wallet.id === fieldsValue.wallet
+            )[0];
 
-      newWallet.wallet_amount = !isEarn
-        ? parseFloat(
-            parseFloat(newWallet.wallet_amount) - parseFloat(fieldsValue.credit)
-          )
-        : parseFloat(
-            parseFloat(newWallet.wallet_amount) + parseFloat(fieldsValue.credit)
-          );
+            newWallet.wallet_amount = !isEarn
+              ? parseFloat(
+                  parseFloat(newWallet.wallet_amount) -
+                    parseFloat(fieldsValue.credit)
+                )
+              : parseFloat(
+                  parseFloat(newWallet.wallet_amount) +
+                    parseFloat(fieldsValue.credit)
+                );
 
-      updateWallet(newWallet);
+            updateWallet(newWallet);
 
-      form.resetFields();
-      onSubmit();
+            form.resetFields();
+            onSubmit();
+          },
+          onCancel() {
+            return;
+          }
+        });
+      } else {
+        addOperation(fieldsValue);
+        const newWallet = wallets.filter(
+          wallet => wallet.id === fieldsValue.wallet
+        )[0];
+
+        newWallet.wallet_amount = !isEarn
+          ? parseFloat(
+              parseFloat(newWallet.wallet_amount) -
+                parseFloat(fieldsValue.credit)
+            )
+          : parseFloat(
+              parseFloat(newWallet.wallet_amount) +
+                parseFloat(fieldsValue.credit)
+            );
+
+        updateWallet(newWallet);
+
+        form.resetFields();
+        onSubmit();
+      }
     });
   };
 
@@ -118,7 +158,12 @@ const CreateOperation = ({
               })(
                 <Select
                   showSearch
-                  ref={newCategory}
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.props.children[2]
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
                   dropdownRender={menu => (
                     <div>
                       {menu}
@@ -136,6 +181,20 @@ const CreateOperation = ({
                   {categories !== null &&
                     categories.map(category => (
                       <Option key={category.id} value={category.id}>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            width: "6px",
+                            height: "6px",
+                            borderRadius: "50%",
+                            marginRight: "5px",
+                            verticalAlign: "middle",
+                            background:
+                              category.category_color !== ""
+                                ? category.category_color
+                                : "initial"
+                          }}
+                        ></span>{" "}
                         {category.category_name}
                       </Option>
                     ))}
@@ -143,20 +202,22 @@ const CreateOperation = ({
               )}
             </Form.Item>
           )}
-          <Form.Item label="Укажите кошелек" hasFeedback>
+          <Form.Item label="Укажите счет" hasFeedback>
             {getFieldDecorator("wallet", {
-              rules: [
-                { required: true, message: "Пожалуйста выберите кошелек!" }
-              ]
+              rules: [{ required: true, message: "Пожалуйста выберите счет!" }]
             })(
-              <Select>
+              <Select
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.props.children[2]
+                    .toLowerCase()
+                    .indexOf(input.toLowerCase()) >= 0
+                }
+              >
                 {wallets !== null &&
                   wallets.map(wallet => (
-                    <Option
-                      key={wallet.id}
-                      value={wallet.id}
-                      title={"Баланс: " + wallet.wallet_amount + " Р"}
-                    >
+                    <Option key={wallet.id} value={wallet.id}>
                       <span
                         style={{
                           display: "inline-block",
@@ -171,7 +232,7 @@ const CreateOperation = ({
                               : "initial"
                         }}
                       ></span>{" "}
-                      {wallet.wallet_name}
+                      {wallet.wallet_name} ({wallet.wallet_amount + " ₽"})
                     </Option>
                   ))}
               </Select>
@@ -197,7 +258,8 @@ CreateOperation.propTypes = {
   addOperation: PropTypes.func.isRequired,
   updateWallet: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
-  userData: PropTypes.object.isRequired
+  wallets: PropTypes.array,
+  categories: PropTypes.array
 };
 
 const WrappedCreateOperation = Form.create({
@@ -211,7 +273,8 @@ const WrappedCreateOperation = Form.create({
 })(CreateOperation);
 
 const mapStateToProps = ({ user }) => ({
-  userData: user.user
+  wallets: user.user.wallets,
+  categories: user.user.categories
 });
 const mapDispatchToProps = dispatch => ({
   addOperation: operation => dispatch(addOperation(operation)),

@@ -86,7 +86,7 @@ const CustomToolbar = ({
                           onClick={showModal}
                           className="select-title__add"
                         >
-                          <Icon type="plus" /> Добавить кошелек
+                          <Icon type="plus" /> Добавить счет
                         </div>
                       </div>
                     )}
