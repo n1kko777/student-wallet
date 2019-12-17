@@ -26,7 +26,7 @@ const CustomControls = ({ isWallet, walletCount }) => {
         </Col>
         {walletCount > 1 && (
           <Col xs={12} sm={6} md={4} lg={3}>
-            <ChangeWalletButton />
+            <ChangeWalletButton isWallet={isWallet} />
           </Col>
         )}
       </Row>

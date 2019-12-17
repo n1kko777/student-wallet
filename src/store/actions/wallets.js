@@ -165,9 +165,11 @@ export const updateWallet = wallet => dispatch => {
       wallet_color: wallet.wallet_color
     })
     .then(res => {
+      message.success("Баланс изменен.");
       dispatch({
         type: UPDATE_WALLET
       });
+      dispatch(getUser());
     })
     .catch(error => {
       if (error.response) {
