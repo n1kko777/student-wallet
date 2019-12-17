@@ -222,11 +222,7 @@ const CopyOperation = ({
               >
                 {wallets !== null &&
                   wallets.map(wallet => (
-                    <Option
-                      key={wallet.id}
-                      value={wallet.id}
-                      title={"Баланс: " + wallet.wallet_amount + " Р"}
-                    >
+                    <Option key={wallet.id} value={wallet.id}>
                       <span
                         style={{
                           display: "inline-block",
@@ -241,7 +237,7 @@ const CopyOperation = ({
                               : "initial"
                         }}
                       ></span>{" "}
-                      {wallet.wallet_name}
+                      {wallet.wallet_name} ({wallet.wallet_amount + " ₽"})
                     </Option>
                   ))}
               </Select>
