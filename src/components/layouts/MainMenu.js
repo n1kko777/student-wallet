@@ -17,7 +17,12 @@ const MainMenu = ({ isAuth, onLogout }) => {
         </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link rel="noopener noreferrer" to="/reports">
+        <Link
+          rel="noopener noreferrer"
+          to="/reports"
+          style={{ cursor: "not-allowed" }}
+          onClick={event => event.preventDefault()}
+        >
           <Icon type="form" /> Отчет
         </Link>
       </Menu.Item>

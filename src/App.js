@@ -19,6 +19,7 @@ import Feed from "./components/pages/Feed";
 import { About } from "./components/pages/About";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
+import Reports from "./components/pages/Reports";
 import ResetPass from "./components/pages/ResetPass";
 import PageNotFound from "./components/pages/PageNotFound";
 
@@ -65,7 +66,7 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
                 }
               />
               <Route exact path="/settings" />
-              <Route exact path="/reports" />
+              <Route exact path="/reports" component={Reports} />
               <Route component={PageNotFound} />
             </Switch>
           </Grid>
