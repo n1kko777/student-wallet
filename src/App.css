@@ -2,6 +2,7 @@ input,
 select {
   font-size: 16px !important;
 }
+
 .humburger {
   display: flex;
   justify-content: center;
@@ -102,9 +103,11 @@ select {
   width: 100%;
   max-width: 749px;
 }
+
 .login-form-forgot {
   float: right;
 }
+
 .login-form-button {
   width: 100%;
 }

@@ -2,7 +2,8 @@ import {
   GET_USER,
   UPDATE_USER,
   USER_ERROR,
-  USER_LOADING
+  USER_LOADING,
+  PASSWORD_CHANGED
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -33,6 +34,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         user: payload,
+        loading: false
+      };
+    case PASSWORD_CHANGED:
+      return {
+        ...state,
         loading: false
       };
     case USER_LOADING:
