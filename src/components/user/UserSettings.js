@@ -14,7 +14,7 @@ const UserSettings = () => {
       }}
     >
       <Row style={{ width: "100%" }} between={"xs"}>
-        <Col xs={12} sm={6} xlOffset={1}>
+        <Col xs={12} sm={6}>
           <ChangeInfo />
         </Col>
         <Col xs={12} sm={5}>

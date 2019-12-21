@@ -56,19 +56,12 @@ const CustomToolbar = ({
         onCancel={handleCancel}
       />
 
-      <Header
-        style={{
-          padding: "0",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        <div className="header" style={{ width: "100%" }}>
+      <Header className="header">
+        <div style={{ width: "100%" }}>
           <Grid>
             <Row middle="xs" between="xs">
               <Col xs={isAuth ? 9 : 3} sm={isAuth ? 6 : 3} md={4} lg={3}>
-                {pathname === "/feed" ? (
+                {pathname === "/feed" || pathname === "/reports" ? (
                   <Select
                     defaultValue="all"
                     onChange={onChangeWallet}
