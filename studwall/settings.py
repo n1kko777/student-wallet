@@ -27,7 +27,8 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', True)
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'studwallet.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '0.0.0.0',
+                 '127.0.0.1', 'studwallet.herokuapp.com']
 
 
 # Application definition
@@ -192,7 +193,7 @@ SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_NAME = "csrftoken"
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
+    'https://localhost:3000',
 )
 
 django_heroku.settings(locals())

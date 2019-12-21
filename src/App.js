@@ -17,8 +17,10 @@ import {
 
 import Feed from "./components/pages/Feed";
 import { About } from "./components/pages/About";
+import { Settings } from "./components/pages/Settings";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
+import Reports from "./components/pages/Reports";
 import ResetPass from "./components/pages/ResetPass";
 import PageNotFound from "./components/pages/PageNotFound";
 
@@ -64,8 +66,20 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
                   isAuth ? <Feed {...props} /> : <Redirect to="/login" />
                 }
               />
-              <Route exact path="/settings" />
-              <Route exact path="/reports" />
+              <Route
+                exact
+                path="/settings"
+                render={props =>
+                  isAuth ? <Settings /> : <Redirect to="/login" />
+                }
+              />
+              <Route
+                exact
+                path="/reports"
+                render={props =>
+                  isAuth ? <Reports /> : <Redirect to="/login" />
+                }
+              />
               <Route component={PageNotFound} />
             </Switch>
           </Grid>

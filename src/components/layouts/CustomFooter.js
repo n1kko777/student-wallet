@@ -20,7 +20,7 @@ const CustomFooter = ({ user_earn, user_spend }) => {
   return (
     <Footer className="footer">
       <Grid>
-        {pathname === "/feed" ? (
+        {pathname === "/feed" || pathname === "/reports" ? (
           <Row between="xs">
             <Col xs={12} sm={4} md={4}>
               <Row between="xs">

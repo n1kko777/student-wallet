@@ -2,6 +2,7 @@ input,
 select {
   font-size: 16px !important;
 }
+
 .humburger {
   display: flex;
   justify-content: center;
@@ -87,6 +88,18 @@ select {
   background-color: #4d6982;
 }
 
+.header {
+  z-index: 20;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .footer {
   position: fixed;
   background: #fafafa;
@@ -102,9 +115,11 @@ select {
   width: 100%;
   max-width: 749px;
 }
+
 .login-form-forgot {
   float: right;
 }
+
 .login-form-button {
   width: 100%;
 }
@@ -121,4 +136,8 @@ select {
   width: 100% !important;
   margin-top: -30px;
   padding-right: 15px;
+}
+
+.reports-table {
+  margin-bottom: 30px;
 }

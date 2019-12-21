@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, Dropdown, Icon } from "antd";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { logout } from "../../store/actions/auth";
@@ -9,8 +9,16 @@ import { logout } from "../../store/actions/auth";
 import PropTypes from "prop-types";
 
 const MainMenu = ({ isAuth, onLogout }) => {
+  const { pathname } = useLocation();
   const authUser = (
     <Menu className="main-menu">
+      {pathname !== "/feed" && (
+        <Menu.Item>
+          <Link rel="noopener noreferrer" to="/feed">
+            <Icon type="home" /> На главную
+          </Link>
+        </Menu.Item>
+      )}
       <Menu.Item>
         <Link rel="noopener noreferrer" to="/settings">
           <Icon type="setting" /> Настройки

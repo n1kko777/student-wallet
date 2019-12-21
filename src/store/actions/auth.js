@@ -14,6 +14,7 @@ import { message } from "antd";
 
 import { getUser } from "./user";
 import { getOperations } from "./operations";
+import { Redirect } from "react-router-dom";
 
 export const remindMe = state => {
   return {
@@ -84,6 +85,7 @@ export const logout = () => {
   localStorage.removeItem("user");
   delete axios.defaults.headers.common["Authorization"];
 
+  Redirect("/");
   return {
     type: AUTH_LOGOUT
   };

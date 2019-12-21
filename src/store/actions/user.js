@@ -1,7 +1,13 @@
 import axios from "axios";
 import { endpointAPI } from "../constants";
 
-import { GET_USER, UPDATE_USER, USER_ERROR, USER_LOADING } from "./actionTypes";
+import {
+  GET_USER,
+  UPDATE_USER,
+  USER_ERROR,
+  USER_LOADING,
+  PASSWORD_CHANGED
+} from "./actionTypes";
 
 import { message } from "antd";
 
@@ -78,6 +84,101 @@ export const updateUser = user => dispatch => {
     type: UPDATE_USER,
     payload: user
   });
+};
+
+// update user info
+export const updateUserInfo = (userData, id) => dispatch => {
+  setLoading();
+
+  axios
+    .put(`${endpointAPI}/users/${id}/`, {
+      ...userData
+    })
+    .then(res => {
+      message.success("Данные обновлены!");
+
+      const user = res.data;
+      countUserMoney(user);
+
+      dispatch({
+        type: UPDATE_USER,
+        payload: user
+      });
+    })
+    .catch(error => {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const keys = [];
+
+        for (const k in error.response.data) keys.push(k);
+
+        message.error(
+          `Код ошибки: ${error.response.status}. ${
+            error.response.data[keys[0]]
+          } Повторите попытку позже.`,
+          10
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error(
+          "Не удалось соединиться с сервером. Повторите попытку позже.",
+          10
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+      }
+
+      dispatch({
+        type: USER_ERROR,
+        payload: error.message
+      });
+    });
+};
+
+// update user info
+export const resetUserPass = (userData, id) => dispatch => {
+  setLoading();
+
+  axios
+    .put(`${endpointAPI}/users/${id}/change-password/`, { ...userData })
+    .then(res => {
+      message.success("Пароль изменен");
+
+      dispatch({
+        type: PASSWORD_CHANGED
+      });
+    })
+    .catch(error => {
+      console.log("error :", error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        const keys = [];
+
+        for (const k in error.response.data) keys.push(k);
+
+        message.error(
+          `Код ошибки: ${error.response.status}. ${
+            error.response.data[keys[0]]
+          } Повторите попытку позже.`,
+          10
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error(
+          "Не удалось соединиться с сервером. Повторите попытку позже.",
+          10
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message.error("Что-то пошло не так... Повторите попытку позже.", 10);
+      }
+
+      dispatch({
+        type: USER_ERROR,
+        payload: error.message
+      });
+    });
 };
 
 // Set loading to true
