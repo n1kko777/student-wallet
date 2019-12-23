@@ -141,3 +141,11 @@ select {
 .reports-table {
   margin-bottom: 30px;
 }
+
+.reports-table .ant-table-thead {
+  background-color: #fafafa;
+}
+
+.reports-table td {
+  background-color: #fff;
+}
