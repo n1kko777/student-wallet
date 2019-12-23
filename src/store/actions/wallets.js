@@ -16,6 +16,7 @@ import {
 import { message } from "antd";
 
 import { getUser } from "./user";
+import { getOperations } from "./operations";
 import { logout } from "./auth";
 
 // Get wallets from server
@@ -117,12 +118,14 @@ export const deleteWallet = id => dispatch => {
   axios
     .delete(`${endpointAPI}/wallets/${id}/`)
     .then(res => {
-      message.success("Запись удалена.");
+      message.success("Счет удалена.");
 
       dispatch({
-        type: DELETE_WALLET,
-        payload: id
+        type: DELETE_WALLET
       });
+
+      dispatch(getUser());
+      dispatch(getOperations());
     })
     .catch(error => {
       if (error.response) {
