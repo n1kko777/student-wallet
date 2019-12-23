@@ -108,7 +108,10 @@ const Reports = ({
                   )} %`,
             money:
               element.length > 1
-                ? element.reduce((a, b) => +a + +b.credit, 0)
+                ? element.reduce(
+                    (a, b) => parseFloat(a) + parseFloat(b.credit),
+                    0
+                  )
                 : element[0].credit
           }))
       : [];
@@ -141,14 +144,20 @@ const Reports = ({
             procent:
               element.length > 1
                 ? `${parseInt(
-                    (element.reduce((a, b) => +a + +b.credit, 0) /
+                    (element.reduce(
+                      (a, b) => parseFloat(a) + parseFloat(b.credit),
+                      0
+                    ) /
                       +user_spend) *
                       100
                   )} %`
                 : `${parseInt((+element[0].credit / +user_spend) * 100)} %`,
             money:
               element.length > 1
-                ? element.reduce((a, b) => +a + +b.credit, 0)
+                ? element.reduce(
+                    (a, b) => parseFloat(a) + parseFloat(b.credit),
+                    0
+                  )
                 : element[0].credit
           }))
       : [];
@@ -181,14 +190,20 @@ const Reports = ({
             procent:
               element.length > 1
                 ? `${parseInt(
-                    (element.reduce((a, b) => +a.credit + +b.credit, 0) /
+                    (element.reduce(
+                      (a, b) => parseFloat(a) + parseFloat(b.credit),
+                      0
+                    ) /
                       +user_earn) *
                       100
                   )} %`
                 : `${parseInt((+element[0].credit / +user_earn) * 100)} %`,
             money:
               element.length > 1
-                ? element.reduce((a, b) => +a.credit + +b.credit, 0)
+                ? element.reduce(
+                    (a, b) => parseFloat(a) + parseFloat(b.credit),
+                    0
+                  )
                 : element[0].credit
           }))
       : [];
@@ -217,7 +232,7 @@ const Reports = ({
                       ? walletOperation.credit
                       : 0
                   )
-                  .reduce((a, b) => +a + +b, 0)
+                  .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
               )
             : [],
         backgroundColor:
@@ -254,7 +269,7 @@ const Reports = ({
                       ? walletOperation.credit
                       : 0
                   )
-                  .reduce((a, b) => +a + +b, 0)
+                  .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
               )
             : [],
         backgroundColor:
@@ -291,7 +306,7 @@ const Reports = ({
                       ? categoryOperation.credit
                       : 0
                   )
-                  .reduce((a, b) => +a + +b, 0)
+                  .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
               )
             : [],
         backgroundColor:
