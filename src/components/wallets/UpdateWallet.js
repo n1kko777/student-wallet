@@ -34,8 +34,8 @@ const UpdateWallet = ({ updateWallet, visible, onCancel, onSubmit, form }) => {
   return (
     <Modal
       visible={visible}
-      title="Оновить счет"
-      okText="Оновить"
+      title="Обновить счет"
+      okText="Обновить"
       cancelText="Отменить"
       onCancel={onCancel}
       onOk={onCreate}
