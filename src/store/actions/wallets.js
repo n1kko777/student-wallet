@@ -74,7 +74,7 @@ export const addWallet = wallet => dispatch => {
       wallet_color: wallet.wallet_color
     })
     .then(res => {
-      message.success("Запись создана.");
+      message.success("Счет создан.");
       dispatch({
         type: ADD_WALLET
       });
@@ -118,7 +118,7 @@ export const deleteWallet = id => dispatch => {
   axios
     .delete(`${endpointAPI}/wallets/${id}/`)
     .then(res => {
-      message.success("Счет удалена.");
+      message.success("Счет удален.");
 
       dispatch({
         type: DELETE_WALLET

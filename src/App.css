@@ -138,14 +138,14 @@ select {
   padding-right: 15px;
 }
 
-.reports-table {
+.display-table {
   margin-bottom: 30px;
 }
 
-.reports-table .ant-table-thead {
+.display-table .ant-table-thead {
   background-color: #fafafa;
 }
 
-.reports-table td {
+.display-table td {
   background-color: #fff;
 }

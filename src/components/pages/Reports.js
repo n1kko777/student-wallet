@@ -340,7 +340,7 @@ const Reports = ({
         </Col>
         <Col xs={12} sm={6}>
           <Table
-            className="reports-table"
+            className="display-table"
             columns={reportDataColumns}
             dataSource={walletSpendTable}
             pagination={false}
@@ -362,7 +362,7 @@ const Reports = ({
         </Col>
         <Col xs={12} sm={6}>
           <Table
-            className="reports-table"
+            className="display-table"
             columns={reportDataColumns}
             dataSource={walletEarnTable}
             pagination={false}
@@ -385,7 +385,7 @@ const Reports = ({
         </Col>
         <Col xs={12} sm={6}>
           <Table
-            className="reports-table"
+            className="display-table"
             columns={reportDataColumns}
             dataSource={categorySpendTable}
             pagination={false}

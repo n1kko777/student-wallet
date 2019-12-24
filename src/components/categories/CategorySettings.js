@@ -1,29 +1,28 @@
 import React, { useState } from "react";
 import { Table, Divider, Icon, Popconfirm } from "antd";
-import OperationTitle from "../operations/OperationTitle";
 
 import { connect } from "react-redux";
 import {
-  deleteWallet,
+  deleteCategory,
   setCurrent,
   clearCurrent
-} from "../../store/actions/wallets";
+} from "../../store/actions/categories";
 
-import UpdateWallet from "./UpdateWallet";
+import UpdateCategory from "./UpdateCategory";
 
 import PropTypes from "prop-types";
 
-const WalletSettings = ({
-  wallets,
-  deleteWallet,
+const CategorySettings = ({
+  categories,
+  deleteCategory,
   setCurrent,
   clearCurrent
 }) => {
   const { Column } = Table;
   const [isModalCreate, setModalCreate] = useState(false);
 
-  const showModal = wallet => {
-    setCurrent(wallet);
+  const showModal = category => {
+    setCurrent(category);
     setModalCreate(true);
   };
 
@@ -37,20 +36,17 @@ const WalletSettings = ({
     clearCurrent();
   };
 
-  const data = wallets.map(
-    ({ id, wallet_name, wallet_color, wallet_amount }) => ({
-      key: id,
-      wallet_name,
-      wallet_color,
-      wallet_amount
-    })
-  );
+  const data = categories.map(({ id, category_name, category_color }) => ({
+    key: id,
+    category_name,
+    category_color
+  }));
 
-  const onDelete = wallet_id => deleteWallet(wallet_id);
+  const onDelete = category_id => deleteCategory(category_id);
 
   return (
     <>
-      <UpdateWallet
+      <UpdateCategory
         visible={isModalCreate}
         onSubmit={handleSubmit}
         onCancel={handleCancel}
@@ -61,32 +57,25 @@ const WalletSettings = ({
         pagination={false}
         scroll={{ x: 350 }}
       >
-        <Column title="Название" dataIndex="wallet_name" key="wallet_name" />
+        <Column
+          title="Название"
+          dataIndex="category_name"
+          key="category_name"
+        />
         <Column
           title="Цвет"
-          dataIndex="wallet_color"
-          key="wallet_color"
+          dataIndex="category_color"
+          key="category_color"
           render={(text, record) => (
             <span
               style={{
                 display: "block",
                 width: "15px",
                 height: "15px",
-                backgroundColor: `${record.wallet_color}`,
+                backgroundColor: `${record.category_color}`,
                 border: "1px solid #595959"
               }}
             ></span>
-          )}
-        />
-        <Column
-          title="Баланс"
-          dataIndex="wallet_amount"
-          key="wallet_amount"
-          render={(text, record) => (
-            <OperationTitle
-              credit={record.wallet_amount}
-              color={record.wallet_color}
-            />
           )}
         />
         <Column
@@ -97,7 +86,7 @@ const WalletSettings = ({
               <Icon type="edit" key="edit" onClick={() => showModal(record)} />
               <Divider type="vertical" />
               <Popconfirm
-                title="Удалить счет?"
+                title="Удалить категорию?"
                 okText="Да"
                 cancelText="Нет"
                 onConfirm={() => onDelete(record.key)}
@@ -112,21 +101,21 @@ const WalletSettings = ({
   );
 };
 
-WalletSettings.propTypes = {
-  wallets: PropTypes.array.isRequired,
-  deleteWallet: PropTypes.func.isRequired,
+CategorySettings.propTypes = {
+  categories: PropTypes.array.isRequired,
+  deleteCategory: PropTypes.func.isRequired,
   setCurrent: PropTypes.func.isRequired,
   clearCurrent: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({ user: { user } }) => ({
-  wallets: user.wallets
+  categories: user.categories
 });
 
 const mapDispatchToProps = dispatch => ({
-  deleteWallet: wallet_id => dispatch(deleteWallet(wallet_id)),
-  setCurrent: wallet => dispatch(setCurrent(wallet)),
+  deleteCategory: category_id => dispatch(deleteCategory(category_id)),
+  setCurrent: category => dispatch(setCurrent(category)),
   clearCurrent: () => dispatch(clearCurrent())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(CategorySettings);
