@@ -16,6 +16,7 @@ import {
 import { message } from "antd";
 
 import { getUser } from "./user";
+import { getOperations } from "./operations";
 import { logout } from "./auth";
 
 // Get categories from server
@@ -72,7 +73,7 @@ export const addCategory = category => dispatch => {
       category_color: category.category_color
     })
     .then(res => {
-      message.success("Запись создана.");
+      message.success("Категория создана.");
       dispatch({
         type: ADD_CATEGORY
       });
@@ -116,12 +117,14 @@ export const deleteCategory = id => dispatch => {
   axios
     .delete(`${endpointAPI}/categories/${id}/`)
     .then(res => {
-      message.success("Запись удалена.");
+      message.success("Категория удалена.");
 
       dispatch({
-        type: DELETE_CATEGORY,
-        payload: id
+        type: DELETE_CATEGORY
       });
+
+      dispatch(getUser());
+      dispatch(getOperations());
     })
     .catch(error => {
       if (error.response) {
@@ -163,9 +166,11 @@ export const updateCategory = category => dispatch => {
       category_color: category.category_color
     })
     .then(res => {
+      message.success("Категория изменена.");
       dispatch({
         type: UPDATE_CATEGORY
       });
+      dispatch(getUser());
     })
     .catch(error => {
       if (error.response) {

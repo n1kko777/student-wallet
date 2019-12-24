@@ -3,6 +3,7 @@ import { Tabs } from "antd";
 
 import UserSettings from "../user/UserSettings";
 import WalletSettings from "../wallets/WalletSettings";
+import CategorySettings from "../categories/CategorySettings";
 
 export const Settings = () => {
   const { TabPane } = Tabs;
@@ -15,9 +16,9 @@ export const Settings = () => {
       <TabPane tab="Счета" key="2">
         <WalletSettings />
       </TabPane>
-      {/* <TabPane tab="Категории" key="3">
-        Content of Tab Pane 3
-      </TabPane> */}
+      <TabPane tab="Категории" key="3">
+        <CategorySettings />
+      </TabPane>
     </Tabs>
   );
 };
