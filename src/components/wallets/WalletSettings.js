@@ -56,7 +56,7 @@ const WalletSettings = ({
         onCancel={handleCancel}
       />
       <Table
-        className="reports-table"
+        className="display-table"
         dataSource={data}
         pagination={false}
         scroll={{ x: 350 }}
