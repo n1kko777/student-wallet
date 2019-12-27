@@ -23,7 +23,7 @@ class OperationViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = OperationSerializer
     authentication_classes = (
-        CsrfExemptSessionAuthentication, TokenAuthentication)
+        CsrfExemptSessionAuthentication, TokenAuthentication, BasicAuthentication)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -38,7 +38,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = CategorySerializer
     authentication_classes = (
-        CsrfExemptSessionAuthentication, TokenAuthentication)
+        CsrfExemptSessionAuthentication, TokenAuthentication, BasicAuthentication)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -52,7 +52,7 @@ class WalletViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = WalletSerializer
     authentication_classes = (
-        CsrfExemptSessionAuthentication, TokenAuthentication)
+        CsrfExemptSessionAuthentication, TokenAuthentication, BasicAuthentication)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -66,7 +66,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
     authentication_classes = (
-        CsrfExemptSessionAuthentication, TokenAuthentication)
+        CsrfExemptSessionAuthentication, TokenAuthentication, BasicAuthentication)
 
     def get_queryset(self):
         queryset = CustomUser.objects.filter(id=self.request.user.id)
