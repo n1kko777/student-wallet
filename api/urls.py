@@ -1,4 +1,4 @@
-from api.views import CustomAuthToken, UserViewSet, WalletViewSet, CategoryViewSet, OperationViewSet, ChangePasswordView
+from api.views import CustomAuthToken, UserViewSet, WalletViewSet, CategoryViewSet, OperationViewSet
 
 from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
@@ -13,5 +13,4 @@ urlpatterns = router.urls
 
 urlpatterns += [
     url(r'^api-token-auth/login', CustomAuthToken.as_view()),
-    url(r'^users/(?P<pk>\d+)/change-password/$', ChangePasswordView.as_view()),
 ]
