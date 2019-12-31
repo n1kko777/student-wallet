@@ -67,8 +67,6 @@ const Reports = ({
     }
   ];
 
-  console.clear();
-
   const categorySpendTable =
     categories !== null && operations !== null
       ? categories
