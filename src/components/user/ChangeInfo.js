@@ -12,7 +12,6 @@ const ChangeInfo = ({ form, loading, updateUserInfo, user }) => {
     e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log("values :", values);
         updateUserInfo(values, user.id);
       }
     });

@@ -178,7 +178,9 @@ const OperationsList = ({
                 operation={elem}
                 credit={elem.credit}
                 wallet={
-                  elem.wallet !== null && wallets !== null
+                  elem.wallet !== null &&
+                  wallets !== null &&
+                  wallets.length !== 0
                     ? wallets
                         .filter(
                           (wallet, i) =>
@@ -189,7 +191,9 @@ const OperationsList = ({
                     : ""
                 }
                 wallet_color={
-                  elem.wallet !== null && wallets !== null
+                  elem.wallet !== null &&
+                  wallets !== null &&
+                  wallets.length !== 0
                     ? wallets
                         .filter(
                           (wallet, i) =>
@@ -200,7 +204,9 @@ const OperationsList = ({
                     : ""
                 }
                 category={
-                  elem.category !== null && categories !== null
+                  elem.category !== null &&
+                  categories !== null &&
+                  categories.length !== 0
                     ? categories
                         .filter(
                           (category, i) =>
@@ -211,7 +217,9 @@ const OperationsList = ({
                     : ""
                 }
                 category_color={
-                  elem.category !== null && categories !== null
+                  elem.category !== null &&
+                  categories !== null &&
+                  categories.length !== 0
                     ? categories
                         .filter(
                           (category, i) =>
