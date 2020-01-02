@@ -119,6 +119,7 @@ const Register = ({ form, onRegister, loading }) => {
                     <Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
                   placeholder="Почта"
+                  type="email"
                 />
               )}
             </Form.Item>
