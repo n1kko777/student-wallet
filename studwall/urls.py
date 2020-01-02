@@ -9,6 +9,6 @@ urlpatterns = [
 
     url(r'^api/v1/', include('api.urls')),
 
-    url(r'^.*', index, name='index'),
     url(r'^', include('django.contrib.auth.urls')),
+    url(r'^.*', index, name='index'),
 ]
