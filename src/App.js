@@ -56,6 +56,7 @@ const App = ({ isAuth, onTryAuthSignUp }) => {
                 component={() => (isAuth ? <Redirect to="/feed" /> : <Login />)}
               />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/account/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/reset" component={ResetPass} />
               <Route exact path="/about" component={About} />
