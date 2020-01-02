@@ -85,6 +85,7 @@ const ResetPass = ({ form }) => {
           <Input
             prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
             placeholder="Почта"
+            type="email"
           />
         )}
       </Form.Item>

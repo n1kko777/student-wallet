@@ -82,6 +82,7 @@ const ChangeInfo = ({ form, loading, updateUserInfo, user }) => {
           <Input
             prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
             placeholder="Почта"
+            type="email"
             disabled
           />
         )}
