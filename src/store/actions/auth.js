@@ -116,7 +116,7 @@ export const authSignUp = (username, email, password1, password2) => {
     dispatch(authStart());
 
     axios
-      .post(`${url}/rest/auth/register/`, {
+      .post(`${url}/rest-auth/registration/`, {
         username: username,
         email: email,
         password1: password1,
