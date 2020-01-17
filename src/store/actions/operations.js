@@ -76,7 +76,6 @@ export const addOperation = operation => dispatch => {
       created_at: operation.created_at
     })
     .then(res => {
-      message.success("Запись создана.");
       dispatch({
         type: ADD_OPERATION,
         payload: res.data
