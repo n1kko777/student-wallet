@@ -61,7 +61,7 @@ const OperationsList = ({
 
       updateUser(userData);
     }
-  }, [userData, updateUser, operations, day_start, day_end, currentWallet]);
+  }, [operations, userData, updateUser, day_start, day_end, currentWallet]);
 
   const [isModalUpdate, setModalUpdate] = useState(false);
   const [isModalCopy, setModalCopy] = useState(false);
@@ -181,52 +181,76 @@ const OperationsList = ({
                   elem.wallet !== null &&
                   wallets !== null &&
                   wallets.length !== 0
-                    ? wallets
-                        .filter(
-                          (wallet, i) =>
-                            elem.wallet === wallet.id &&
-                            wallets[i].wallet_name !== null
-                        )[0]
-                        .wallet_name.toString()
+                    ? wallets.find(
+                        (wallet, i) =>
+                          elem.wallet === wallet.id &&
+                          wallets[i].wallet_name !== null
+                      ) !== undefined
+                      ? wallets
+                          .find(
+                            (wallet, i) =>
+                              elem.wallet === wallet.id &&
+                              wallets[i].wallet_name !== null
+                          )
+                          .wallet_name.toString()
+                      : ""
                     : ""
                 }
                 wallet_color={
                   elem.wallet !== null &&
                   wallets !== null &&
                   wallets.length !== 0
-                    ? wallets
-                        .filter(
-                          (wallet, i) =>
-                            elem.wallet === wallet.id &&
-                            wallets[i].wallet_color !== null
-                        )[0]
-                        .wallet_color.toString()
+                    ? wallets.find(
+                        (wallet, i) =>
+                          elem.wallet === wallet.id &&
+                          wallets[i].wallet_color !== null
+                      ) !== undefined
+                      ? wallets
+                          .find(
+                            (wallet, i) =>
+                              elem.wallet === wallet.id &&
+                              wallets[i].wallet_color !== null
+                          )
+                          .wallet_color.toString()
+                      : ""
                     : ""
                 }
                 category={
                   elem.category !== null &&
                   categories !== null &&
                   categories.length !== 0
-                    ? categories
-                        .filter(
-                          (category, i) =>
-                            elem.category === category.id &&
-                            categories[i].category_name !== null
-                        )[0]
-                        .category_name.toString()
+                    ? categories.find(
+                        (category, i) =>
+                          elem.category === category.id &&
+                          categories[i].category_name !== null
+                      ) !== undefined
+                      ? categories
+                          .find(
+                            (category, i) =>
+                              elem.category === category.id &&
+                              categories[i].category_name !== null
+                          )
+                          .category_name.toString()
+                      : ""
                     : ""
                 }
                 category_color={
                   elem.category !== null &&
                   categories !== null &&
                   categories.length !== 0
-                    ? categories
-                        .filter(
-                          (category, i) =>
-                            elem.category === category.id &&
-                            categories[i].category_color !== null
-                        )[0]
-                        .category_color.toString()
+                    ? categories.find(
+                        (category, i) =>
+                          elem.category === category.id &&
+                          categories[i].category_color !== null
+                      ) !== undefined
+                      ? categories
+                          .find(
+                            (category, i) =>
+                              elem.category === category.id &&
+                              categories[i].category_color !== null
+                          )
+                          .category_color.toString()
+                      : ""
                     : ""
                 }
                 removeFromAmount={elem.category !== null}
