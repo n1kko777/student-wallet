@@ -107,6 +107,15 @@ export const authLogin = (username, password, isRemindMe) => {
         if (isRemindMe) {
           localStorage.setItem("user", JSON.stringify(res.data));
         }
+        const periodData = JSON.parse(localStorage.getItem("periodData"));
+
+        if (periodData !== null) {
+          dispatch(
+            updatePeriod(periodData.period, moment(periodData.period_start))
+          );
+        } else {
+          dispatch(updatePeriod("Месяц", moment().startOf("month")));
+        }
 
         dispatch(authSuccess(res.data));
       })
