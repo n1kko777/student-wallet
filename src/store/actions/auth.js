@@ -1,6 +1,8 @@
 import axios from "axios";
 import { url, endpointAPI } from "../constants";
 
+import moment from "moment";
+
 import {
   REGISTER_SUCCESS,
   AUTH_START,
@@ -13,7 +15,7 @@ import {
 import { message } from "antd";
 
 import { getUser } from "./user";
-import { getOperations } from "./operations";
+import { getOperations, updatePeriod } from "./operations";
 import { Redirect } from "react-router-dom";
 
 export const remindMe = state => {
@@ -83,6 +85,7 @@ export const authFail = error => dispatch => {
 
 export const logout = () => {
   localStorage.removeItem("user");
+  localStorage.removeItem("periodData");
   delete axios.defaults.headers.common["Authorization"];
 
   Redirect("/");
@@ -133,10 +136,18 @@ export const authSignUp = (username, email, password1, password2) => {
 
 export const authCheckState = () => dispatch => {
   const user = JSON.parse(localStorage.getItem("user"));
+  const periodData = JSON.parse(localStorage.getItem("periodData"));
 
   if (user === null) {
     dispatch(logout());
   } else {
     dispatch(authSuccess(user));
+    if (periodData !== null) {
+      dispatch(
+        updatePeriod(periodData.period, moment(periodData.period_start))
+      );
+    } else {
+      dispatch(updatePeriod("Месяц", moment().startOf("month")));
+    }
   }
 };

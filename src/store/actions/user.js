@@ -150,7 +150,7 @@ export const resetUserPass = (userData, id) => dispatch => {
       });
     })
     .catch(error => {
-      console.log("error :", error);
+      console.error("error :", error);
       if (error.response) {
         // The request was made and the server responded with a status code
         const keys = [];
