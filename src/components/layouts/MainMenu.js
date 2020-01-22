@@ -19,21 +19,27 @@ const MainMenu = ({ isAuth, onLogout }) => {
           </Link>
         </Menu.Item>
       )}
-      <Menu.Item>
-        <Link rel="noopener noreferrer" to="/settings">
-          <Icon type="setting" /> Настройки
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link rel="noopener noreferrer" to="/reports">
-          <Icon type="form" /> Отчет
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link rel="noopener noreferrer" to="/about">
-          <Icon type="info" /> О приложении
-        </Link>
-      </Menu.Item>
+      {pathname !== "/settings" && (
+        <Menu.Item>
+          <Link rel="noopener noreferrer" to="/settings">
+            <Icon type="setting" /> Настройки
+          </Link>
+        </Menu.Item>
+      )}
+      {pathname !== "/reports" && (
+        <Menu.Item>
+          <Link rel="noopener noreferrer" to="/reports">
+            <Icon type="form" /> Отчет
+          </Link>
+        </Menu.Item>
+      )}
+      {pathname !== "/about" && (
+        <Menu.Item>
+          <Link rel="noopener noreferrer" to="/about">
+            <Icon type="info" /> О приложении
+          </Link>
+        </Menu.Item>
+      )}
       <Menu.Item onClick={onLogout}>
         <Link rel="noopener noreferrer" to="/">
           <Icon type="logout" /> Выход

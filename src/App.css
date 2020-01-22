@@ -108,6 +108,7 @@ select {
   left: 0;
   width: 100%;
   line-height: 32px;
+  z-index: 100;
 }
 
 .login-form {

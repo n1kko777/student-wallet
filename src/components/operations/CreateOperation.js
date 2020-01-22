@@ -56,10 +56,11 @@ const CreateOperation = ({
       }
 
       if (
+        !isEarn &&
         +wallets.filter(wallet => wallet.id === fieldsValue.wallet)[0]
           .wallet_amount -
           +fieldsValue.credit <
-        0
+          0
       ) {
         confirm({
           title: "Недостаточно средств на счете!",
