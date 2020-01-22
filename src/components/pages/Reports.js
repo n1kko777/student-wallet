@@ -99,17 +99,17 @@ const Reports = ({
             )[0].category_name,
             procent:
               element.length > 1
-                ? `${parseInt(
+                ? `${(
                     (element.reduce((a, b) => {
                       return parseFloat(a) + parseFloat(b.credit);
                     }, 0) /
                       parseFloat(user_spend)) *
-                      100
-                  )} %`
-                : `${parseInt(
+                    100
+                  ).toFixed(2)} %`
+                : `${(
                     (parseFloat(element[0].credit) / parseFloat(user_spend)) *
-                      100
-                  )} %`,
+                    100
+                  ).toFixed(2)} %`,
             money:
               element.length > 1
                 ? element.reduce(
@@ -148,15 +148,15 @@ const Reports = ({
             )[0].wallet_name,
             procent:
               element.length > 1
-                ? `${parseInt(
+                ? `${(
                     (element.reduce(
                       (a, b) => parseFloat(a) + parseFloat(b.credit),
                       0
                     ) /
                       +user_spend) *
-                      100
-                  )} %`
-                : `${parseInt((+element[0].credit / +user_spend) * 100)} %`,
+                    100
+                  ).toFixed(2)} %`
+                : `${((+element[0].credit / +user_spend) * 100).toFixed(2)} %`,
             money:
               element.length > 1
                 ? element.reduce(
@@ -195,15 +195,15 @@ const Reports = ({
             )[0].wallet_name,
             procent:
               element.length > 1
-                ? `${parseInt(
+                ? `${(
                     (element.reduce(
                       (a, b) => parseFloat(a) + parseFloat(b.credit),
                       0
                     ) /
                       +user_earn) *
-                      100
-                  )} %`
-                : `${parseInt((+element[0].credit / +user_earn) * 100)} %`,
+                    100
+                  ).toFixed(2)} %`
+                : `${((+element[0].credit / +user_earn) * 100).toFixed(2)} %`,
             money:
               element.length > 1
                 ? element.reduce(
@@ -242,7 +242,7 @@ const Reports = ({
                     )
                     .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
                 )
-                .sort(operationSort)
+                .filter(elem => elem !== 0)
             : [],
         backgroundColor:
           wallets !== null
@@ -310,27 +310,29 @@ const Reports = ({
       {
         data:
           wallets !== null && operations !== null
-            ? wallets.map(elem =>
-                operations
-                  .filter(operation =>
-                    moment(operation.created_at).isBetween(
-                      moment(day_start),
-                      moment(day_end)
+            ? wallets
+                .map(elem =>
+                  operations
+                    .filter(operation =>
+                      moment(operation.created_at).isBetween(
+                        moment(day_start),
+                        moment(day_end)
+                      )
                     )
-                  )
-                  .filter(operation =>
-                    currentWallet !== null
-                      ? operation.wallet === currentWallet.id
-                      : operation
-                  )
-                  .filter(operation => operation.wallet === elem.id)
-                  .map(walletOperation =>
-                    walletOperation.operation_type === 1
-                      ? walletOperation.credit
-                      : 0
-                  )
-                  .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
-              )
+                    .filter(operation =>
+                      currentWallet !== null
+                        ? operation.wallet === currentWallet.id
+                        : operation
+                    )
+                    .filter(operation => operation.wallet === elem.id)
+                    .map(walletOperation =>
+                      walletOperation.operation_type === 1
+                        ? walletOperation.credit
+                        : 0
+                    )
+                    .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+                )
+                .filter(elem => elem !== 0)
             : [],
         backgroundColor:
           wallets !== null
@@ -398,27 +400,29 @@ const Reports = ({
       {
         data:
           categories !== null && operations !== null
-            ? categories.map(elem =>
-                operations
-                  .filter(operation =>
-                    moment(operation.created_at).isBetween(
-                      moment(day_start),
-                      moment(day_end)
+            ? categories
+                .map(elem =>
+                  operations
+                    .filter(operation =>
+                      moment(operation.created_at).isBetween(
+                        moment(day_start),
+                        moment(day_end)
+                      )
                     )
-                  )
-                  .filter(operation =>
-                    currentWallet !== null
-                      ? operation.wallet === currentWallet.id
-                      : operation
-                  )
-                  .filter(operation => operation.category === elem.id)
-                  .map(categoryOperation =>
-                    categoryOperation.operation_type === 0
-                      ? categoryOperation.credit
-                      : 0
-                  )
-                  .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
-              )
+                    .filter(operation =>
+                      currentWallet !== null
+                        ? operation.wallet === currentWallet.id
+                        : operation
+                    )
+                    .filter(operation => operation.category === elem.id)
+                    .map(categoryOperation =>
+                      categoryOperation.operation_type === 0
+                        ? categoryOperation.credit
+                        : 0
+                    )
+                    .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+                )
+                .filter(elem => elem !== 0)
             : [],
         backgroundColor:
           categories !== null
@@ -431,6 +435,11 @@ const Reports = ({
                           moment(day_start),
                           moment(day_end)
                         )
+                      )
+                      .filter(operation =>
+                        currentWallet !== null
+                          ? operation.wallet === currentWallet.id
+                          : operation
                       )
                       .filter(operation => operation.category === elem.id)
                       .map(categoryOperation =>
@@ -456,6 +465,11 @@ const Reports = ({
                       moment(day_end)
                     )
                   )
+                  .filter(operation =>
+                    currentWallet !== null
+                      ? operation.wallet === currentWallet.id
+                      : operation
+                  )
                   .filter(operation => operation.category === elem.id)
                   .map(categoryOperation =>
                     categoryOperation.operation_type === 0
@@ -470,6 +484,8 @@ const Reports = ({
       responsive: true
     }
   };
+
+  console.log("categoryDataSpend :", categoryDataSpend);
 
   return (
     <div
