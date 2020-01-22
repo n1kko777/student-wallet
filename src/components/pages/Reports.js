@@ -305,6 +305,32 @@ const Reports = ({
     }
   };
 
+  wallets !== null &&
+    console.log(
+      wallets.filter(
+        elem =>
+          operations
+            .filter(operation =>
+              moment(operation.created_at).isBetween(
+                moment(day_start),
+                moment(day_end)
+              )
+            )
+            .filter(operation =>
+              currentWallet !== null
+                ? operation.wallet === currentWallet.id
+                : operation
+            )
+            .filter(operation => operation.wallet === elem.id)
+            .map(walletOperation =>
+              walletOperation.operation_type === 0 ? walletOperation.credit : 0
+            )
+            .reduce((a, b) => parseFloat(a) + parseFloat(b), 0) > 0
+      )
+
+      // .map(elem => elem.wallet_color)
+    );
+
   const walletDataEarn = {
     datasets: [
       {
@@ -359,6 +385,7 @@ const Reports = ({
                       )
                       .reduce((a, b) => parseFloat(a) + parseFloat(b), 0) > 0
                 )
+
                 .map(elem => elem.wallet_color)
             : []
       }
@@ -394,6 +421,8 @@ const Reports = ({
       responsive: true
     }
   };
+
+  console.log("walletDataEarn :", walletDataEarn);
 
   const categoryDataSpend = {
     datasets: [
@@ -484,8 +513,6 @@ const Reports = ({
       responsive: true
     }
   };
-
-  console.log("categoryDataSpend :", categoryDataSpend);
 
   return (
     <div
