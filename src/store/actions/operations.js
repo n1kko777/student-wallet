@@ -11,7 +11,8 @@ import {
   OPERATION_CLEAR_CURRENT,
   UPDATE_OPERATION,
   UPDATE_OPERATION_DATE,
-  SEARCH_OPERATIONS
+  SEARCH_OPERATIONS,
+  UPDATE_OPERATION_PERIOD
 } from "./actionTypes";
 
 import { message } from "antd";
@@ -212,6 +213,13 @@ export const updateFilterDate = (day_start, day_end) => dispatch => {
   dispatch({
     type: UPDATE_OPERATION_DATE,
     payload: { day_start, day_end }
+  });
+};
+
+export const updatePeriod = (period, period_start) => dispatch => {
+  dispatch({
+    type: UPDATE_OPERATION_PERIOD,
+    payload: { period, period_start }
   });
 };
 

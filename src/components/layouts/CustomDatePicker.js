@@ -11,10 +11,47 @@ import PropTypes from "prop-types";
 
 import { updateFilterDate } from "../../store/actions/operations";
 
-const CustomDatePicker = ({ day_start, day_end, updateFilterDate }) => {
+const CustomDatePicker = ({
+  day_start,
+  day_end,
+  updateFilterDate,
+  period,
+  period_start
+}) => {
   useEffect(() => {
-    updateFilterDate(moment().startOf("month"), moment().endOf("month"));
-  }, [updateFilterDate]);
+    let currentPeriod;
+
+    switch (period) {
+      case "Неделя":
+        currentPeriod = moment().day(period_start.format("DD.MM.YYYY"));
+        updateFilterDate(currentPeriod, moment(currentPeriod).add(7, "d"));
+        break;
+      case "Две недели":
+        currentPeriod = moment().day(period_start.format("DD.MM.YYYY"));
+        updateFilterDate(currentPeriod, moment(currentPeriod).add(14, "d"));
+        break;
+      case "Четыре недели":
+        currentPeriod = moment().day(period_start.format("DD.MM.YYYY"));
+        updateFilterDate(currentPeriod, moment(currentPeriod).add(28, "d"));
+        break;
+      case "Месяц":
+        currentPeriod = moment().date(period_start.format("DD"));
+        updateFilterDate(currentPeriod, moment(currentPeriod).add(1, "M"));
+        break;
+      case "Квартал":
+        currentPeriod = moment().date(period_start.format("DD"));
+        updateFilterDate(currentPeriod, moment(currentPeriod).add(1, "Q"));
+        break;
+      case "Год":
+        currentPeriod = moment().dayOfYear(period_start.format("DD.MM.YYYY"));
+        updateFilterDate(period_start, moment(period_start).add(1, "y"));
+        break;
+
+      default:
+        updateFilterDate(period_start, moment().endOf("month"));
+        break;
+    }
+  }, [period, period_start, updateFilterDate]);
 
   const [endOpen, setEndOpen] = useState(false);
 
@@ -73,12 +110,16 @@ const CustomDatePicker = ({ day_start, day_end, updateFilterDate }) => {
 CustomDatePicker.propTypes = {
   day_start: PropTypes.object,
   day_end: PropTypes.object,
-  updateFilterDate: PropTypes.func.isRequired
+  updateFilterDate: PropTypes.func.isRequired,
+  period: PropTypes.string.isRequired,
+  period_start: PropTypes.object
 };
 
 const mapStateToProps = ({ operations }) => ({
   day_start: operations.day_start,
-  day_end: operations.day_end
+  day_end: operations.day_end,
+  period_start: operations.period_start,
+  period: operations.period
 });
 
 const mapDispatchToProps = dispatch => ({

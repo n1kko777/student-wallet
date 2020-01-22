@@ -20,7 +20,6 @@ const ResetPass = ({ form }) => {
             }
           )
           .then(res => {
-            console.log(res.data);
             const { detail } = res.data;
 
             message.success(`${detail}`);
