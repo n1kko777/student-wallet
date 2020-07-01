@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import dj_database_url
 import dotenv
-import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,7 +31,7 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get('DEBUG', True)
 
 ALLOWED_HOSTS = ['localhost', '0.0.0.0',
-                 '127.0.0.1', 'studwallet.herokuapp.com']
+                 '127.0.0.1', 'https://wallet.n1kko777-dev.ru/']
 
 
 # Application definition
@@ -44,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
 
-    # deploy to heroku
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
 
@@ -193,9 +191,9 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
-SITE_NAME = 'studwallet.herokuapp.com'
+SITE_NAME = 'wallet.n1kko777-dev.ru'
 
-CSRF_TRUSTED_ORIGINS = ['localhost', 'studwallet.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['localhost', 'wallet.n1kko777-dev.ru']
 
 SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_NAME = "csrftoken"
@@ -203,5 +201,3 @@ CSRF_COOKIE_NAME = "csrftoken"
 CORS_ORIGIN_WHITELIST = (
     'https://localhost:3000',
 )
-
-django_heroku.settings(locals())

@@ -4,4 +4,4 @@
 
 FullStack SPA: React(Redux)+Django Rest Framework
 
-https://studwallet.herokuapp.com/
+https://wallet.n1kko777-dev.ru/

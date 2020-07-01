@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 if (process.env.NODE_ENV === "production") {
-  localhost = "https://studwallet.herokuapp.com";
+  localhost = "https://wallet.n1kko777-dev.ru";
 }
 
 const apiURL = "/api/v1";
