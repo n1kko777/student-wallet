@@ -149,12 +149,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/build/static')
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'frontend/build/staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {
@@ -192,12 +192,8 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-SITE_ID = 1
-SITE_NAME = 'wallet.n1kko777-dev.ru'
-
+SITE_ID = 2
 CSRF_TRUSTED_ORIGINS = ['localhost', 'wallet.n1kko777-dev.ru']
-
-SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_NAME = "csrftoken"
 
 CORS_ORIGIN_WHITELIST = (
