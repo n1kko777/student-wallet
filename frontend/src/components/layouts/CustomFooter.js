@@ -53,7 +53,7 @@ const CustomFooter = ({ user_earn, user_spend }) => {
             </Col>
           </Row>
         ) : (
-          <Text>&copy; Copyright 2019</Text>
+          <Text>&copy; Copyright {new Date().getFullYear()}</Text>
         )}
       </Grid>
     </Footer>
@@ -62,12 +62,12 @@ const CustomFooter = ({ user_earn, user_spend }) => {
 
 CustomFooter.propTypes = {
   user_earn: PropTypes.number,
-  user_spend: PropTypes.number
+  user_spend: PropTypes.number,
 };
 
 const mapStateToProps = ({ user }) => ({
   user_earn: user.user.user_earn,
-  user_spend: user.user.user_spend
+  user_spend: user.user.user_spend,
 });
 
 export default connect(mapStateToProps)(CustomFooter);
