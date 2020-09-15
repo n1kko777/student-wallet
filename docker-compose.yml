@@ -33,9 +33,9 @@ services:
       - static_volume:/vol/web/static
       - media_volume:/vol/web/media
     environment:
-      - VIRTUAL_HOST=${DOMAIN}
-      - LETSENCRYPT_HOST=${DOMAIN}
-      - LETSENCRYPT_EMAIL=${EMAIL_HOST_USER}
+      - VIRTUAL_HOST=wallet.n1kko777-dev.ru,www.wallet.n1kko777-dev.ru
+      - LETSENCRYPT_HOST=wallet.n1kko777-dev.ru,www.wallet.n1kko777-dev.ru
+      - LETSENCRYPT_EMAIL=webmaster@n1kko777-dev.ru
     depends_on:
       - wallet
 
