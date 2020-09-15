@@ -14,8 +14,5 @@ urlpatterns = [
 
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^.*', index, name='index'),
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL,
-                          document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# to have images urls in dev. in prod we don't need this, because of nginx
