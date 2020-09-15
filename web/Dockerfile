@@ -1,5 +1,5 @@
 # Frontend
-FROM node:alpine as build
+FROM node:10.15.0-alpine as build
 
 WORKDIR /app
 
