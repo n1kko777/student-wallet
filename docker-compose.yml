@@ -28,7 +28,7 @@ services:
   wallet-nginx:
     build: ./nginx
     restart: always
-    container_name: mncntrl-nginx
+    container_name: wallet-nginx
     volumes:
       - static_volume:/vol/web/static
       - media_volume:/vol/web/media
